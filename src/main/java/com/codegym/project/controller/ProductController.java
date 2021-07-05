@@ -18,8 +18,4 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @GetMapping("/product")
-    public ModelAndView showProductList(){
-        return new ModelAndView("list", "products", products());
-    }
 }
