@@ -18,4 +18,6 @@ public class Product {
         private double price;
         @OneToOne
         private Image mainImage;
+        @ManyToOne
+        private Collection collection;
 }
