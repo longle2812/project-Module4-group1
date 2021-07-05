@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <style>
+        .error-msg{
+            color:red;
+        }
+    </style>
 </head>
 
 <body>
@@ -86,55 +91,13 @@
                         <ul class="nav-right">
                             <li class="heart-icon"><a href="#">
                                 <i class="icon_heart_alt"></i>
-                                <span>1</span>
                             </a>
                             </li>
                             <li class="cart-icon"><a href="#">
                                 <i class="icon_bag_alt"></i>
-                                <span>3</span>
                             </a>
-                            <div class="cart-hover">
-                                <div class="select-items">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>
-                                                <td class="si-text">
-                                                    <div class="product-selected">
-                                                        <p>$60.00 x 1</p>
-                                                        <h6>Kabino Bedside Table</h6>
-                                                    </div>
-                                                </td>
-                                                <td class="si-close">
-                                                    <i class="ti-close"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="si-pic"><img src="img/select-product-2.jpg" alt=""></td>
-                                                <td class="si-text">
-                                                    <div class="product-selected">
-                                                        <p>$60.00 x 1</p>
-                                                        <h6>Kabino Bedside Table</h6>
-                                                    </div>
-                                                </td>
-                                                <td class="si-close">
-                                                    <i class="ti-close"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="select-total">
-                                    <span>total:</span>
-                                    <h5>$120.00</h5>
-                                </div>
-                                <div class="select-button">
-                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
-                                </div>
-                            </div>
                         </li>
-                            <li class="cart-price">$150.00</li>
+                            <li class="cart-price"></li>
                         </ul>
                     </div>
                 </div>
@@ -211,18 +174,43 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="register-form">
                         <h2>Register</h2>
-                        <form action="#">
+                        <div th:if="${success_msg}">
+                            <p style="color:green" th:text="${success_msg}"></p>
+                        </div>
+                        <form  th:object="${user}" th:action="@{/register}" method="post">
                             <div class="group-input">
-                                <label for="username">Username or email address *</label>
-                                <input type="text" id="username">
+                                <label for="email">Email *</label>
+                                <input type="text" id="email" th:field="*{email}">
+                                <div th:if="${error_email_input}">
+                                    <p class="error-msg" th:text="${error_email_input}"></p>
+                                </div>
+                                <div th:if="${error_email_dup}">
+                                    <p class="error-msg" th:text="${error_email_dup}"></p>
+                                </div>
+                            </div>
+                            <div class="group-input">
+                                <label for="username">Username*</label>
+                                <input type="text" id="username" th:field="*{username}">
+                                <div th:if="${error_userName}">
+                                    <p class="error-msg" th:text="${error_userName}"></p>
+                                </div>
+                                <div th:if="${error_user_name_dup}">
+                                    <p class="error-msg" th:text="${error_user_name_dup}"></p>
+                                </div>
                             </div>
                             <div class="group-input">
                                 <label for="pass">Password *</label>
-                                <input type="text" id="pass">
+                                <input type="password" id="pass" th:field="*{password}">
+                                <div th:if="${error_passWord}">
+                                    <p class="error-msg" th:text="${error_passWord}"></p>
+                                </div>
                             </div>
                             <div class="group-input">
                                 <label for="con-pass">Confirm Password *</label>
-                                <input type="text" id="con-pass">
+                                <input type="password" id="con-pass" name="confirmPass">
+                                <div th:if="${error_pass_input}">
+                                    <p class="error-msg" th:text="${error_pass_input}"></p>
+                                </div>
                             </div>
                             <button type="submit" class="site-btn register-btn">REGISTER</button>
                         </form>

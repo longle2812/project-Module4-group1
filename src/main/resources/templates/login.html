@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -86,55 +86,15 @@
                         <ul class="nav-right">
                             <li class="heart-icon"><a href="#">
                                     <i class="icon_heart_alt"></i>
-                                    <span>1</span>
+
                                 </a>
                             </li>
                             <li class="cart-icon"><a href="#">
                                     <i class="icon_bag_alt"></i>
-                                    <span>3</span>
+
                                 </a>
-                                <div class="cart-hover">
-                                    <div class="select-items">
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="si-pic"><img src="img/select-product-2.jpg" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="select-total">
-                                        <span>total:</span>
-                                        <h5>$120.00</h5>
-                                    </div>
-                                    <div class="select-button">
-                                        <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
-                                    </div>
-                                </div>
                             </li>
-                            <li class="cart-price">$150.00</li>
+                            <li class="cart-price"></li>
                         </ul>
                     </div>
                 </div>
@@ -211,14 +171,14 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
                         <h2>Login</h2>
-                        <form action="#">
+                        <form th:object="${user}" th:action="@{/login}" method="post">
                             <div class="group-input">
-                                <label for="username">Username or email address *</label>
-                                <input type="text" id="username">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" th:field="*{username}">
                             </div>
                             <div class="group-input">
                                 <label for="pass">Password *</label>
-                                <input type="text" id="pass">
+                                <input type="password" id="pass" th:field="*{password}">
                             </div>
                             <div class="group-input gi-check">
                                 <div class="gi-more">
