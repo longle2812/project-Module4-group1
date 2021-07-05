@@ -20,4 +20,6 @@ public class Product {
         private Image mainImage;
         @ManyToOne
         private Collection collection;
+        @OneToOne
+        private Color color;
 }
