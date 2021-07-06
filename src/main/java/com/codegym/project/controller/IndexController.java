@@ -9,6 +9,8 @@ import com.codegym.project.service.category.ICategoryService;
 import com.codegym.project.service.collection.ICollectionService;
 import com.codegym.project.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,13 +58,13 @@ public class IndexController {
     }
 
     @GetMapping("/shop")
-    public ModelAndView showShop() {
+    public ModelAndView showShop(@PageableDefault(size = 9) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/product/shop");
         modelAndView.addObject("collections", collections());
         modelAndView.addObject("brands", brands());
         modelAndView.addObject("success", "a");
         modelAndView.addObject("categories", categories());
-        modelAndView.addObject("products", products());
+        modelAndView.addObject("products", productService.findAllPage(pageable));
         return modelAndView;
     }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SizeService implements ISizeService{
@@ -15,6 +16,11 @@ public class SizeService implements ISizeService{
     @Override
     public Iterable<Size> findAll() {
         return sizeRepository.findAll();
+    }
+
+    @Override
+    public Set<Long> getAllIds() {
+        return sizeRepository.getAllIds();
     }
 
     @Override

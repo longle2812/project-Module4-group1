@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BrandService implements IBrandService{
     @Autowired
     private IBrandRepository brandRepository;
+
+    @Override
+    public Set<Long> getAllIds() {
+        return brandRepository.getAllIds();
+    }
 
     @Override
     public Iterable<Brand> findAll() {
