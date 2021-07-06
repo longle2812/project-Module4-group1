@@ -257,7 +257,7 @@
                             <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                         </div>
                     </div>
-                    <a href="#" class="filter-btn">Filter</a>
+                    <a id="filter_button" href="#" class="filter-btn">Filter</a>
                 </div>
                 <!--Color Filter-->
                 <div class="filter-widget">
@@ -487,12 +487,12 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <script>
     $(document).ready(function () {
         let size = $('#p_select').val();
-        //collection fillter
-        $(".filter-catagories li a ").on('click', function (event) {
+        //collection filter
+        $(".filter-catagories li a ").on('click', function () {
             let id = $(this).attr("data-collection-id");
             $.ajax({
                 headers: {
@@ -503,13 +503,22 @@
                 url: `/api/products/collection/${id}`,
                 success: function (data) {
                     redrawProduct(data)
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 180}, 1000);
                 }
             })
             return false;
         });
 
         //filter button onclick
-        $(".filter-widget a").on('click', function (event) {
+        $("#filter_button").on('click', function () {
             let brandIds = [];
             $(':checkbox:checked').each(function (i) {
                 brandIds[i] = $(this).val();
@@ -592,21 +601,20 @@
         //redraw niceSelect
         $('#p_select').niceSelect();
         $('#sorting_product').niceSelect();
-    });
 
-    function redrawProduct(products) {
-        let content = `<div id="product_list" class="product-list">
+        function redrawProduct(products) {
+            let content = `<div id="product_list" class="product-list">
                     <div class="row">`
-        for (let i = 0; i < products.length; i++) {
-            content += getProduct(products[i]);
-        }
-        content += `  </div>
+            for (let i = 0; i < products.length; i++) {
+                content += getProduct(products[i]);
+            }
+            content += `  </div>
                     </div>`
-        document.getElementById("product_list").innerHTML = content;
-    }
+            document.getElementById("product_list").innerHTML = content;
+        }
 
-    function getProduct(product) {
-        return `<div class="col-lg-4 col-sm-6">
+        function getProduct(product) {
+            return `<div class="col-lg-4 col-sm-6">
                             <div class="product-item">
                                 <div class="pi-pic">
                                     <img src="/files/${product.image.name}" alt="${product.image.name}">
@@ -633,8 +641,9 @@
                                 </div>
                             </div>
                         </div>`
-    }
+        }
 
+    });
 </script>
 
 </body>

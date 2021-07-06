@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Set;
 
 public interface IProductService extends IGeneralService<Product> {
-    Iterable<Product> findProductByCollection(Collection collection);
+    Iterable<Product> findProductByCollectionIds(Long id);
     Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable);
     Page<Product> findAllPage(Pageable pageable);
 }

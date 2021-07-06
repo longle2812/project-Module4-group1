@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,30 +32,29 @@ public class ProductController {
     private ICollectionService collectionService;
 
     @ModelAttribute("products")
-    public Iterable<Product> products(){
+    public Iterable<Product> products() {
         return productService.findAll();
     }
 
     @GetMapping("/collection/{id}")
-    public ResponseEntity<Iterable<Product>> findProductByCollection(@PathVariable Long id){
-        Collection collection = collectionService.findCollectionById(id);
-        Iterable<Product> products = productService.findProductByCollection(collection);
-        if (products != null){
-            return  new ResponseEntity<> (products,HttpStatus.OK);
+    public ResponseEntity<Iterable<Product>> findProductByCollection(@PathVariable Long id) {
+        List<Product> products = (List<Product>) productService.findProductByCollectionIds(id);
+        if (!products.isEmpty()) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
         }
-        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/brand")
     public ResponseEntity<Iterable<Product>> findProductByBrand(@RequestParam(name = "min") double min, @RequestParam(name = "max") double max,
-                                                                @RequestParam(name = "brandIds",required = false) Optional<Set<Long>> brandIds,
-                                                                @RequestParam(name= "number") int number,
-                                                                @RequestParam(name="sort") String sort,
-                                                                Pageable pageable){
-        if (!brandIds.isPresent()){
+                                                                @RequestParam(name = "brandIds", required = false) Optional<Set<Long>> brandIds,
+                                                                @RequestParam(name = "number") int number,
+                                                                @RequestParam(name = "sort") String sort,
+                                                                Pageable pageable) {
+        if (!brandIds.isPresent()) {
             brandIds = Optional.ofNullable(brandService.getAllIds());
         }
-        switch (sort){
+        switch (sort) {
             case "acs":
                 pageable = PageRequest.of(0, number, Sort.by("name").ascending());
                 break;
@@ -70,8 +70,8 @@ public class ProductController {
         }
 
         Page<Product> products = productService.findProductByBrandIdsAndPrice(brandIds.get(), min, max, pageable);
-        if (products.hasContent()){
-            return  new ResponseEntity<> (products,HttpStatus.OK);
+        if (products.hasContent()) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
