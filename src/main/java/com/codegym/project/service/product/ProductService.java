@@ -1,5 +1,6 @@
 package com.codegym.project.service.product;
 
+import com.codegym.project.model.Collection;
 import com.codegym.project.model.Product;
 import com.codegym.project.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class ProductService implements IProductService{
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public Iterable<Product> findProductByCollection(Collection collection) {
+        return productRepository.findProductByCollection(collection);
     }
 
     @Override

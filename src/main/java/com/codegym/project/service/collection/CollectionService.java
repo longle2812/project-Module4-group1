@@ -13,6 +13,11 @@ public class CollectionService implements ICollectionService{
     private ICollectionRepository collectionRepository;
 
     @Override
+    public Collection findCollectionById(Long id) {
+        return collectionRepository.findCollectionById(id);
+    }
+
+    @Override
     public Iterable<Collection> findAll() {
         return collectionRepository.findAll();
     }

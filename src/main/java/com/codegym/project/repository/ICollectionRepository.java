@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICollectionRepository extends JpaRepository<Collection, Long> {
+    Collection findCollectionById(Long id);
 }

@@ -4,4 +4,5 @@ import com.codegym.project.model.Collection;
 import com.codegym.project.service.IGeneralService;
 
 public interface ICollectionService extends IGeneralService<Collection> {
+    Collection findCollectionById(Long id);
 }
