@@ -59,7 +59,7 @@ public class IndexController {
     }
 
     @GetMapping("/shop")
-    public ModelAndView showShop(@PageableDefault(size = 9) Pageable pageable) {
+    public ModelAndView showShop(@PageableDefault(size = 6) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/product/shop");
         modelAndView.addObject("collections", collections());
         modelAndView.addObject("brands", brands());

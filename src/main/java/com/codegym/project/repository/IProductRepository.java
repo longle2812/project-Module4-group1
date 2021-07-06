@@ -15,6 +15,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     Iterable<Product> findProductByCollection(Collection collection);
 
     @Query("SELECT p from Product p where p.brand.id in ?1 and p.price >= ?2 and p.price <= ?3")
-    Iterable<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max);
+    Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable);
 
 }

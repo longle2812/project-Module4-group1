@@ -6,6 +6,10 @@ import com.codegym.project.service.brand.IBrandService;
 import com.codegym.project.service.collection.ICollectionService;
 import com.codegym.project.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,13 +47,30 @@ public class ProductController {
 
     @GetMapping("/brand")
     public ResponseEntity<Iterable<Product>> findProductByBrand(@RequestParam(name = "min") double min, @RequestParam(name = "max") double max,
-                                                                @RequestParam(name = "brandIds",required = false) Optional<Set<Long>> brandIds){
+                                                                @RequestParam(name = "brandIds",required = false) Optional<Set<Long>> brandIds,
+                                                                @RequestParam(name= "number") int number,
+                                                                @RequestParam(name="sort") String sort,
+                                                                Pageable pageable){
         if (!brandIds.isPresent()){
             brandIds = Optional.ofNullable(brandService.getAllIds());
         }
+        switch (sort){
+            case "acs":
+                pageable = PageRequest.of(0, number, Sort.by("name").ascending());
+                break;
+            case "desc":
+                pageable = PageRequest.of(0, number, Sort.by("name").descending());
+                break;
+            case "low":
+                pageable = PageRequest.of(0, number, Sort.by("price").ascending());
+                break;
+            case "high":
+                pageable = PageRequest.of(0, number, Sort.by("price").descending());
+                break;
+        }
 
-        Iterable<Product> products = productService.findProductByBrandIdsAndPrice(brandIds.get(), min, max);
-        if (products.iterator().hasNext()){
+        Page<Product> products = productService.findProductByBrandIdsAndPrice(brandIds.get(), min, max, pageable);
+        if (products.hasContent()){
             return  new ResponseEntity<> (products,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

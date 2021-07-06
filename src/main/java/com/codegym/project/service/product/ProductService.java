@@ -37,8 +37,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public Iterable<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max) {
-        return productRepository.findProductByBrandIdsAndPrice(ids, min, max);
+    public Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable) {
+        return productRepository.findProductByBrandIdsAndPrice(ids, min, max, pageable);
     }
 
     @Override
