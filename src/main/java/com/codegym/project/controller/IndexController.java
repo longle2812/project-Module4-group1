@@ -54,6 +54,7 @@ public class IndexController {
 
     @GetMapping("/index")
     public ModelAndView showIndex(){
+        String a = "";
         return new ModelAndView("index");
     }
 
