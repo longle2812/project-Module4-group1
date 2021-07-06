@@ -1,10 +1,15 @@
 package com.codegym.project.controller;
 
+import com.codegym.project.exception.NotFoundException;
 import com.codegym.project.model.Role;
 import com.codegym.project.model.User;
+import com.codegym.project.service.jwt.JwtService;
 import com.codegym.project.service.role.IRoleService;
 import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,10 +24,12 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private JwtService jwtService;
 
     @GetMapping("/login")
     public ModelAndView showLoginForm(){
-        return new ModelAndView("login","user", new User());
+        return new ModelAndView("login");
     }
 
     @GetMapping("/register")
@@ -68,10 +75,40 @@ public class UserController {
         if(isValidAccount){
             Optional<Role> role = roleService.findById(1L);
             user.getRoles().add(role.get());
-            User user1 = user;
             userService.save(user);
             return new ModelAndView("login","user",new User());
         }
         return modelAndView;
+    }
+
+    @GetMapping("/forget-pass/{user}/{email}")
+    public ResponseEntity<String> showPass(@PathVariable("user") String user, @PathVariable("email") String email){
+        Optional<User> user1 = userService.findByUsernameAndEmail(user, email);
+        if(!user1.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            return new ResponseEntity<>(user1.get().getPassword(),HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/current_user/{token}")
+    public ResponseEntity<User> getCurrentUser(@PathVariable("token") String token){
+        String username = jwtService.getUserNameFromJwtToken(token);
+        Optional<User> user = userService.findByUsername(username);
+        if(!user.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(user.get(),HttpStatus.OK);
+        }
+    }
+    @GetMapping("/user/edit/{username}")
+    public ModelAndView showEditForm(@PathVariable String username) throws NotFoundException {
+        Optional<User> userOptional = userService.findByUsername(username);
+        if(!userOptional.isPresent()){
+            throw new NotFoundException();
+        }else{
+            return new ModelAndView("edit","user", userOptional.get());
+        }
     }
 }

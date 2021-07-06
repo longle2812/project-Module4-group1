@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
     @GetMapping("/index")
     public ModelAndView showIndex(){
+        String a = "";
         return new ModelAndView("index");
     }
 
