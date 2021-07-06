@@ -490,6 +490,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+        let size = $('#p_select').val();
         //collection fillter
         $(".filter-catagories li a ").on('click', function (event) {
             let id = $(this).attr("data-collection-id");
@@ -517,9 +518,9 @@
             let maxPrice = $('#maxamount').val();
             minPrice = minPrice.substr(1, minPrice.length);
             maxPrice = maxPrice.substr(1, maxPrice.length);
-            let page =  $('#p_select').val();
-            let sort =  $('#sorting_product').val();
-            console.log(sort);
+            let page = $('#p_select').val();
+            let sort = $('#sorting_product').val();
+            size = page;
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -543,8 +544,46 @@
             return false;
         })
 
-        $(".loading-more a").on('click', function (event){
-            console.log("hello")
+        $(window).scroll(function (e) {
+            let scroll = $(document).height() - 100 ;
+            let end = $(window).scrollTop() + $(window).height();
+            console.clear();
+            console.log(scroll);
+            console.log(end);
+            if ($(document).height() == $(window).scrollTop() + $(window).height() +50) {
+                size = parseInt(size) + 3;
+                let brandIds = [];
+                $(':checkbox:checked').each(function (i) {
+                    brandIds[i] = $(this).val();
+                });
+                let minPrice = $('#minamount').val();
+                let maxPrice = $('#maxamount').val();
+                minPrice = minPrice.substr(1, minPrice.length);
+                maxPrice = maxPrice.substr(1, maxPrice.length);
+                let sort = $('#sorting_product').val();
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}`,
+                    success: function (data) {
+                        if (size-2 <= data.content.length) {
+                            redrawProduct(data.content)
+                        }
+                    },
+                    error: function () {
+                        let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                        document.getElementById("product_list").innerHTML = content;
+                        $("html, body").animate({scrollTop: 180}, 1000);
+                    }
+                })
+            }
+            e.preventDefault();
         })
 
         //redraw niceSelect
@@ -592,6 +631,9 @@
                             </div>
                         </div>`
     }
+
+    //Infinite scroll
+
 
 </script>
 
