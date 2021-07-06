@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/**", "/login").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login.html").loginProcessingUrl("/index").successHandler(new CustomSuccessHandler())
+                .and().formLogin().loginPage("/login.html").successHandler(new CustomSuccessHandler())
                 .and().csrf().disable();
         http.cors();
     }
