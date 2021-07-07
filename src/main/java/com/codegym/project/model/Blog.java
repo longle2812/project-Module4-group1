@@ -1,6 +1,7 @@
 package com.codegym.project.model;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +13,7 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @ColumnDefault(value = "varchar(10000)")
     private String content;
     @OneToOne
     private User author;
