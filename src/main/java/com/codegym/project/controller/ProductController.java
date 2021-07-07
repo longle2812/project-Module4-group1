@@ -75,4 +75,16 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<Iterable<Product>> findProductByName(@PathVariable Optional<String> keyword) {
+        if (keyword.isPresent()) {
+            Iterable<Product> products = productService.findProductByNameContaining(keyword.get());
+            if (products.iterator().hasNext()) {
+                return new ResponseEntity<>(products, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
+    }
 }

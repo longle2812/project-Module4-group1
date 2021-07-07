@@ -37,6 +37,11 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Iterable<Product> findProductByNameContaining(String keyword) {
+        return productRepository.findProductByNameContaining(keyword);
+    }
+
+    @Override
     public Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable) {
         return productRepository.findProductByBrandIdsAndPrice(ids, min, max, pageable);
     }

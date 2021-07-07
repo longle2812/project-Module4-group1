@@ -12,4 +12,5 @@ public interface IProductService extends IGeneralService<Product> {
     Iterable<Product> findProductByCollectionIds(Long id);
     Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable);
     Page<Product> findAllPage(Pageable pageable);
+    Iterable<Product> findProductByNameContaining(String keyword);
 }

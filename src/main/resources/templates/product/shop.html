@@ -79,10 +79,10 @@
                 </div>
                 <div class="col-lg-7 col-md-7">
                     <div class="advanced-search">
-                        <button type="button" class="category-btn">All Categories</button>
+                        <button type="button" class="category-btn">Search product</button>
                         <div class="input-group">
-                            <input type="text" placeholder="What do you need?">
-                            <button type="button"><i class="ti-search"></i></button>
+                            <input id="search_box" type="text" placeholder="What do you need?">
+                            <button id="advanced_search" type="button"><i class="ti-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -493,6 +493,8 @@
         let size = $('#p_select').val();
         //collection filter
         $(".filter-catagories li a ").on('click', function () {
+            size = $('#p_select').val();
+            $(window).on("scroll", loadMore);
             let id = $(this).attr("data-collection-id");
             $.ajax({
                 headers: {
@@ -503,6 +505,7 @@
                 url: `/api/products/collection/${id}`,
                 success: function (data) {
                     redrawProduct(data)
+                    $(window).off("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -519,6 +522,8 @@
 
         //filter button onclick
         $("#filter_button").on('click', function () {
+            size = $('#p_select').val();
+            $(window).on("scroll", loadMore);
             let brandIds = [];
             $(':checkbox:checked').each(function (i) {
                 brandIds[i] = $(this).val();
@@ -548,6 +553,7 @@
                     </div>`
                     document.getElementById("product_list").innerHTML = content;
                     $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).off("scroll", loadMore);
                 }
             })
             return false;
@@ -602,19 +608,48 @@
         $('#p_select').niceSelect();
         $('#sorting_product').niceSelect();
 
-        function redrawProduct(products) {
-            let content = `<div id="product_list" class="product-list">
-                    <div class="row">`
-            for (let i = 0; i < products.length; i++) {
-                content += getProduct(products[i]);
-            }
-            content += `  </div>
-                    </div>`
-            document.getElementById("product_list").innerHTML = content;
-        }
+        //Name search
+        $('#advanced_search').on('click', function(){
+            size = $('#p_select').val();
+            $(window).on("scroll", loadMore);
+            let keyword = $("#search_box").val();
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: `/api/products/search/${keyword}`,
+                success: function (data) {
+                    redrawProduct(data);
+                    $(window).off("scroll", loadMore);
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
 
-        function getProduct(product) {
-            return `<div class="col-lg-4 col-sm-6">
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $(window).off("scroll", loadMore);
+                }
+            })
+        })
+
+    });
+    function redrawProduct(products) {
+        let content = `<div id="product_list" class="product-list">
+                    <div class="row">`
+        for (let i = 0; i < products.length; i++) {
+            content += getProduct(products[i]);
+        }
+        content += `  </div>
+                    </div>`
+        document.getElementById("product_list").innerHTML = content;
+    }
+
+    function getProduct(product) {
+        return `<div class="col-lg-4 col-sm-6">
                             <div class="product-item">
                                 <div class="pi-pic">
                                     <img src="/files/${product.image.name}" alt="${product.image.name}">
@@ -641,9 +676,7 @@
                                 </div>
                             </div>
                         </div>`
-        }
-
-    });
+    }
 </script>
 
 </body>

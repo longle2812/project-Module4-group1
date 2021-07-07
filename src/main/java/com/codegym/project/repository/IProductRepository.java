@@ -19,4 +19,5 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.collection.id = ?1")
     Iterable<Product> findProductByCollectionIds(Long id);
 
+    Iterable<Product> findProductByNameContaining(String keyword);
 }
