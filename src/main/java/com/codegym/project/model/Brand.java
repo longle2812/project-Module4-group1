@@ -11,8 +11,8 @@ import javax.persistence.Id;
 @Data
 @Entity
 public class Brand {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 }

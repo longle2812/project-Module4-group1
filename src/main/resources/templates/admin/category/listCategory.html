@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>List Category</title>
+</head>
+<body>
+<h3>List Category</h3>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_modals">
+    Create
+</button>
+<table id="listCategory" border="1px" width="70%">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    <tr th:each="category:${categories}">
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+        <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    th:id="${category.id}" onclick="update(this.id)">
+                Edit
+            </button>
+
+        </td>
+        <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_Modal"
+                    th:id="${category.id}" onclick="deleteCategory(this.id)">
+                Delete
+            </button>
+        </td>
+    </tr>
+</table>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    //them moi
+    function createCategory() {
+        let id = $('#id_create').val()
+        let name = $('#name_create').val()
+        let newCategory = {
+            id: id,
+            name: name,
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(newCategory),
+            url: "/admin/category",
+            success: successHander
+        });
+        event.preventDefault();
+    }
+
+    //ve lai
+    function successHander() {
+        $('#create_modals').modal('hide');
+        $('#updateModal').modal('hide');
+        $('#delete_Modal').modal('hide');
+        $.ajax({
+            type: "GET",
+            url: "/admin/category",
+            success: function (data) {
+                let contents = '<tr>\n' +
+                    '<td>Id</td>\n' +
+                    '<td>Name</td>\n' +
+                    '</tr>';
+                for (let i = 0; i < data.length; i++) {
+                    contents += getCategory(data[i])
+                }
+                document.getElementById('listCategory').innerHTML = contents;
+            }
+        })
+    }
+
+    function getCategory(category) {
+        return `<tr>
+<td>${category.id}</td>
+<td>${category.name}</td>
+<td>  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
+                id="${category.id}" onclick="update(this.id)">
+            Edit
+        </button>
+</td>
+ <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_Modal"
+               id="${category.id}" onclick="deleteCategory(this.id)">
+            Delete
+        </button>
+    </td>
+</tr>`
+    }
+
+    //update
+    function update(id) {
+        $.ajax({
+            type: "GET",
+            url: "/admin/category/" + id,
+            success: function (data) {
+                $('#id_update').val(data.id)
+                $('#name_update').val(data.name)
+            }
+        })
+        $(document).ready(function () {
+            $('#update_button').click(function (event) {
+                let id = $('#id_update').val()
+                let name = $('#name_update').val()
+                let newCategory = {
+                    id: id,
+                    name: name
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "PUT",
+                    url: "/admin/category/" + id,
+                    data: JSON.stringify(newCategory),
+                    success: successHander
+                })
+                event.preventDefault();
+            })
+        })
+    }
+    //xoa
+    function deleteCategory(id){
+        $(document).ready(function (){
+            $('#delete_button').click(function (event){
+                $.ajax({
+                    type:"DELETE",
+                    url:`/admin/category/`+id,
+                    success:successHander
+                })
+                event.preventDefault();
+            })
+        })
+    }
+</script>
+<!--//modal create-->
+<div class="modal fade" id="create_modals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create_modal">CREATE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_create"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_create"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="create-button" onclick="createCategory()">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal update -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_update"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_update"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="update_button">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal delete-->
+<div class="modal fade" id="delete_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eModalLabel">DELETE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <td>Do you want delete</td>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="delete_button">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

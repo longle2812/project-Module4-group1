@@ -20,6 +20,7 @@
     <th>Pass World</th>
     <th>Full Name</th>
     <th>Email</th>
+    <th>Phone Number</th>
 
 </tr>
 <tr th:each="user:${users}">
@@ -27,7 +28,7 @@
 <td th:text="${user.password}"></td>
 <td th:text="${user.fullName}"></td>
 <td th:text="${user.email}"></td>
-
+<td th:text="${user.phoneNumber}"></td>
 <td>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             th:id="${user.id}" onclick="update(this.id)">
@@ -50,13 +51,13 @@
        let password=$('#password_create').val()
        let fullName=$('#fullName_create').val()
        let email=$('#email_create').val()
-
+       let phoneNumber=$('#phoneNumber_create').val()
        let newUser={
            username:username,
            password:password,
            fullName:fullName,
            email:email,
-
+           phoneNumber:phoneNumber
        };
        $.ajax({
            headers:{
@@ -72,6 +73,9 @@
    }
    // ve lai
    function successHander(){
+       $('#create_modals').modal('hide');
+       $('#updateModal').modal('hide');
+       $('#delete_Modal').modal('hide');
        $.ajax({
            headers:{
                'Accept': 'application/json',
@@ -85,7 +89,7 @@
                    '<td>Pass Word</td>\n'+
                    '<td>Full Name</td>\n'+
                    '<td>Email</td>\n'+
-
+                   '<td>Phone Number</td>'+
                    '<td>Edit</td>'+
                    '<td>Delete</td>'+
                    '</tr>';
@@ -102,7 +106,7 @@
 <td>${user.password}</td>
 <td>${user.fullName}</td>
 <td>${user.email}</td>
-
+<td>${user.phoneNumber}</td>
 <td>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             id="${user.id}" onclick="update(this.id)">
@@ -129,6 +133,7 @@
                $('#password_update').val(data.password)
                $('#fullName_update').val(data.fullName)
                $('#email_update').val(data.email)
+               $('#phoneNumber_update').val(data.phoneNumber)
            }
        })
        $(document).ready(function (){
@@ -137,11 +142,13 @@
                let password=$('#password_update').val()
                let fullName=$('#fullName_update').val()
                let email=$('#email_update').val()
+               let phoneNumber=$('#phoneNumber_update').val()
                let newUser={
                    username:username,
                    password:password,
                    fullName:fullName,
-                   email:email
+                   email:email,
+                   phoneNumber:phoneNumber
                };
                $.ajax({
                    headers: {
@@ -198,7 +205,10 @@
                     <label>Email</label>
                     <label><input type="text" id="email_create"></label>
                 </div>
-
+                <div>
+                    <label>Phone Number</label>
+                    <label><input type="text" id="phoneNumber_create"></label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -232,6 +242,10 @@
                 <div>
                     <label>Email</label>
                     <label><input type="text" id="email_update"></label>
+                </div>
+                <div>
+                    <label>Phone Number</label>
+                    <label><input type="text" id="phoneNumber_update"></label>
                 </div>
             </div>
             <div class="modal-footer">
