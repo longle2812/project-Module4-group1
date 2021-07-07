@@ -12,9 +12,8 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                <span class="font-weight-bold">Edogaru</span>
-                <span class="text-black-50" th:text="${user.email}"></span>
-<!--                <span> </span>-->
+<!--                <span class="font-weight-bold" th:text="${user.fullName}"></span>-->
+<!--                <span class="text-black-50" th:text="${user.email}"></span>-->
             </div>
         </div>
         <div class="col-md-5 border-right">
@@ -29,32 +28,58 @@
                     </div>
                     <div class="col-md-6">
                         <label class="labels">Full name:</label>
-                        <input type="text" class="form-control" th:value="${user.fullName}">
+                        <input id="fullName" type="text" class="form-control" th:value="${user.fullName}">
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">Mobile Number</label>
-                            <input type="text" class="form-control" th:value="${user.phoneNumber}"></div>
+                            <input type="text" class="form-control" th:value="${user.phoneNumber}">
+                    </div>
                     <div class="col-md-12">
                         <label class="labels">City:</label>
-                        <input type="text" class="form-control" th:value="${user.address.city}">
+                        <div th:if="${user.address}">
+                            <input type="text" id="city" class="form-control" th:value="${user.address.city}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="city" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Country name:</label>
-                            <input type="text" class="form-control" th:value="${user.address.countryName}">
+                        <div th:if="${user.address}">
+                            <input type="text" id="countryName" class="form-control" th:value="${user.address.countryName}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="countryName" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Zip code:</label>
-                            <input type="text" class="form-control" th:value="${user.address.zipcode}">
+                        <div th:if="${user.address}">
+                            <input type="text" id="zipcode" class="form-control" th:value="${user.address.zipcode}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="zipcode" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Detail:</label>
-                        <input type="text" class="form-control" th:value="${user.address.detail}">
+                        <div th:if="${user.address}">
+                            <input type="text" id="detail" class="form-control" th:value="${user.address.detail}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="detail" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Street:</label>
-                        <input type="text" class="form-control" th:value="${user.address.street}">
+                        <div th:if="${user.address}">
+                            <input type="text" id="street" class="form-control" th:value="${user.address.street}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="street" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Email </label>
@@ -65,21 +90,24 @@
                 </div>
             </div>
         </div>
+        </div>
         <div class="col-md-4">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience">
                     <span>Purchasing history</span><span class="border px-3 p-1 add-experience"><i
-                        class="fa fa-plus"></i>&nbsp;Experience</span></div>
+                        class="fa fa-plus"></i>&nbsp;Date</span></div>
                 <br>
             </div>
-        </div>
     </div>
 </div>
 </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
-    // document.getElementById("save-btn").onclick('click',)
+    $('#save-btn').click(function (event) {
+        let fullName = $('#fullName').val();
+        let email = $('#email').val();
+    })
 </script>
 <scrip src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></scrip>
 <scrip src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></scrip>
