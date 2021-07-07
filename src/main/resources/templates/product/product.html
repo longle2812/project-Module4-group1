@@ -243,14 +243,10 @@
                         </div>
                         <div class="product-thumbs">
                             <div class="product-thumbs-track ps-slider owl-carousel">
-                                <div class="pt active" data-imgbigurl="/../img/product-single/product-1.jpg"><img
-                                        src="/../img/product-single/product-1.jpg" alt=""></div>
-                                <div class="pt" data-imgbigurl="/../img/product-single/product-2.jpg"><img
-                                        src="/../img/product-single/product-2.jpg" alt=""></div>
-                                <div class="pt" data-imgbigurl="/../img/product-single/product-3.jpg"><img
-                                        src="/../img/product-single/product-3.jpg" alt=""></div>
-                                <div class="pt" data-imgbigurl="/../img/product-single/product-3.jpg"><img
-                                        src="/../img/product-single/product-3.jpg" alt=""></div>
+                                <div class="pt active" th:attr="data-imgbigurl=@{'/files/' + ${main_picture.name}}"><img
+                                        th:src="@{'/files/' + ${main_picture.name}}" alt=""></div>
+                                <div th:each="subPic: ${sub_pictures}" class="pt" th:attr="data-imgbigurl=@{'/files/' + ${subPic.name}}"><img
+                                        th:src="@{'/files/' + ${subPic.name}}" alt=""></div>
                             </div>
                         </div>
                     </div>
