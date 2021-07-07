@@ -8,7 +8,9 @@ import com.codegym.project.service.picture.IPictureService;
 import com.codegym.project.service.product.IProductService;
 import com.codegym.project.service.review.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +68,8 @@ public class IndexController {
     }
 
     @GetMapping("/shop")
-    public ModelAndView showShop(@PageableDefault(size = 6) Pageable pageable) {
+    public ModelAndView showShop(@PageableDefault Pageable pageable) {
+        pageable = PageRequest.of(0, 6, Sort.by("name").ascending());
         ModelAndView modelAndView = new ModelAndView("/product/shop");
         modelAndView.addObject("collections", collections());
         modelAndView.addObject("brands", brands());

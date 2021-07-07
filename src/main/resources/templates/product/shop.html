@@ -590,7 +590,9 @@
                             redrawProduct(data.content)
                             size = parseInt(size) + 3;
                         }
-                        $(window).on("scroll", loadMore)
+                        setTimeout(function(){
+                            $(window).on("scroll", loadMore)
+                        }, 500) ;
                     },
                     error: function () {
                         let content = `<div className="callout callout-warning">

@@ -447,7 +447,7 @@
                                     </div>
                                     <div class="leave-comment">
                                         <h4>Leave A Comment</h4>
-                                        <form action="#" class="comment-form">
+                                        <form class="comment-form">
                                             <div class="row">
 <!--                                                <div class="col-lg-6">-->
 <!--                                                    <input type="text" placeholder="Name">-->
@@ -457,7 +457,7 @@
 <!--                                                </div>-->
                                                 <div class="col-lg-12">
                                                     <textarea placeholder="Messages"></textarea>
-                                                    <button type="submit" class="site-btn">Send message</button>
+                                                    <button th:id="${product.id}" class="site-btn" onclick="addReview(this)">Send message</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -713,6 +713,8 @@
 <script src="/../js/jquery.star-rating-svg.js"></script>
 <script>
     $(document).ready(function () {
+        $('form').submit(false);
+
         $(".my-rating").starRating({
             totalStars: 5,
             starShape: 'rounded',
@@ -726,7 +728,6 @@
                 console.log($(".my-rating").starRating('getRating'));
             }
         });
-
 
         //Set select
         let size = $('#p_select').val();
@@ -799,51 +800,6 @@
             return false;
         })
 
-        //Infinite Scroll
-        $(window).scroll(loadMore);
-
-        function loadMore(e) {
-            let hT = $('.loading-more').offset().top,
-                hH = $('.loading-more').outerHeight(),
-                wH = $(window).height(),
-                wS = $(this).scrollTop();
-            if (wS > (hT + hH - wH) + 200) {
-                $(window).off("scroll", loadMore);
-                size = parseInt(size) + 3;
-                let brandIds = [];
-                $(':checkbox:checked').each(function (i) {
-                    brandIds[i] = $(this).val();
-                });
-                let minPrice = $('#minamount').val();
-                let maxPrice = $('#maxamount').val();
-                minPrice = minPrice.substr(1, minPrice.length);
-                maxPrice = maxPrice.substr(1, maxPrice.length);
-                let sort = $('#sorting_product').val();
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "GET",
-                    url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}`,
-                    success: function (data) {
-                        if (size - 2 <= data.content.length) {
-                            redrawProduct(data.content)
-                        }
-                        $(window).on("scroll", loadMore);
-                    },
-                    error: function () {
-                        let content = `<div className="callout callout-warning">
-                        <h5>Ops!!</h5>
-                        <p>Nothing matched your search terms. Please try again with some different filter</p>
-                    </div>`
-                        document.getElementById("product_list").innerHTML = content;
-                        $("html, body").animate({scrollTop: 180}, 1000);
-                    }
-                })
-            }
-            e.preventDefault();
-        }
 
         //redraw niceSelect
         $('#p_select').niceSelect();
@@ -880,6 +836,9 @@
 
     });
 
+    function addReview(data){
+        console.log(data.id)
+    }
     function redrawProduct(products) {
         let content = `<div id="product_list" class="row">
                     <div class="row">`
