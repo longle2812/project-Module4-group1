@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.codegym.project.model.Image;
+import com.codegym.project.model.Picture;
 import com.codegym.project.service.fileUpload.FilesStorageService;
 import com.codegym.project.service.fileUpload.ResponseMessage;
 import com.codegym.project.service.image.IImageService;
+import com.codegym.project.service.picture.IPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,14 +31,17 @@ public class FilesController {
     FilesStorageService storageService;
 
     @Autowired
-    private IImageService iImageService;
+    private IImageService imageService;
 
-    @PostMapping("/upload")
+    @Autowired
+    private IPictureService pictureService;
+
+    @PostMapping("/upload/image")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
             storageService.save(file);
-            iImageService.save(new Image(file.getOriginalFilename(), "http://localhost:8080/files/"+file.getOriginalFilename()));
+            imageService.save(new Image(file.getOriginalFilename(), "http://localhost:8080/files/"+file.getOriginalFilename()));
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
@@ -63,5 +68,19 @@ public class FilesController {
         Resource file = storageService.load(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @PostMapping("/upload/picture")
+    public ResponseEntity<ResponseMessage> uploadPicture(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            storageService.save(file);
+            pictureService.save(new Picture(file.getOriginalFilename(), "http://localhost:8080/files/"+file.getOriginalFilename()));
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
     }
 }
