@@ -71,10 +71,7 @@ public class IndexController {
 
     @GetMapping("/test")
     public ModelAndView test(){
-        Optional<Product> productOptional = productService.findById(1L);
-        if (productOptional.isPresent()){
-            return new ModelAndView ("test", "product", productOptional.get());
-        }
-        return new ModelAndView("shop");
+        return new ModelAndView("/product/product");
     }
+
 }
