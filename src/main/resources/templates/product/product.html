@@ -245,7 +245,8 @@
                             <div class="product-thumbs-track ps-slider owl-carousel">
                                 <div class="pt active" th:attr="data-imgbigurl=@{'/files/' + ${main_picture.name}}"><img
                                         th:src="@{'/files/' + ${main_picture.name}}" alt=""></div>
-                                <div th:each="subPic: ${sub_pictures}" class="pt" th:attr="data-imgbigurl=@{'/files/' + ${subPic.name}}"><img
+                                <div th:each="subPic: ${sub_pictures}" class="pt"
+                                     th:attr="data-imgbigurl=@{'/files/' + ${subPic.name}}"><img
                                         th:src="@{'/files/' + ${subPic.name}}" alt=""></div>
                             </div>
                         </div>
@@ -253,8 +254,8 @@
                     <div class="col-lg-6">
                         <div class="product-details">
                             <div class="pd-title">
-                                <span>oranges</span>
-                                <h3>Pure Pineapple</h3>
+                                <span th:text="${product.collection.name}"></span>
+                                <h3 th:text="${product.name}"></h3>
                                 <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                             </div>
                             <div class="pd-rating">
@@ -266,9 +267,8 @@
                                 <span>(5)</span>
                             </div>
                             <div class="pd-desc">
-                                <p>Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
-                                    sit amet, consectetur adipisicing elit, sed do mod tempor</p>
-                                <h4>$495.00 <span>629.99</span></h4>
+                                <p th:text="${product.description}"></p>
+                                <h4 th:text="${product.price}+'$'"><span th:text="${product.price * 2}"></span></h4>
                             </div>
                             <div class="pd-color">
                                 <h6>Color</h6>
@@ -312,11 +312,12 @@
                                 <a href="#" class="primary-btn pd-cart">Add To Cart</a>
                             </div>
                             <ul class="pd-tags">
-                                <li><span>CATEGORIES</span>: More Accessories, Wallets & Cases</li>
+                                <li><span>CATEGORIES: </span> <span th:text="${product.category.name}"
+                                                                    th:remove="tag"></span></li>
                                 <li><span>TAGS</span>: Clothing, T-shirt, Woman</li>
                             </ul>
                             <div class="pd-share">
-                                <div class="p-code">Sku : 00012</div>
+                                <div class="p-code">Product ID : <span th:text="${product.id}"></span></div>
                                 <div class="pd-social">
                                     <a href="#"><i class="ti-facebook"></i></a>
                                     <a href="#"><i class="ti-twitter-alt"></i></a>
@@ -336,7 +337,8 @@
                                 <a data-toggle="tab" href="#tab-2" role="tab">SPECIFICATIONS</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#tab-3" role="tab">Customer Reviews (02)</a>
+                                <a data-toggle="tab" href="#tab-3" role="tab">Customer Reviews <span
+                                        th:text="'('+${review_number}+')'" th:remove="tag"></span></a>
                             </li>
                         </ul>
                     </div>
@@ -382,19 +384,13 @@
                                         <tr>
                                             <td class="p-catagory">Price</td>
                                             <td>
-                                                <div class="p-price">$495.00</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="p-catagory">Add To Cart</td>
-                                            <td>
-                                                <div class="cart-add">+ add to cart</div>
+                                                <div class="p-price" th:text="${product.price}+' $'"></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="p-catagory">Availability</td>
                                             <td>
-                                                <div class="p-stock">22 in stock</div>
+                                                <div class="p-stock">102 in stock</div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -414,9 +410,9 @@
                                             <td><span class="cs-color"></span></td>
                                         </tr>
                                         <tr>
-                                            <td class="p-catagory">Sku</td>
+                                            <td class="p-catagory">Product ID</td>
                                             <td>
-                                                <div class="p-code">00012</div>
+                                                <div class="p-code" th:text="${product.id}"></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -424,11 +420,11 @@
                             </div>
                             <div class="tab-pane fade" id="tab-3" role="tabpanel">
                                 <div class="customer-review-option">
-                                    <h4>2 Comments</h4>
+                                    <h4 th:text="${review_number}+' Reviews'"></h4>
                                     <div class="comment-option">
-                                        <div class="co-item">
+                                        <div th:each="review:${reviews}" class="co-item">
                                             <div class="avatar-pic">
-                                                <img src="/../img/product-single/avatar-1.png" alt="">
+                                                <img th:src="@{'/files/' + ${review.user.avatar.name}}" alt="">
                                             </div>
                                             <div class="avatar-text">
                                                 <div class="at-rating">
@@ -438,36 +434,21 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
-                                                <h5>Brandon Kelley <span>27 Aug 2019</span></h5>
-                                                <div class="at-reply">Nice !</div>
-                                            </div>
-                                        </div>
-                                        <div class="co-item">
-                                            <div class="avatar-pic">
-                                                <img src="/../img/product-single/avatar-2.png" alt="">
-                                            </div>
-                                            <div class="avatar-text">
-                                                <div class="at-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <h5>Roy Banks <span>27 Aug 2019</span></h5>
-                                                <div class="at-reply">Nice !</div>
+                                                <h5><span th:text="${review.user.username}" th:remove="tag"></span>
+                                                    <span>27 Aug 2019</span></h5>
+                                                <div class="at-reply" th:text="${review.content}"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="personal-rating">
-                                        <h6>Your Ratind</h6>
+                                        <h6>Your Rating</h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
+                                            <i class="fa fa-star"></i>
+                                            <input type="hidden" name="rating" id="rating" value="0"></div>
                                     </div>
                                     <div class="leave-comment">
                                         <h4>Leave A Comment</h4>
@@ -734,8 +715,11 @@
 <script src="/../js/jquery.slicknav.js"></script>
 <script src="/../js/owl.carousel.min.js"></script>
 <script src="/../js/main.js"></script>
+<script src="/../js/jquery.star.rating.js"></script>
 <script>
     $(document).ready(function () {
+        $('.rating').addRating();
+
         //Set select
         let size = $('#p_select').val();
 
@@ -809,6 +793,7 @@
 
         //Infinite Scroll
         $(window).scroll(loadMore);
+
         function loadMore(e) {
             let hT = $('.loading-more').offset().top,
                 hH = $('.loading-more').outerHeight(),
@@ -911,7 +896,7 @@
                                     </div>
                                     <ul>
                                         <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                        <li class="quick-view" data-view-id="${product.id}" onclick="showProductDetail(this)"><a href="#/">+ Quick View</a></li>
+                                        <li class="quick-view" data-view-id="${product.id}" onclick="showProductDetail(this)"><a href="/product/${product.id}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                     </ul>
                                 </div>

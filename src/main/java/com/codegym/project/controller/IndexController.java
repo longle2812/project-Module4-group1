@@ -6,6 +6,7 @@ import com.codegym.project.service.category.ICategoryService;
 import com.codegym.project.service.collection.ICollectionService;
 import com.codegym.project.service.picture.IPictureService;
 import com.codegym.project.service.product.IProductService;
+import com.codegym.project.service.review.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -34,6 +35,9 @@ public class IndexController {
 
     @Autowired
     private IBrandService brandService;
+
+    @Autowired
+    private IReviewService reviewService;
 
     @ModelAttribute("products")
     private Iterable<Product> products(){
@@ -80,9 +84,20 @@ public class IndexController {
             modelAndView.addObject("collections", collections());
             modelAndView.addObject("brands", brands());
             modelAndView.addObject("categories", categories());
-            modelAndView.addObject("main_picture", pictures.get(0));
-            pictures.remove(0);
+            Picture main_picture = null;
+            if (!pictures.isEmpty()){
+                main_picture = pictures.get(0);
+                pictures.remove(0);
+            }
+            else {
+                main_picture = pictureService.findPictureByName("no-picture.png");
+                pictures.add(main_picture);
+                pictures.add(main_picture);
+            }
+            modelAndView.addObject("main_picture", main_picture);
             modelAndView.addObject("sub_pictures", pictures);
+            modelAndView.addObject("review_number", reviewService.countReviewByProductId(id));
+            modelAndView.addObject("reviews", reviewService.findReviewByProductId(id));
             return modelAndView;
         }
         return new ModelAndView("error-404");

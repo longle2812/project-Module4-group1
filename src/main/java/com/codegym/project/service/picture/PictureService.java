@@ -33,6 +33,11 @@ public class PictureService implements IPictureService{
     }
 
     @Override
+    public Picture findPictureByName(String name) {
+        return pictureRepository.findPictureByName(name);
+    }
+
+    @Override
     public void remove(Long id) {
         pictureRepository.deleteById(id);
     }

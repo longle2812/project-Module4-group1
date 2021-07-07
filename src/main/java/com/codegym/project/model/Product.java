@@ -23,4 +23,6 @@ public class Product {
         @OneToOne
         private Color color;
 
+        private String description;
+
 }

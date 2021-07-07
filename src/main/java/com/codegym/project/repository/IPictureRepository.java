@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface IPictureRepository extends JpaRepository<Picture, Long> {
     @Query("select p from Picture p where p.product.id = ?1")
     Iterable<Picture> findPictureByProductId(Long id);
+
+    Picture findPictureByName(String name);
 }
