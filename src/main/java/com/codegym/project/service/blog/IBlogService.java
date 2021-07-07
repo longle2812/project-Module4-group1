@@ -7,5 +7,5 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public interface IBlogService extends IGeneralService<Blog> {
-    Page<Blog>  findAll(PageRequest pageRequest);
+    Page<Blog>  findAll(Pageable pageable);
 }

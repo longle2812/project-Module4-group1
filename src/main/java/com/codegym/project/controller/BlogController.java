@@ -8,7 +8,9 @@ import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +30,8 @@ public class BlogController {
     private JwtService jwtService;
 
     @GetMapping("/blogs")
-    public ModelAndView showBlogList(){
-        Page<Blog> blogs = blogService.findAll(PageRequest.of(0,4, Sort.by("date").descending()));
+    public ModelAndView showBlogList(@PageableDefault(size = 6, sort = "date",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Blog> blogs = blogService.findAll(pageable);
         return new ModelAndView("blog","blogs", blogs);
     }
     @GetMapping("/blogs/create")

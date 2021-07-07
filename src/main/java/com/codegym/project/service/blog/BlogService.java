@@ -37,7 +37,7 @@ public class BlogService implements IBlogService{
     }
 
     @Override
-    public Page<Blog> findAll(PageRequest pageRequest) {
-        return blogRepository.findAll(pageRequest);
+    public Page<Blog> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
     }
 }
