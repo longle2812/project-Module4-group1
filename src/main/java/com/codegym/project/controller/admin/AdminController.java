@@ -22,6 +22,7 @@ public class AdminController {
     public Iterable<Address> addresses(){
         return addressService.findAll();
     }
+
     @Autowired
     private IBrandService brandService;
     @ModelAttribute("brands")

@@ -13,15 +13,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.annotation.Resource;
 
 @SpringBootApplication
-public class ProjectApplication{
+//public class ProjectApplication implements CommandLineRunner{
+    public class ProjectApplication {
     @Resource
     FilesStorageService storageService;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         SpringApplication.run(ProjectApplication.class, args);
     }
 
-//    Khởi tạo và xóa storage
+////    Khởi tạo và xóa storage
 //    @Override
 //    public void run(String... args) throws Exception {
 //        storageService.deleteAll();

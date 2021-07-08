@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -2349,6 +2349,10 @@
                         </select>
                     </label>
                 </div>
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-pic">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -2396,6 +2400,10 @@
                             </option>
                         </select>
                     </label>
+                </div>
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-pic-update">
                 </div>
             </div>
             <div class="modal-footer">
@@ -2698,7 +2706,7 @@
       <th>Email</th>
       <th>Phone Number</th>
       <th>Address</th>
-
+      <th>Image</th>
 `
                 for (let i = 0; i < data.length; i++) {
                     contents += getUser(data[i]);
@@ -2718,6 +2726,7 @@
 <td>${user.email}</td>
 <td>${user.phoneNumber}</td>
 <td>${user.address.countryName}</td>
+<td><img style="width: 50px; src="/files/${user.avatar?.name}"></td>
 <td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             id="${user.id}" onclick="updateUser(this.id)">
         Edit
@@ -2732,6 +2741,23 @@
     }
 
     function createUser() {
+        //upload file
+        let file = new FormData();
+        let imageFile = $('#edit-profile-pic')[0].files[0];
+        file.append("file", imageFile);
+        // //ajax
+        $.ajax({
+            url: '/upload/image',
+            data: file,
+            enctype: 'multipart/form-data',
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST',
+            success: function (data) {
+            }
+        })
         let username = $('#name_create').val()
         let password = $('#password_create').val()
         let fullName = $('#fullName_create').val()
@@ -2746,7 +2772,7 @@
             phoneNumber: phoneNumber,
             address: {
                 id: address
-            }
+            },
         };
         $.ajax({
             headers: {
@@ -2755,7 +2781,7 @@
             },
             type: "POST",
             data: JSON.stringify(newUser),
-            url: "/admin/user",
+            url: `/admin/user?avatarName=${imageFile.name}`,
             success: user
         });
         event.preventDefault();
@@ -3198,6 +3224,8 @@
             })
         })
     }
+
+
 </script>
 </body>
 </html>

@@ -1,8 +1,10 @@
 package com.codegym.project.controller.admin;
 
 import com.codegym.project.model.Address;
+import com.codegym.project.model.Image;
 import com.codegym.project.model.User;
 import com.codegym.project.service.address.IAddressService;
+import com.codegym.project.service.image.IImageService;
 import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class UserRestController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IImageService imageService;
     @GetMapping
     public ResponseEntity<Iterable<User>> showListUser(){
         List<User>users= (List<User>) userService.findAll();
@@ -41,7 +45,9 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<User>createUser(@RequestBody User user){
+    public ResponseEntity<User>createUser(@RequestBody User user, @RequestParam String avatarName){
+        Image image = imageService.findImageByName(avatarName);
+        user.setAvatar(image);
         return new ResponseEntity<>(userService.save(user),HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
