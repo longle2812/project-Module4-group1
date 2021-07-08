@@ -5,4 +5,5 @@ import com.codegym.project.service.IGeneralService;
 
 public interface IItemService extends IGeneralService<Item> {
     Integer countAllByCartId(Long id);
+    Iterable<Item> findAllByCartId(Long id);
 }

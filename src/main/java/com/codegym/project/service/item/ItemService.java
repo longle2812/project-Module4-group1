@@ -33,6 +33,11 @@ public class ItemService implements IItemService{
     }
 
     @Override
+    public Iterable<Item> findAllByCartId(Long id) {
+        return iItemRepository.findAllByCartId(id);
+    }
+
+    @Override
     public void remove(Long id) {
         iItemRepository.deleteById(id);
     }

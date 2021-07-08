@@ -94,15 +94,10 @@ public class IndexController {
             modelAndView.addObject("collections", collections());
             modelAndView.addObject("brands", brands());
             modelAndView.addObject("categories", categories());
-            Picture main_picture = null;
-            if (!pictures.isEmpty()){
-                main_picture = pictures.get(0);
-                pictures.remove(0);
-            }
-            else {
-                main_picture = pictureService.findPictureByName("no-picture.png");
-                pictures.add(main_picture);
-                pictures.add(main_picture);
+            Image main_picture = product.get().getImage();
+            if (pictures.isEmpty()){
+                pictures.add(pictureService.findPictureByName("no-picture.png"));
+                pictures.add(pictureService.findPictureByName("no-picture.png"));
             }
             modelAndView.addObject("main_picture", main_picture);
             modelAndView.addObject("sub_pictures", pictures);

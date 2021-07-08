@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface IItemRepository extends JpaRepository<Item, Long> {
     @Query("select count(i) from Item i where i.cart.id = ?1")
     Integer countAllByCartId(Long id);
+
+    @Query("select i from Item i where i.cart.id = ?1")
+    Iterable<Item> findAllByCartId(Long id);
+
 }
