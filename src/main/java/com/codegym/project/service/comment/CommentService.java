@@ -1,5 +1,6 @@
 package com.codegym.project.service.comment;
 
+import com.codegym.project.model.Blog;
 import com.codegym.project.model.Comment;
 import com.codegym.project.repository.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class CommentService implements ICommentService{
     @Override
     public void remove(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Comment> findByBlog(Blog blog) {
+        return commentRepository.findByBlog(blog);
     }
 }

@@ -162,7 +162,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div  id="blog-title" class="breadcrumb-text">
+                <div id="blog-title" class="breadcrumb-text">
                     <a href="#"><i class="fa fa-home"></i> Home</a>
                     <span>Blog</span>
                 </div>
@@ -174,13 +174,12 @@
 
 <!-- Blog Section Begin -->
 <div id="blog-section">
-    <section  class="blog-section spad">
+    <section class="blog-section spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1">
                     <div class="blog-sidebar">
-                        <div>
-                            <a href="/blogs/create">Write your own blog</a>
+                        <div id="write-blog">
                         </div>
                         <div class="search-form">
                             <h4>Search</h4>
@@ -280,13 +279,15 @@
                             <ul class="pagination justify-content-end">
                                 <!--                            <li class="page-item disabled"></li>-->
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}" th:if="${blogs.hasPrevious()}">Previous</a>
+                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}"
+                                       th:if="${blogs.hasPrevious()}">Previous</a>
                                 </li>
                                 <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=0)}">1</a></li>
                                 <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=1)}">2</a></li>
                                 <!--                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}" th:if="${blogs.hasNext()}">Next</a>
+                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}"
+                                       th:if="${blogs.hasNext()}">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -422,11 +423,13 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     window.onload = () => {
         let token = localStorage.getItem("token");
         console.log(token);
         if (token != null) {
+            document.getElementById("write-blog").innerHTML = '<a href="/blogs/create">Write your own blog</a>'
             console.log("success");
             $.ajax({
                 headers: {
@@ -453,7 +456,7 @@
         localStorage.clear();
         let username = document.getElementById("name_or_login");
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
-        window.location.href="/login";
+        window.location.href = "/login";
     }
 
     function showBlog(blog) {
@@ -463,8 +466,9 @@
                 <div class="col-lg-12">
                     <div class="blog-details-inner">
                         <div class="blog-detail-title">
+                            <input type="hidden" id="blog-id" value="${blog.id}">
                             <h2 >${blog.title}</h2>
-                            <p>travel - <span>${blog.date.slice(8,10)} / ${blog.date.slice(5,7)} / ${blog.date.slice(0,4)}</span>
+                            <p>travel - <span>${blog.date.slice(8, 10)} / ${blog.date.slice(5, 7)} / ${blog.date.slice(0, 4)}</span>
                                 </p>
                         </div>
                         <div class="blog-large-pic">
@@ -530,7 +534,7 @@
                                 <div class="col-lg-5 offset-lg-2 col-md-6">
                                     <a href="#" class="next-blog">
                                         <div class="nb-pic">
-                                            <img src="img/blog/next-blog.png" alt="">
+                                            <img src="img/blog/ti10.jpg" alt="">
                                             <i class="ti-arrow-right"></i>
                                         </div>
                                         <div class="nb-text">
@@ -558,15 +562,12 @@
                             <h4>Leave A Comment</h4>
                             <form action="#" class="comment-form">
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <input type="text" placeholder="Name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" placeholder="Email">
-                                    </div>
                                     <div class="col-lg-12">
-                                        <textarea placeholder="Messages"></textarea>
-                                        <button type="submit" class="site-btn">Send message</button>
+                                        <textarea id="comment" placeholder="Messages"></textarea>
+                                        <button type="button" class="site-btn" onclick="writeComment()">Send message</button>
+                                    </div>
+                                    <div class="col-lg-12" id="comment-list">
+
                                     </div>
                                 </div>
                             </form>
@@ -577,15 +578,82 @@
         </div>
     </section>`
     }
-    function getBlogDetail(id){
+
+    function getBlogDetail(id) {
         $.ajax({
             type: "GET",
-            url: `blogs/blog-details/${id}`,
+            url: `/blogs/blog-details/${id}`,
             success: function (blog) {
                 document.getElementById("blog-section").innerHTML = showBlog(blog);
             }
         })
-        // event.preventDefault();
+    }
+
+    function writeComment() {
+        let token = localStorage.getItem("token");
+        if (token != null) {
+            let content = $('#comment').val();
+            let blogId = $('#blog-id').val();
+            // console.log(content);
+            let comment = {
+                content: content,
+                blog: {
+                    id: blogId
+                }
+            }
+            console.log(comment);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer' + token
+                },
+                type: "POST",
+                data: JSON.stringify(comment),
+                url: `/comments/create/${token}`,
+                success: function (comment1) {
+                    console.log(comment1);
+                }
+            })
+        }else{
+            swal("Ooops!", "Must login before comment!", "error");
+        }
+    }
+    function getCommentList(){
+        let blogId = $('#blog-id').val();
+        $.ajax({
+            type:"GET",
+            url: `/comments/getAll/${blogId}`,
+            success : function(comments){
+                console.log(comments);
+                showCommentList(comments);
+            }
+        })
+    }
+    function showCommentList(comments){
+        let str = "<div class=\"container\">\n    <div class=\"be-comment-block\">\n        <h1 class=\"comments-title\">Comments (3)</h1>";
+        for(let i =0;i<comments.length;i++){
+            str+=
+                `<div class="be-comment">
+                    <div class="be-img-comment">
+                        <a href="blog-detail-2.html">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="be-ava-comment">
+                        </a>
+                    </div>
+                    <div class="be-comment-content">
+                        <span class="be-comment-name">
+                            <a href="blog-detail-2.html">${comments[i].user.username}</a>
+                        </span>
+                        <span class="be-comment-time">
+                            <i class="fa fa-clock-o"></i>
+                            ${comments[i].date}
+                        </span>
+                        <p class="be-comment-text">
+                            ${comments[i].content}
+                         </p>
+                    </div>
+                </div>`
+        }
     }
 </script>
 </body>
