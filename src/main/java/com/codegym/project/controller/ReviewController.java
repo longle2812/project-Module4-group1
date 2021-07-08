@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,5 +36,20 @@ public class ReviewController {
         Review review = new Review(product.get(), user.get(), content, rating);
         reviewService.save(review);
         return new ResponseEntity<>(review, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/review/{id}")
+    public ResponseEntity<Iterable<Review>> getAllReview(@PathVariable Long id){
+        Iterable<Review> reviews = reviewService.findReviewByProductId(id);
+        if (reviews.iterator().hasNext()) {
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/review/count/{id}")
+    public ResponseEntity<Integer> countReview(@PathVariable Long id){
+        int review_number = reviewService.countReviewByProductId(id);
+        return new ResponseEntity<>(review_number, HttpStatus.OK);
     }
 }

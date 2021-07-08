@@ -17,7 +17,7 @@ public class Review {
     @ManyToOne
     private User user;
     private String content;
-    private double rating;
+    private int rating;
 
 
     public Review(Product product, User user, String content, int rating) {

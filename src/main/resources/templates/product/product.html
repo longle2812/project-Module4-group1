@@ -337,8 +337,8 @@
                             <li>
                                 <a data-toggle="tab" href="#tab-2" role="tab">SPECIFICATIONS</a>
                             </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab-3" role="tab">Customer Reviews <span
+                            <li id="review-number-tab">
+                                <a  data-toggle="tab" href="#tab-3" role="tab">Customer Reviews <span
                                         th:text="'('+${review_number}+')'" th:remove="tag"></span></a>
                             </li>
                         </ul>
@@ -429,7 +429,7 @@
                                             </div>
                                             <div class="avatar-text">
                                                 <div th:each="rated: ${review.rating}" class="at-rating">
-<!--                                                    <i th:name="${rated}" class="fa fa-star"></i>-->
+                                                    <!--                                                    <i th:name="${rated}" class="fa fa-star"></i>-->
                                                     <th:block th:each="i: ${#numbers.sequence(0, review.rating - 1)}">
                                                         <i th:name="${i}" class="fa fa-star"></i>
                                                     </th:block>
@@ -449,15 +449,11 @@
                                         <h4>Leave A Comment</h4>
                                         <form class="comment-form">
                                             <div class="row">
-<!--                                                <div class="col-lg-6">-->
-<!--                                                    <input type="text" placeholder="Name">-->
-<!--                                                </div>-->
-<!--                                                <div class="col-lg-6">-->
-<!--                                                    <input type="text" placeholder="Email">-->
-<!--                                                </div>-->
                                                 <div class="col-lg-12">
                                                     <textarea id="review_content" placeholder="Messages"></textarea>
-                                                    <button th:id="${product.id}" class="site-btn" onclick="addReview(this)">Send message</button>
+                                                    <button th:id="${product.id}" class="site-btn"
+                                                            onclick="addReview()">Send message
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -724,7 +720,9 @@
             activeColor: 'crimson',
             useGradient: false,
             disableAfterRate: false,
-            callback: function(currentRating, $el){
+            useFullStars: true,
+            minRating: 1,
+            callback: function (currentRating, $el) {
                 console.log($(".my-rating").starRating('getRating'));
             }
         });
@@ -836,11 +834,50 @@
 
     });
 
-    function addReview(button){
-        let productId = button.id;
+    //add new review
+    function addReview() {
+        let productId = $('.site-btn').attr('id');
         let token = window.localStorage.getItem('token');
         let rating = $(".my-rating").starRating('getRating');
         let content = $('#review_content').val();
+        if (rating == 0) {
+            alert("must select rating")
+        } else if (content == "") {
+            alert("must input content")
+        } else {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("token"),
+                },
+                type: "GET",
+                url: `/users/get/${token}`,
+                success: function (data) {
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem("token"),
+                        },
+                        type: "POST",
+                        url: `/review/add?content=${content}&userId=${data.id}&productId=${productId}&rating=${rating}`,
+                        success: function (data) {
+                            redrawReview();
+                        }
+                    })
+                },
+                error: function (data) {
+                    alert("You need login first");
+                }
+            })
+        }
+        event.preventDefault();
+    }
+
+    //redraw review
+    function redrawReview(event) {
+        let productId = $('.site-btn').attr('id');
         $.ajax({
             headers: {
                 'Accept': 'application/json',
@@ -848,29 +885,92 @@
                 'Authorization': localStorage.getItem("token"),
             },
             type: "GET",
-            url: `/users/get/${token}`,
-            success: function (data) {
+            url: `/review/${productId}`,
+            success: function (reviews) {
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                         'Authorization': localStorage.getItem("token"),
                     },
-                    type: "POST",
-                    url: `/review/add?content=${content}&userId=${data.id}&productId=${productId}&rating=${rating}`,
-                    success: function (data) {
-                        console.log(data);
+                    type: "GET",
+                    url: `/review/count/${productId}`,
+                    success: function (review_number) {
+                        document.getElementById("review-number-tab").innerHTML = `<a  data-toggle="tab" href="#tab-3" role="tab" class="active" aria-selected="true">Customer Reviews (${review_number})</a>`
+
+                        let content = `<div class="customer-review-option">
+                                    <h4>${review_number} Reviews</h4>`
+                        for (let i = 0; i < reviews.length; i++) {
+                            content += getReview(reviews[i]);
+                        }
+                        content += `<div class="personal-rating">
+                                        <h6>Your Rating</h6>
+                                        <div class="my-rating">
+                                        </div>
+                                    </div>
+                                    <div class="leave-comment">
+                                        <h4>Leave A Comment</h4>
+                                        <form class="comment-form">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <textarea id="review_content" placeholder="Messages"></textarea>
+                                                    <button id ="${productId}" class="site-btn"
+                                                            onclick="addReview(id)">Send message
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>`
+                        document.getElementById("tab-3").innerHTML = content;
+                        $.getScript("/../js/jquery.star-rating-svg.js");
+                        //redraw rating
+                        $(".my-rating").starRating({
+                            totalStars: 5,
+                            starShape: 'rounded',
+                            starSize: 40,
+                            emptyColor: 'lightgray',
+                            hoverColor: '#FAC451',
+                            activeColor: 'crimson',
+                            useGradient: false,
+                            disableAfterRate: false,
+                            useFullStars: true,
+                            minRating: 1,
+                            callback: function (currentRating, $el) {
+                            }
+                        });
+                        event.preventDefault();
                     }
                 })
             },
-            error: function (data){
-                alert("You need login first");
+            error: function (data) {
+                console.log("error")
             }
         })
-
-
-
     }
+
+
+    //get review
+    function getReview(review) {
+        let contentReview = `<div class="comment-option">
+                                        <div class="co-item">
+                                            <div class="avatar-pic">
+                                                <img src="/files/${review.user.avatar.name}" alt="${review.user.avatar.name}">
+                                            </div>
+                                            <div class="avatar-text">
+                                        <div class="at-rating">`;
+        for (let i = 0; i < review.rating; i++) {
+            contentReview += `<i class="fa fa-star"></i>`
+        }
+        contentReview += `<h5>${review.user.username}<span>27 Aug 2019</span></h5>
+                                                <div class="at-reply">${review.content}</div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+        return contentReview;
+    }
+
+    //redraw product
     function redrawProduct(products) {
         let content = `<div id="product_list" class="row">
                     <div class="row">`
@@ -881,7 +981,6 @@
                     </div>`
         document.getElementById("product_list").innerHTML = content;
         event.preventDefault();
-
     }
 
     function getProduct(product) {
