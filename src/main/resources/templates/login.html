@@ -177,6 +177,7 @@
                         <div th:if="${success_register}">
                             <p th:text="${success_register}" style="color:green"></p>
                         </div>
+                        <div id="error-login"></div>
                         <div class="group-input">
                             <label for="username">Username</label>
                             <input type="text" id="username" >
@@ -395,6 +396,8 @@
             success: function(data){
                 localStorage.setItem("token", data.accessToken);
                 window.location.href = "/index";
+            },error: function(){
+                document.getElementById("error-login").innerHTML = "<p style='color:red;'>Wrong username or password. Please try again</p>";
             }
         });
     }
