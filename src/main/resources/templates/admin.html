@@ -298,13 +298,13 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="./index3.html" class="nav-link">
+                                            <a class="nav-link" onclick="showCategory()">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Category</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="./index.html" class="nav-link active">
+                                            <a class="nav-link active" onclick="showBrand()">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Brand</p>
                                             </a>
@@ -2535,6 +2535,145 @@
         </div>
     </div>
 </div>
+<!--modal category-->
+<div class="modal fade" id="createCategory_modals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCTG_modal">CREATE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_CategoryCreate"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_CategoryCreate"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createCategory-button" onclick="createCategory()">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal update -->
+<div class="modal fade" id="update_CategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleCTGoModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_CategoryUpdate"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_CategoryUpdate"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="update_CategoryButton">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal delete-->
+<div class="modal fade" id="delete_CategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eModalCTGLabel">DELETE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <td>Do you want delete</td>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="delete_CategoryButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Brand-->
+<!--//modal create-->
+<div class="modal fade" id="create_BrandModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createBrand_modal">CREATE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_Brandcreate"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_BrandCreate"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createBrand-button" onclick="createBrand()">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal update -->
+<div class="modal fade" id="update_BrandModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleBrandModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Id</label>
+                    <label><input type="text" id="id_Brandupdate"></label>
+                </div>
+                <div>
+                    <label>name</label>
+                    <label><input type="text" id="name_Brandupdate"></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="update_Brandbutton">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal delete-->
+<div class="modal fade" id="delete_BrandModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eModalBraLabel">DELETE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <td>Do you want delete</td>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="deleteBrand_button">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
     //user table
@@ -2548,9 +2687,9 @@
             type: "GET",
             url: "/admin/user",
             success: function (data) {
-                let contents = `<table border="1px"  class="table table-striped" >
+                let contents = `<table border="1px" class="table table-success table-striped" >
 <h3>USER TABLE</h3>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_modals">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_modals" style="width: 150px">
     Create
 </button>
       <th>User Name</th>
@@ -2580,7 +2719,7 @@
 <td>${user.phoneNumber}</td>
 <td>${user.address.countryName}</td>
 <td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
-            id="${user.id}" onclick="update(this.id)">
+            id="${user.id}" onclick="updateUser(this.id)">
         Edit
     </button></td>
         <td>
@@ -2622,7 +2761,7 @@
         event.preventDefault();
     }
 
-    function update(id) {
+    function updateUser(id) {
         //hien thi thong tin de chinh
         $.ajax({
             type: "GET",
@@ -2639,6 +2778,7 @@
         })
         $(document).ready(function () {
             $('#update_button').click(function (event) {
+                let id=$('#id_update').val()
                 let username = $('#name_update').val()
                 let password = $('#password_update').val()
                 let fullName = $('#fullName_update').val()
@@ -2646,6 +2786,7 @@
                 let phoneNumber = $('#phoneNumber_update').val()
                 let address = $('#address_update').val()
                 let newUser = {
+                    id:id,
                     username: username,
                     password: password,
                     fullName: fullName,
@@ -2692,8 +2833,8 @@
             type: "GET",
             url: "/admin/product",
             success: function (data) {
-                let contents = `<table border="1px" style="color: #0b2e13">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_ProductModals">
+                let contents = `<table border="1px" class="table table-striped">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_ProductModals" style="width: 150px">
     Create
 </button>
         <th>Name</th>
@@ -2718,7 +2859,7 @@
 <td>${product.price}</td>
    <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal"
-                    id="${product.id}" onclick="update(this.id)">
+                    id="${product.id}" onclick="updateProduct(this.id)">
                 Edit
             </button>
 
@@ -2730,7 +2871,9 @@
             </button>
         </td>
 </tr>
-`}
+`
+    }
+
     //them moi product
     function createProduct() {
         let name = $('#name_ProductCreate').val()
@@ -2759,12 +2902,13 @@
         });
         event.preventDefault();
     }
+
     //update Product
-    function update(id){
+    function updateProduct(id) {
         $.ajax({
-            type:"GET",
-            url:"/admin/product/"+id,
-            success:function (data){
+            type: "GET",
+            url: "/admin/product/" + id,
+            success: function (data) {
                 $('#id_Productupdate').val(data.id)
                 $('#name_Productupdate').val(data.name)
                 $('#brand_Productupdate').val(data.brand)
@@ -2772,13 +2916,15 @@
                 $('#price_Productupdate').val(data.price)
             }
         })
-        $(document).ready(function (){
-            $('#Productupdate_button').click(function (event){
+        $(document).ready(function () {
+            $('#Productupdate_button').click(function (event) {
+                let id=$('#id_Productupdate').val()
                 let name = $('#name_Productupdate').val()
                 let brand = $('#brand_Productupdate').val()
                 let category = $('#category_Productupdate').val()
                 let price = $('#price_Productupdate').val()
                 let newProduct = {
+                    id:id,
                     name: name,
                     brand: {
                         id: brand
@@ -2803,13 +2949,250 @@
         })
     }
 
-    function deleteProduct(id){
+    function deleteProduct(id) {
+        $(document).ready(function () {
+            $('#deleteProduct_button').click(function (event) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `/admin/product/` + id,
+                    success: showProduct
+                })
+                event.preventDefault();
+            })
+        })
+    }
+
+    //Category
+    function showCategory() {
+        $('#createCategory_modals').modal('hide');
+        $('#update_CategoryModal').modal('hide');
+        $('#delete_CategoryModal').modal('hide');
+        $.ajax({
+            type: "GET",
+            url: "/admin/category",
+            success: function (data) {
+                let contents = `<table border="1px" class="table table-striped">
+
+<h3>Category Table</h3>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategory_modals" style="width: 150px">
+    Create
+</button>
+            <th>Id</th>
+            <th>Name</th>`
+                for (let i = 0; i < data.length; i++) {
+                  contents+=getCategory(data[i]);
+                }
+                document.getElementById('draw').innerHTML=contents;
+            }
+        })
+    }
+    function getCategory(category){
+        return `<tr>
+<td>${category.id}</td>
+<td>${category.name}</td>
+<td>  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_CategoryModal"
+                id="${category.id}" onclick="updateCategory(this.id)">
+            Edit
+        </button>
+</td>
+ <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_CategoryModal"
+               id="${category.id}" onclick="deleteCategory(this.id)">
+            Delete
+        </button>
+    </td>
+</tr>`
+    }
+    function createCategory() {
+        let id = $('#id_CategoryCreate').val()
+        let name = $('#name_CategoryCreate').val()
+        let newCategory = {
+            id: id,
+            name: name,
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(newCategory),
+            url: "/admin/category",
+            success: showCategory
+        });
+        event.preventDefault();
+    } function update(id) {
+        $.ajax({
+            type: "GET",
+            url: "/admin/category/" + id,
+            success: function (data) {
+                $('#id_update').val(data.id)
+                $('#name_update').val(data.name)
+            }
+        })
+        $(document).ready(function () {
+            $('#update_button').click(function (event) {
+                let id = $('#id_update').val()
+                let name = $('#name_update').val()
+                let newCategory = {
+                    id: id,
+                    name: name
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "PUT",
+                    url: "/admin/category/" + id,
+                    data: JSON.stringify(newCategory),
+                    success: successHander
+                })
+                event.preventDefault();
+            })
+        })
+    }
+    function updateCategory(id) {
+        $.ajax({
+            type: "GET",
+            url: "/admin/category/" + id,
+            success: function (data) {
+                $('#id_CategoryUpdate').val(data.id)
+                $('#name_CategoryUpdate').val(data.name)
+            }
+        })
+        $(document).ready(function () {
+            $('#update_CategoryButton').click(function (event) {
+                let id = $('#id_CategoryUpdate').val()
+                let name = $('#name_CategoryUpdate').val()
+                let newCategory = {
+                    id: id,
+                    name: name
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "PUT",
+                    url: "/admin/category/" + id,
+                    data: JSON.stringify(newCategory),
+                    success: showCategory
+                })
+                event.preventDefault();
+            })
+        })
+    }
+    function deleteCategory(id){
         $(document).ready(function (){
-            $('#deleteProduct_button').click(function (event){
+            $('#delete_CategoryButton').click(function (event){
                 $.ajax({
                     type:"DELETE",
-                    url:`/admin/product/`+id,
-                    success:showProduct
+                    url:`/admin/category/`+id,
+                    success:showCategory
+                })
+                event.preventDefault();
+            })
+        })
+    }
+    function showBrand(){
+        $('#create_BrandModals').modal('hide');
+        $('#update_BrandModal').modal('hide');
+        $('#delete_BrandModal').modal('hide');
+     $.ajax({
+         type:"GET",
+         url:"/admin/brand",
+         success:function (data){
+             let contents=`<table class="table table-striped">
+<h3>Brand Table</h3>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_BrandModals" style="width: 150px">
+    Create
+</button>
+<th>Id</th>
+<th>Name</th>`
+             for (let i=0;i<data.length;i++){
+                 contents+=getBrand(data[i])
+             }
+             document.getElementById('draw').innerHTML=contents
+         }
+     })
+    };
+    function getBrand(brand){
+        return `<tr>
+<td>${brand.id}</td>
+<td>${brand.name}</td>
+ <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_BrandModal"
+                    id="${brand.id}" onclick="updateBrand(this.id)">
+                Edit
+            </button>
+
+        </td>
+         <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_BrandModal"
+                 id="${brand.id}" onclick="deleteBrand(this.id)">
+                Delete
+            </button>
+        </td>
+</tr>`
+    }
+    function createBrand() {
+        let id = $('#id_Brandcreate').val()
+        let name = $('#name_BrandCreate').val()
+        let newBrand = {
+            id: id,
+            name: name,
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(newBrand),
+            url: "/admin/brand",
+            success: showBrand
+        });
+        event.preventDefault();
+    }
+    function updateBrand(id) {
+        $.ajax({
+            type: "GET",
+            url: "/admin/brand/" + id,
+            success: function (data) {
+                $('#id_Brandupdate').val(data.id)
+                $('#name_Brandupdate').val(data.name)
+            }
+        })
+        $(document).ready(function () {
+            $('#update_Brandbutton').click(function (event) {
+                let id = $('#id_Brandupdate').val()
+                let name = $('#name_Brandupdate').val()
+                let newBrand = {
+                    id: id,
+                    name: name
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "PUT",
+                    url: "/admin/brand/" + id,
+                    data: JSON.stringify(newBrand),
+                    success: showBrand
+                })
+                event.preventDefault();
+            })
+        })
+    }
+    function deleteBrand(id){
+        $(document).ready(function (){
+            $('#deleteBrand_button').click(function (event){
+                $.ajax({
+                    type:"DELETE",
+                    url:`/admin/brand/`+id,
+                    success:showBrand
                 })
                 event.preventDefault();
             })
