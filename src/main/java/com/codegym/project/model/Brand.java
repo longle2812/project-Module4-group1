@@ -1,6 +1,5 @@
 package com.codegym.project.model;
 
-import jdk.jfr.Enabled;
 import lombok.Data;
 
 import javax.persistence.Entity;

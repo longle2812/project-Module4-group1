@@ -17,5 +17,12 @@ public class Product {
         private Category category;
         private double price;
         @OneToOne
-        private Image mainImage;
+        private Image image;
+        @ManyToOne
+        private Collection collection;
+        @OneToOne
+        private Color color;
+
+        private String description;
+
 }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/edit-profile.css">
+</head>
+<body>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+<!--                <span class="font-weight-bold" th:text="${user.fullName}"></span>-->
+<!--                <span class="text-black-50" th:text="${user.email}"></span>-->
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <input type="hidden" th:value="${user.id}" id="userId">
+                    <div class="col-md-6">
+                        <label class="labels">User name:</label>
+                        <input id="username" type="text" class="form-control"  th:value="${user.username}" readonly="readonly">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Full name:</label>
+                        <input id="fullName" type="text" class="form-control" th:value="${user.fullName}">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="labels">Mobile Number</label>
+                            <input id="phone" type="text" class="form-control" th:value="${user.phoneNumber}">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">City:</label>
+                        <div th:if="${user.address}">
+                            <input type="text" id="city" class="form-control" th:value="${user.address.city}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="city" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Country name:</label>
+                        <div th:if="${user.address}">
+                            <input type="text" id="countryName" class="form-control" th:value="${user.address.countryName}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="countryName" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Zip code:</label>
+                        <div th:if="${user.address}">
+                            <input type="text" id="zipcode" class="form-control" th:value="${user.address.zipcode}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="zipcode" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Detail:</label>
+                        <div th:if="${user.address}">
+                            <input type="text" id="detail" class="form-control" th:value="${user.address.detail}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="detail" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Street:</label>
+                        <div th:if="${user.address}">
+                            <input type="text" id="street" class="form-control" th:value="${user.address.street}">
+                        </div>
+                        <div th:unless="${user.address}">
+                            <input type="text" id="street" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Email </label>
+                        <input id="email" type="text" class="form-control" th:value="${user.email}">
+                    </div>
+                    <div id="success" class="col-md-12">
+                    </div>
+                <div class="mt-5 text-center">
+                    <button id="save-btn" class="btn btn-primary profile-button" type="button">Save Profile</button>
+                    <button id="go-back" class="btn btn-secondary profile-button" type="button">
+                        <a href="/index" style="text-decoration: none;color: white">Back to main page</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience">
+                    <span>Purchasing history</span><span class="border px-3 p-1 add-experience"><i
+                        class="fa fa-plus"></i>&nbsp;Date</span></div>
+                <br>
+            </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#save-btn').click(function (event) {
+        let id = $('#userId').val();
+        let fullName = $('#fullName').val();
+        let email = $('#email').val();
+        let phoneNumber = $('#phone').val();
+        let city = $('#city').val();
+        let countryName = $('#countryName').val();
+        let detail = $('#detail').val();
+        let street = $('#street').val();
+        let zipcode = $('#zipcode').val();
+        let userName = $('#username').val();
+        let user = {
+            id: id,
+            username: userName,
+            email: email,
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            address:{
+                city: city,
+                countryName: countryName,
+                detail: detail,
+                street: street,
+                zipcode: zipcode
+            }
+        }
+        console.log(user);
+        $.ajax({
+            header: `${localStorage.getItem("token")}`,
+            type:"PUT",
+            data: JSON.stringify(user),
+            url: "/users/edit",
+            success: function(){
+                document.getElementById("success").innerHTML= "<p style='color:green'>Information updated</p>";
+            }
+        })
+    })
+</script>
+<scrip src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></scrip>
+<scrip src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></scrip>
+</body>
+</html>
