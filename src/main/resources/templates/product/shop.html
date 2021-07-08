@@ -25,8 +25,6 @@
 </head>
 
 <body>
-
-
 <!-- Page Preloder -->
 <div th:fragment="preloader" id="preloder">
     <div class="loader"></div>
@@ -79,10 +77,10 @@
                 </div>
                 <div class="col-lg-7 col-md-7">
                     <div class="advanced-search">
-                        <button type="button" class="category-btn">All Categories</button>
+                        <button type="button" class="category-btn">Search product</button>
                         <div class="input-group">
-                            <input type="text" placeholder="What do you need?">
-                            <button type="button"><i class="ti-search"></i></button>
+                            <input id="search_box" type="text" placeholder="What do you need?">
+                            <button id="advanced_search" type="button"><i class="ti-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -166,8 +164,8 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li class="active"><a href="/index">Home</a></li>
-                    <li><a href="/shop">Shop</a></li>
+                    <li><a href="/index">Home</a></li>
+                    <li class="active"><a href="/shop">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
                             <li><a href="#">Men's</a></li>
@@ -212,9 +210,9 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Product Shop Section Begin -->
-<section class="product-shop spad">
+<section class="product-shop spad page-details">
     <div class="container">
-        <div class="row">
+        <div id="side_list" class="row">
             <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
                 <!--Collection Filter-->
                 <div class="filter-widget">
@@ -249,14 +247,15 @@
                                 <input type="text" id="maxamount">
                             </div>
                         </div>
-                        <div th:id="price_range" class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                        <div th:id="price_range"
+                             class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
                              data-min="0" data-max="200">
                             <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
                             <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                             <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                         </div>
                     </div>
-                    <a href="#" class="filter-btn">Filter</a>
+                    <a id="filter_button" href="#" class="filter-btn">Filter</a>
                 </div>
                 <!--Color Filter-->
                 <div class="filter-widget">
@@ -288,28 +287,6 @@
                         </div>
                     </div>
                 </div>
-                <!--Size Filter-->
-<!--                <div class="filter-widget">-->
-<!--                    <h4 class="fw-title">Size</h4>-->
-<!--                    <div class="fw-size-choose">-->
-<!--                        <div class="sc-item">-->
-<!--                            <input th:value="${}" name="sizeId" type="radio" id="s-size">-->
-<!--                            <label for="s-size">s</label>-->
-<!--                        </div>-->
-<!--                        <div class="sc-item">-->
-<!--                            <input type="radio" id="m-size">-->
-<!--                            <label for="m-size">m</label>-->
-<!--                        </div>-->
-<!--                        <div class="sc-item">-->
-<!--                            <input type="radio" id="l-size">-->
-<!--                            <label for="l-size">l</label>-->
-<!--                        </div>-->
-<!--                        <div class="sc-item">-->
-<!--                            <input type="radio" id="xs-size">-->
-<!--                            <label for="xs-size">xs</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <!--Categories Filter-->
                 <div class="filter-widget">
                     <h4 class="fw-title">Categories</h4>
@@ -320,16 +297,21 @@
             </div>
 
             <!--Product List-->
-            <div id="product_list" class="col-lg-9 order-1 order-lg-2">
+            <div id="main_content" class="col-lg-9 order-1 order-lg-2">
                 <div class="product-show-option">
                     <div class="row">
                         <div class="col-lg-7 col-md-7">
                             <div class="select-option">
-                                <select class="sorting">
-                                    <option value="">Default Sorting</option>
+                                <select id="sorting_product" class="sorting">
+                                    <option value='acs'>Sort name: A-Z</option>
+                                    <option value='desc'>Sort name: Z-A</option>
+                                    <option value='low'>Lowest price</option>
+                                    <option value='high'>Highest price</option>
                                 </select>
-                                <select class="p-show">
-                                    <option value="">Show:</option>
+                                <select id="p_select" class="p-show">
+                                    <option value='6'>Show: 06</option>
+                                    <option value='9'>Show: 09</option>
+                                    <option value='12'>Show: 12</option>
                                 </select>
                             </div>
                         </div>
@@ -338,7 +320,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-list">
+                <div id="product_list" class="product-list">
                     <div class="row">
                         <div th:each="product: ${products}" class="col-lg-4 col-sm-6">
                             <div class="product-item">
@@ -350,7 +332,8 @@
                                     </div>
                                     <ul>
                                         <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                        <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                        <li class="quick-view" th:attr="data-view-id=${product.id}"
+                                            onclick="showProductDetail(this)"><a th:href="@{/product/__${product.id}__}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                     </ul>
                                 </div>
@@ -492,21 +475,26 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/jquery.dd.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+<script src="js/jquery-3.3.1.min.js" id="js1"></script>
+<script src="js/bootstrap.min.js" id="js2"></script>
+<script src="js/jquery-ui.min.js" id="js3"></script>
+<script src="js/jquery.countdown.min.js" id="js4"></script>
+<script src="js/jquery.nice-select.min.js" id="js5"></script>
+<script src="js/jquery.zoom.min.js" id="js6"></script>
+<script src="js/jquery.dd.min.js" id="js7"></script>
+<script src="js/jquery.slicknav.js" id="js8"></script>
+<script src="js/owl.carousel.min.js" id="js9"></script>
+<script src="js/main.js" id="js10"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".filter-catagories li a ").on('click', function (event) {
+        //Set select
+        let size = 6;
+
+        //collection filter
+        $(".filter-catagories li a ").on('click', function () {
+            size = 6;
+            $(window).on("scroll", loadMore);
             let id = $(this).attr("data-collection-id");
             $.ajax({
                 headers: {
@@ -517,33 +505,9 @@
                 url: `/api/products/collection/${id}`,
                 success: function (data) {
                     redrawProduct(data)
-                }
-            })
-            return false;
-        });
-
-        $(".filter-widget a").on('click', function(event){
-            let brandIds = [];
-            $(':checkbox:checked').each(function(i){
-                brandIds[i] = $(this).val();
-            });
-            let minPrice = $('#minamount').val();
-            let maxPrice = $('#maxamount').val();
-            minPrice = minPrice.substr(1,minPrice.length);
-            maxPrice = maxPrice.substr(1, maxPrice.length);
-            console.log(minPrice)
-            console.log(maxPrice)
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    $(window).off("scroll", loadMore);
                 },
-                type: "GET",
-                url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}`,
-                success: function (data) {
-                    redrawProduct(data)
-                },
-                error: function(){
+                error: function () {
                     let content = `<div className="callout callout-warning">
                         <h5>Ops!!</h5>
 
@@ -554,45 +518,141 @@
                 }
             })
             return false;
+        });
+
+        //filter button onclick
+        $("#filter_button").on('click', function () {
+            size = 6;
+            $(window).on("scroll", loadMore);
+            let brandIds = [];
+            $(':checkbox:checked').each(function (i) {
+                brandIds[i] = $(this).val();
+            });
+            let minPrice = $('#minamount').val();
+            let maxPrice = $('#maxamount').val();
+            minPrice = minPrice.substr(1, minPrice.length);
+            maxPrice = maxPrice.substr(1, maxPrice.length);
+            let page = $('#p_select').val();
+            let sort = $('#sorting_product').val();
+            size = page;
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${page}&sort=${sort}`,
+                success: function (data) {
+                    redrawProduct(data.content)
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).off("scroll", loadMore);
+                }
+            })
+            return false;
+        })
+
+        //Infinite Scroll
+        $(window).scroll(loadMore);
+        function loadMore(e) {
+            let hT = $('.loading-more').offset().top,
+                hH = $('.loading-more').outerHeight(),
+                wH = $(window).height(),
+                wS = $(this).scrollTop();
+            if (wS > (hT + hH - wH) + 200) {
+                $(window).off("scroll", loadMore);
+
+                let brandIds = [];
+                $(':checkbox:checked').each(function (i) {
+                    brandIds[i] = $(this).val();
+                });
+                let minPrice = $('#minamount').val();
+                let maxPrice = $('#maxamount').val();
+                minPrice = minPrice.substr(1, minPrice.length);
+                maxPrice = maxPrice.substr(1, maxPrice.length);
+                let sort = $('#sorting_product').val();
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}`,
+                    success: function (data) {
+                        if (size -2 <= data.content.length) {
+                            redrawProduct(data.content)
+                            size = parseInt(size) + 3;
+                        }
+                        setTimeout(function(){
+                            $(window).on("scroll", loadMore)
+                        }, 500) ;
+                    },
+                    error: function () {
+                        let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                        document.getElementById("product_list").innerHTML = content;
+                        $("html, body").animate({scrollTop: 180}, 1000);
+                    }
+                })
+            }
+            e.preventDefault();
+        }
+
+        //redraw niceSelect
+        $('#p_select').niceSelect();
+        $('#sorting_product').niceSelect();
+
+        //Name search
+        $('#advanced_search').on('click', function () {
+            size = $('#p_select').val();
+            $(window).on("scroll", loadMore);
+            let keyword = $("#search_box").val();
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: `/api/products/search/${keyword}`,
+                success: function (data) {
+                    redrawProduct(data);
+                    $(window).off("scroll", loadMore);
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $(window).off("scroll", loadMore);
+                }
+            })
         })
 
 
     });
 
     function redrawProduct(products) {
-        let content = `
-                <div class="product-show-option">
-                    <div class="row">
-                        <div class="col-lg-7 col-md-7">
-                            <div class="select-option">
-                                <select class="sorting" style="display: none;">
-                                    <option value="">Default Sorting</option>
-                                </select><div class="nice-select sorting" tabindex="0"><span class="current">Default Sorting</span><ul class="list"><li data-value="" class="option selected">Default Sorting</li></ul></div>
-                                <select class="p-show" style="display: none;">
-                                    <option value="">Show:</option>
-                                </select><div class="nice-select p-show" tabindex="0"><span class="current">Show:</span><ul class="list"><li data-value="" class="option selected">Show:</li></ul></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 text-right">
-                            <p>Show 01- 09 Of 36 Product</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-list">
+        let content = `<div id="product_list" class="product-list">
                     <div class="row">`
         for (let i = 0; i < products.length; i++) {
             content += getProduct(products[i]);
         }
         content += `  </div>
-                    </div>
-                <div class="loading-more">
-                    <i class="icon_loading"></i>
-                    <a href="#">
-                        Loading More
-                    </a>
-                </div>
-            </div>`
+                    </div>`
         document.getElementById("product_list").innerHTML = content;
+        event.preventDefault();
+
     }
 
     function getProduct(product) {
@@ -606,7 +666,7 @@
                                     </div>
                                     <ul>
                                         <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                        <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                        <li class="quick-view" data-view-id="${product.id}" onclick="showProductDetail(this)"><a href="/product/${product.id}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                     </ul>
                                 </div>
@@ -624,6 +684,7 @@
                             </div>
                         </div>`
     }
+
 </script>
 
 </body>

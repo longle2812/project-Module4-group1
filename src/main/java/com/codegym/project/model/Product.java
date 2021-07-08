@@ -22,4 +22,7 @@ public class Product {
         private Collection collection;
         @OneToOne
         private Color color;
+
+        private String description;
+
 }

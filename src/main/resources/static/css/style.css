@@ -473,7 +473,7 @@ ol {
 	height: 100%;
 	border: none;
 	font-size: 16px;
-	color: #d1d1d1;
+	color: #383131;
 	padding-left: 20px;
 }
 
@@ -2009,7 +2009,6 @@ ol {
 	position: absolute;
 	right: 48px;
 	top: 0;
-	content: "09";
 	font-size: 16px;
 	color: #252525;
 }
