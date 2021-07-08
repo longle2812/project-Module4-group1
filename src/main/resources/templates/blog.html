@@ -306,8 +306,14 @@
                                     <h4 th:text="${blog.title}"></h4>
                                 </a>
                                 <p>travel
-                                    <span th:text="${blog.date}">
-                                    </span><span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
+                                    -
+<!--                                    <span th:text="${blog.date}"></span>-->
+                                    <span th:text="${blog.date.getDay()}"></span>
+                                    <span> / </span>
+                                    <span th:text="${blog.date.getMonth()}"></span>
+                                    <span> / </span>
+                                    <span th:text="${blog.date.getYear()+1900}"></span>
+                                    <span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
                                     <span th:text="${blog.author.username}"></span>
                                 </p>
                             </div>
@@ -458,8 +464,7 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
 <script type="text/javascript">
     window.onload = () => {
         let token = localStorage.getItem("token");
@@ -467,7 +472,11 @@
         if (token != null) {
             console.log("success");
             $.ajax({
-                header: `${localStorage.getItem("token")}`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    "Authorization": 'Bearer ' + token
+                },
                 type: "GET",
                 url: `/current_user/${token}`,
                 success: function (user) {
@@ -487,6 +496,7 @@
         localStorage.clear();
         let username = document.getElementById("name_or_login");
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+        window.location.href="/login";
     }
 
     function showBlog(blog) {

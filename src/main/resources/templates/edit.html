@@ -138,8 +138,13 @@
             }
         }
         console.log(user);
+        let token = localStorage.getItem("token");
         $.ajax({
-            header: `${localStorage.getItem("token")}`,
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+                "Authorization": 'Bearer ' + token
+            },
             type:"PUT",
             data: JSON.stringify(user),
             url: "/users/edit",
