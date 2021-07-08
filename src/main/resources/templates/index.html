@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 </head>
 
 <body>
@@ -130,7 +134,7 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li><a href="./blog.html">Blog</a></li>
+                    <li><a href="/blogs">Blog</a></li>
                     <li><a href="./contact.html">Contact</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="dropdown">
@@ -691,16 +695,19 @@
 <script type="text/javascript">
     window.onload = () =>{
         let token = localStorage.getItem("token");
-        console.log(token);
         if(token!= null){
-            console.log("success");
             $.ajax({
                 header: `${localStorage.getItem("token")}`,
                 type:"GET",
                 url:`/current_user/${token}`,
                 success : function(user){
                     let username = document.getElementById("name_or_login");
-                    username.innerHTML = `<a href="/user/edit/${user.username}">${user.username}</a> <button type="button" onclick="logout()">Log out</button>`;
+                    username.innerHTML = `
+                                                <a href="/users/edit/${user.username}">${user.username}</a>
+                                                <i class="fa fa-sign-out" aria-hidden="true" onclick="logout()" style="cursor: pointer">
+                                                  Log out
+                                                </i>
+                        `;
                 }
             })
             }

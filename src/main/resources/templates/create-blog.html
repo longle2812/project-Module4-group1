@@ -13,15 +13,16 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/create-blog.css" type="text/css">
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -55,12 +56,10 @@
                     </span>
                 <div class="lan-selector">
                     <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                        <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
-                                data-title="English">English
-                        </option>
-                        <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German
-                        </option>
+                        <option value='yt' data-image="../img/flag-1.jpg" data-imagecss="flag yt"
+                                data-title="English">English</option>
+                        <option value='yu' data-image="../img/flag-2.jpg" data-imagecss="flag yu"
+                                data-title="Bangladesh">German</option>
                     </select>
                 </div>
                 <div class="top-social">
@@ -78,7 +77,7 @@
                 <div class="col-lg-2 col-md-2">
                     <div class="logo">
                         <a href="/index">
-                            <img src="img/logo.png" alt="">
+                            <img src="../img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
@@ -179,7 +178,7 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li class="active"><a href="/blog">Blog</a></li>
+                    <li class="active"><a href="/blogs">Blog</a></li>
                     <li><a href="./contact.html">Contact</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="dropdown">
@@ -199,140 +198,19 @@
 </header>
 <!-- Header End -->
 
-<!-- Breadcrumb Section Begin -->
-<div class="breacrumb-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb-text">
-                    <a href="#"><i class="fa fa-home"></i> Home</a>
-                    <span>Blog</span>
-                </div>
-            </div>
+<!--container-->
+<div id="wrapper">
+    <form id="paper" method="get" action="">
+        <div id="margin">
+            <div style="margin-left: 48%;">Title</div>
+            <input id="title" type="text" name="title" style="display: block;margin-left: auto;margin-right: auto;">
         </div>
-    </div>
+        <textarea placeholder="Enter something funny." id="content" name="text" rows="4" style="overflow: hidden; word-wrap: break-word; resize: none"></textarea>
+        <br>
+        <p id="create-success" style="color:green;text-align: center;"></p>
+        <button id="create-blog-btn"style="display: block;margin-left: auto;margin-right: auto;" type="button" class="btn btn-primary" onclick="createBlog()">Publish</button>
+    </form>
 </div>
-<!-- Breadcrumb Section Begin -->
-
-<!-- Blog Section Begin -->
-<section class="blog-section spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1">
-                <div class="blog-sidebar">
-                    <div>
-                        <a href="/blogs/create">Write your own blog</a>
-                    </div>
-                    <div class="search-form">
-                        <h4>Search</h4>
-                        <form action="#">
-                            <input type="text" placeholder="Search . . .  ">
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                    <div class="blog-catagory">
-                        <h4>Categories</h4>
-                        <ul>
-                            <li><a href="#">Fashion</a></li>
-                            <li><a href="#">Travel</a></li>
-                            <li><a href="#">Picnic</a></li>
-                            <li><a href="#">Model</a></li>
-                        </ul>
-                    </div>
-                    <div class="recent-post">
-                        <h4>Recent Post</h4>
-                        <div class="recent-blog">
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-1.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-2.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-3.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-4.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="blog-tags">
-                        <h4>Product Tags</h4>
-                        <div class="tag-item">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-9 order-1 order-lg-2">
-                <div class="row" id="blog-container">
-                    <div class="col-lg-6 col-sm-6" th:each="blog : ${blogs}">
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-1.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <a href="/blogs/blog-details">
-                                    <h4 th:text="${blog.title}"></h4>
-                                </a>
-                                <p>travel
-                                    <span th:text="${blog.date}">
-                                    </span><span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
-                                    <span th:text="${blog.author.username}"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-<!--                            <li class="page-item disabled"></li>-->
-                            <li class="page-item">
-                                <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}" th:if="${blogs.hasPrevious()}">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=0)}">1</a></li>
-                            <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=1)}">2</a></li>
-<!--                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-                            <li class="page-item">
-                                <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}" th:if="${blogs.hasNext()}">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Blog Section End -->
 
 <!-- Partner Logo Section Begin -->
 <div class="partner-logo">
@@ -340,27 +218,27 @@
         <div class="logo-carousel owl-carousel">
             <div class="logo-item">
                 <div class="tablecell-inner">
-                    <img src="img/logo-carousel/logo-1.png" alt="">
+                    <img src="../img/logo-carousel/logo-1.png" alt="">
                 </div>
             </div>
             <div class="logo-item">
                 <div class="tablecell-inner">
-                    <img src="img/logo-carousel/logo-2.png" alt="">
+                    <img src="../img/logo-carousel/logo-2.png" alt="">
                 </div>
             </div>
             <div class="logo-item">
                 <div class="tablecell-inner">
-                    <img src="img/logo-carousel/logo-3.png" alt="">
+                    <img src="../img/logo-carousel/logo-3.png" alt="">
                 </div>
             </div>
             <div class="logo-item">
                 <div class="tablecell-inner">
-                    <img src="img/logo-carousel/logo-4.png" alt="">
+                    <img src="../img/logo-carousel/logo-4.png" alt="">
                 </div>
             </div>
             <div class="logo-item">
                 <div class="tablecell-inner">
-                    <img src="img/logo-carousel/logo-5.png" alt="">
+                    <img src="../img/logo-carousel/logo-5.png" alt="">
                 </div>
             </div>
         </div>
@@ -375,7 +253,7 @@
             <div class="col-lg-3">
                 <div class="footer-left">
                     <div class="footer-logo">
-                        <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                        <a href="#"><img src="../img/footer-logo.png" alt=""></a>
                     </div>
                     <ul>
                         <li>Address: 60-49 Road 11378 New York</li>
@@ -430,14 +308,11 @@
                 <div class="col-lg-12">
                     <div class="copyright-text">
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                     <div class="payment-pic">
-                        <img src="img/payment-method.png" alt="">
+                        <img src="../img/payment-method.png" alt="">
                     </div>
                 </div>
             </div>
@@ -448,16 +323,17 @@
 <!-- Footer Section End -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
-    window.onload = () => {
+    window.onload = () =>{
+        $('#title').focus();
         let token = localStorage.getItem("token");
         console.log(token);
-        if (token != null) {
+        if(token!= null){
             console.log("success");
             $.ajax({
                 header: `${localStorage.getItem("token")}`,
-                type: "GET",
-                url: `/current_user/${token}`,
-                success: function (user) {
+                type:"GET",
+                url:`/current_user/${token}`,
+                success : function(user){
                     let username = document.getElementById("name_or_login");
                     username.innerHTML = `
                                                 <a href="/users/edit/${user.username}">${user.username}</a>
@@ -468,42 +344,48 @@
                 }
             })
         }
-
-        function logout() {
-            localStorage.clear();
-            let username = document.getElementById("name_or_login");
-            username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+    }
+    function logout(){
+        localStorage.clear();
+        let username = document.getElementById("name_or_login");
+        username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+    }
+    function createBlog(){
+        let title = $('#title').val();
+        let content = $('#content').val();
+        let blog = {
+            title: title,
+            content: content
         }
-
-        function showBlog(blog) {
-            return
-            `<div className="col-lg-6 col-sm-6">
-                <div className="blog-item">
-                    <div className="bi-pic">
-                        <img src="img/blog/blog-1.jpg" alt="">
-                    </div>
-                    <div className="bi-text">
-                        <a href="/blogs/details">
-                            <h4>${blog.title}</h4>
-                        </a>
-                        <p>travel <span>- ${blog.date}</span> Author:${blog.user.name}</p>
-                    </div>
-                </div>
-            </div>`
-        }
+        let token = localStorage.getItem("token");
+        console.log(blog);
+        $.ajax({
+            // header: `${token}`,
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            type:"POST",
+            data: JSON.stringify(blog),
+            url: `/blogs/create/${token}`,
+            success: function(){
+                console.log("blog created!");
+                document.getElementById("create-success").innerHTML = "Created success";
+            }
+        })
     }
 </script>
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/jquery.dd.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/jquery.countdown.min.js"></script>
+<script src="../js/jquery.nice-select.min.js"></script>
+<script src="../js/jquery.zoom.min.js"></script>
+<script src="../js/jquery.dd.min.js"></script>
+<script src="../js/jquery.slicknav.js"></script>
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 

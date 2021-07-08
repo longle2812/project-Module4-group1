@@ -3,6 +3,7 @@ package com.codegym.project.controller;
 import com.codegym.project.exception.NotFoundException;
 import com.codegym.project.model.Role;
 import com.codegym.project.model.User;
+import com.codegym.project.service.address.AddressService;
 import com.codegym.project.service.jwt.JwtService;
 import com.codegym.project.service.role.IRoleService;
 import com.codegym.project.service.user.IUserService;
@@ -26,6 +27,8 @@ public class UserController {
     private IRoleService roleService;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping("/login")
     public ModelAndView showLoginForm(){
@@ -73,6 +76,8 @@ public class UserController {
             isValidAccount = false;
         }
         if(isValidAccount){
+            roleService.save(new Role(1L, "ROLE_USER"));
+            roleService.save(new Role(2L, "ROLE_ADMIN"));
             Optional<Role> role = roleService.findById(1L);
             user.getRoles().add(role.get());
             userService.save(user);
@@ -102,13 +107,24 @@ public class UserController {
             return new ResponseEntity<>(user.get(),HttpStatus.OK);
         }
     }
-    @GetMapping("/user/edit/{username}")
+    @GetMapping("/users/edit/{username}")
     public ModelAndView showEditForm(@PathVariable String username) throws NotFoundException {
         Optional<User> userOptional = userService.findByUsername(username);
         if(!userOptional.isPresent()){
             throw new NotFoundException();
         }else{
             return new ModelAndView("edit","user", userOptional.get());
+        }
+    }
+    @PutMapping("/users/edit")
+    public ResponseEntity<User> editUser(@RequestBody User user){
+        Optional<User> userOptional = userService.findById(user.getId());
+        if(!userOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            addressService.save(user.getAddress());
+            user.setPassword(userOptional.get().getPassword());
+            return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
         }
     }
 }

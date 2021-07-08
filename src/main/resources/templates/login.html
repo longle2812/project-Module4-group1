@@ -380,7 +380,7 @@
             url: "/api/login",
             success: function(data){
                 localStorage.setItem("token", data.accessToken);
-
+                window.location.href = "/index";
             }
         });
     }
