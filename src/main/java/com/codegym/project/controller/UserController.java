@@ -81,7 +81,9 @@ public class UserController {
             Optional<Role> role = roleService.findById(1L);
             user.getRoles().add(role.get());
             userService.save(user);
-            return new ModelAndView("login","user",new User());
+            ModelAndView modelAndView1 =new ModelAndView("login");
+            modelAndView1.addObject("success_register", "Register success! You can now login");
+            return modelAndView1;
         }
         return modelAndView;
     }
