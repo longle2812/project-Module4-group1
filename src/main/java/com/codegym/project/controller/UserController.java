@@ -3,6 +3,7 @@ package com.codegym.project.controller;
 import com.codegym.project.exception.NotFoundException;
 import com.codegym.project.model.*;
 import com.codegym.project.service.address.AddressService;
+import com.codegym.project.service.cart.ICartService;
 import com.codegym.project.service.image.ImageService;
 import com.codegym.project.service.jwt.JwtService;
 import com.codegym.project.service.picture.PictureService;
@@ -24,6 +25,8 @@ import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
+    @Autowired
+    private ICartService cartService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -92,6 +95,7 @@ public class UserController {
             user.getRoles().add(role.get());
             Image avatar = imageService.findImageByName("no-avatar.png");
             user.setAvatar(avatar);
+            cartService.save(new Cart());
             userService.save(user);
             return new ModelAndView("login", "user", new User());
         }

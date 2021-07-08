@@ -28,6 +28,11 @@ public class CartService implements ICartService{
     }
 
     @Override
+    public Cart findCartByUserId(Long id) {
+        return cartRepository.findCartByUserId(id);
+    }
+
+    @Override
     public void remove(Long id) {
         cartRepository.deleteById(id);
     }

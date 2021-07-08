@@ -487,6 +487,33 @@
 <script src="js/main.js" id="js10"></script>
 
 <script>
+    window.onload = () => {
+        let token = window.localStorage.getItem('token');
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "GET",
+                    url: `/cart?userId=${user.id}`,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                })
+            }
+            })
+    }
+
     $(document).ready(function () {
         //Set select
         let size = 6;

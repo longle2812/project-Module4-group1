@@ -28,6 +28,11 @@ public class ItemService implements IItemService{
     }
 
     @Override
+    public Integer countAllByCartId(Long id) {
+        return iItemRepository.countAllByCartId(id);
+    }
+
+    @Override
     public void remove(Long id) {
         iItemRepository.deleteById(id);
     }
