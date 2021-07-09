@@ -14,7 +14,6 @@ import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -97,19 +96,21 @@ public class UserController {
             user.setAvatar(avatar);
             cartService.save(new Cart());
             userService.save(user);
-            return new ModelAndView("login", "user", new User());
+            ModelAndView modelAndView1 =new ModelAndView("login");
+            modelAndView1.addObject("success_register", "Register success! You can now login");
+            return modelAndView1;
         }
         return modelAndView;
     }
 
     @GetMapping("/forget-pass/{user}/{email}")
-    public ResponseEntity<String> showPass(@PathVariable("user") String user, @PathVariable("email") String email) {
+    public ResponseEntity<User> showPass(@PathVariable("user") String user, @PathVariable("email") String email){
         Optional<User> user1 = userService.findByUsernameAndEmail(user, email);
         if (!user1.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            return new ResponseEntity<>(user1.get().getPassword(), HttpStatus.OK);
+        }else{
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            return new ResponseEntity<>(user1.get(),HttpStatus.OK);
         }
     }
 
@@ -134,6 +135,17 @@ public class UserController {
         }
     }
 
+    @PutMapping("/users/saveNewPass")
+    public ResponseEntity<User> saveNewPass(@RequestBody User user){
+        Optional<User> userOptional = userService.findById(user.getId());
+        if(!userOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user1 = userOptional.get();
+        user1.setPassword(user.getPassword());
+        userService.save(user1);
+        return new ResponseEntity<>(user1, HttpStatus.ACCEPTED);
+    }
     @PutMapping("/users/edit")
     public ResponseEntity<User> editUser(@RequestBody User user) {
         Optional<User> userOptional = userService.findById(user.getId());

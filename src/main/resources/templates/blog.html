@@ -26,7 +26,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="css/comment.css" type="text/css">
 </head>
 
 <body>
@@ -96,53 +96,12 @@
                         <li class="heart-icon">
                             <a href="#">
                                 <i class="icon_heart_alt"></i>
-                                <!--                                    <span>1</span>-->
                             </a>
                         </li>
                         <li class="cart-icon"><a href="#">
                             <i class="icon_bag_alt"></i>
                             <!--                                    <span>3</span>-->
                         </a>
-                            <!--                                <div class="cart-hover">-->
-                            <!--                                    <div class="select-items">-->
-                            <!--                                        <table>-->
-                            <!--                                            <tbody>-->
-                            <!--                                                <tr>-->
-                            <!--                                                    <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>-->
-                            <!--                                                    <td class="si-text">-->
-                            <!--                                                        <div class="product-selected">-->
-                            <!--                                                            <p>$60.00 x 1</p>-->
-                            <!--                                                            <h6>Kabino Bedside Table</h6>-->
-                            <!--                                                        </div>-->
-                            <!--                                                    </td>-->
-                            <!--                                                    <td class="si-close">-->
-                            <!--                                                        <i class="ti-close"></i>-->
-                            <!--                                                    </td>-->
-                            <!--                                                </tr>-->
-                            <!--                                                <tr>-->
-                            <!--                                                    <td class="si-pic"><img src="img/select-product-2.jpg" alt=""></td>-->
-                            <!--                                                    <td class="si-text">-->
-                            <!--                                                        <div class="product-selected">-->
-                            <!--                                                            <p>$60.00 x 1</p>-->
-                            <!--                                                            <h6>Kabino Bedside Table</h6>-->
-                            <!--                                                        </div>-->
-                            <!--                                                    </td>-->
-                            <!--                                                    <td class="si-close">-->
-                            <!--                                                        <i class="ti-close"></i>-->
-                            <!--                                                    </td>-->
-                            <!--                                                </tr>-->
-                            <!--                                            </tbody>-->
-                            <!--                                        </table>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="select-total">-->
-                            <!--                                        <span>total:</span>-->
-                            <!--                                        <h5>$120.00</h5>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="select-button">-->
-                            <!--                                        <a href="#" class="primary-btn view-card">VIEW CARD</a>-->
-                            <!--                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
                         </li>
                         <li class="cart-price"></li>
                     </ul>
@@ -179,7 +138,7 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li class="active"><a href="/blog">Blog</a></li>
+                    <li class="active"><a href="/blogs">Blog</a></li>
                     <li><a href="./contact.html">Contact</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="dropdown">
@@ -204,7 +163,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="breadcrumb-text">
+                <div id="blog-title" class="breadcrumb-text">
                     <a href="#"><i class="fa fa-home"></i> Home</a>
                     <span>Blog</span>
                 </div>
@@ -215,123 +174,131 @@
 <!-- Breadcrumb Section Begin -->
 
 <!-- Blog Section Begin -->
-<section class="blog-section spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1">
-                <div class="blog-sidebar">
-                    <div>
-                        <a href="/blogs/create">Write your own blog</a>
-                    </div>
-                    <div class="search-form">
-                        <h4>Search</h4>
-                        <form action="#">
-                            <input type="text" placeholder="Search . . .  ">
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                    <div class="blog-catagory">
-                        <h4>Categories</h4>
-                        <ul>
-                            <li><a href="#">Fashion</a></li>
-                            <li><a href="#">Travel</a></li>
-                            <li><a href="#">Picnic</a></li>
-                            <li><a href="#">Model</a></li>
-                        </ul>
-                    </div>
-                    <div class="recent-post">
-                        <h4>Recent Post</h4>
-                        <div class="recent-blog">
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-1.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-2.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-3.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
-                            <a href="#" class="rb-item">
-                                <div class="rb-pic">
-                                    <img src="img/blog/recent-4.jpg" alt="">
-                                </div>
-                                <div class="rb-text">
-                                    <h6>The Personality Trait That Makes...</h6>
-                                    <p>Fashion <span>- May 19, 2019</span></p>
-                                </div>
-                            </a>
+<div id="blog-section">
+    <section class="blog-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1">
+                    <div class="blog-sidebar">
+                        <div id="write-blog">
                         </div>
-                    </div>
-                    <div class="blog-tags">
-                        <h4>Product Tags</h4>
-                        <div class="tag-item">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
+                        <div class="search-form">
+                            <h4>Search</h4>
+                            <form action="#">
+                                <input id="blog-search-input" type="text" placeholder="Search . . .  ">
+                                <button type="button" onclick="searchBlog()"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <div class="blog-catagory">
+                            <h4>Categories</h4>
+                            <ul>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Travel</a></li>
+                                <li><a href="#">Picnic</a></li>
+                                <li><a href="#">Model</a></li>
+                            </ul>
+                        </div>
+                        <div class="recent-post">
+                            <h4>Recent Post</h4>
+                            <div class="recent-blog">
+                                <a href="#" class="rb-item">
+                                    <div class="rb-pic">
+                                        <img src="img/blog/recent-1.jpg" alt="">
+                                    </div>
+                                    <div class="rb-text">
+                                        <h6>The Personality Trait That Makes...</h6>
+                                        <p>Fashion <span>- May 19, 2019</span></p>
+                                    </div>
+                                </a>
+                                <a href="#" class="rb-item">
+                                    <div class="rb-pic">
+                                        <img src="img/blog/recent-2.jpg" alt="">
+                                    </div>
+                                    <div class="rb-text">
+                                        <h6>The Personality Trait That Makes...</h6>
+                                        <p>Fashion <span>- May 19, 2019</span></p>
+                                    </div>
+                                </a>
+                                <a href="#" class="rb-item">
+                                    <div class="rb-pic">
+                                        <img src="img/blog/recent-3.jpg" alt="">
+                                    </div>
+                                    <div class="rb-text">
+                                        <h6>The Personality Trait That Makes...</h6>
+                                        <p>Fashion <span>- May 19, 2019</span></p>
+                                    </div>
+                                </a>
+                                <a href="#" class="rb-item">
+                                    <div class="rb-pic">
+                                        <img src="img/blog/recent-4.jpg" alt="">
+                                    </div>
+                                    <div class="rb-text">
+                                        <h6>The Personality Trait That Makes...</h6>
+                                        <p>Fashion <span>- May 19, 2019</span></p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-tags">
+                            <h4>Product Tags</h4>
+                            <div class="tag-item">
+                                <a href="#">Towel</a>
+                                <a href="#">Shoes</a>
+                                <a href="#">Coat</a>
+                                <a href="#">Dresses</a>
+                                <a href="#">Trousers</a>
+                                <a href="#">Men's hats</a>
+                                <a href="#">Backpack</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-9 order-1 order-lg-2">
-                <div class="row" id="blog-container">
-                    <div class="col-lg-6 col-sm-6" th:each="blog : ${blogs}">
-                        <div class="blog-item">
-                            <div class="bi-pic">
-                                <img src="img/blog/blog-1.jpg" alt="">
-                            </div>
-                            <div class="bi-text">
-                                <a href="/blogs/blog-details">
-                                    <h4 th:text="${blog.title}"></h4>
-                                </a>
-                                <p>travel
-                                    <span th:text="${blog.date}">
-                                    </span><span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
-                                    <span th:text="${blog.author.username}"></span>
-                                </p>
+                <div id="blogsContainer" class="col-lg-9 order-1 order-lg-2">
+                    <div class="row" id="blog-container">
+                        <div class="col-lg-6 col-sm-6" th:each="blog : ${blogs}">
+                            <div class="blog-item">
+                                <div class="bi-pic">
+                                    <img src="img/blog/blog-1.jpg" alt="">
+                                </div>
+                                <div class="bi-text">
+                                    <a th:id="${blog.id}" href="#blog-title" onclick="getBlogDetail(this.id)">
+                                        <h4 th:text="${blog.title}"></h4>
+                                    </a>
+                                    <p>travel -
+                                        <span th:text="${blog.date.getDate()}"></span>
+                                        <span> / </span>
+                                        <span th:text="${blog.date.getMonth()+1}"></span>
+                                        <span> / </span>
+                                        <span th:text="${blog.date.getYear()+1900}"></span>
+                                        <span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
+                                        <span th:text="${blog.author.username}"></span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 col-sm-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}"
+                                           th:if="${blogs.hasPrevious()}">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link"><span th:text="${blogs.number+1}"></span>/<span
+                                            th:text="${blogs.totalPages}"></span></a></li>
+
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}"
+                                           th:if="${blogs.hasNext()}">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-<!--                            <li class="page-item disabled"></li>-->
-                            <li class="page-item">
-                                <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}" th:if="${blogs.hasPrevious()}">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=0)}">1</a></li>
-                            <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=1)}">2</a></li>
-<!--                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-                            <li class="page-item">
-                                <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}" th:if="${blogs.hasNext()}">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 <!-- Blog Section End -->
 
 <!-- Partner Logo Section Begin -->
@@ -444,9 +411,31 @@
         </div>
     </div>
 </footer>
-
 <!-- Footer Section End -->
+<!-- Button trigger modal -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                See you next time
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -458,25 +447,27 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     window.onload = () => {
         let token = localStorage.getItem("token");
-        console.log(token);
         if (token != null) {
-            console.log("success");
+            document.getElementById("write-blog").innerHTML = '<a href="/blogs/create">Write your own blog</a>'
             $.ajax({
-                header: `${localStorage.getItem("token")}`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    "Authorization": 'Bearer ' + token
+                },
                 type: "GET",
                 url: `/current_user/${token}`,
                 success: function (user) {
                     let username = document.getElementById("name_or_login");
-                    username.innerHTML = `
-                                                <a href="/users/edit/${user.username}">${user.username}</a>
-                                                <i class="fa fa-sign-out" aria-hidden="true" onclick="logout()" style="cursor: pointer">
-                                                  Log out
-                                                </i>
-                        `;
+                    username.innerHTML =
+                        `<a href="/users/edit/${user.username}">${user.username}</a>
+                            <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
+                            Log out
+                        </i>`;
                 }
             })
         }
@@ -486,23 +477,269 @@
         localStorage.clear();
         let username = document.getElementById("name_or_login");
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+        window.location.href = "/login";
     }
 
     function showBlog(blog) {
-        return
-        `<div className="col-lg-6 col-sm-6">
-                <div className="blog-item">
-                    <div className="bi-pic">
-                        <img src="img/blog/blog-1.jpg" alt="">
-                    </div>
-                    <div className="bi-text">
-                        <a href="/blogs/details">
-                            <h4>${blog.title}</h4>
-                        </a>
-                        <p>travel <span>- ${blog.date}</span> Author:${blog.user.name}</p>
+        return `<section class="blog-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog-details-inner">
+                        <div class="blog-detail-title">
+                            <input type="hidden" id="blog-id" value="${blog.id}">
+                            <h2 >${blog.title}</h2>
+                            <p>travel - <span>${blog.date.slice(8, 10)} / ${blog.date.slice(5, 7)} / ${blog.date.slice(0, 4)}</span>
+                                </p>
+                        </div>
+                        <div class="blog-large-pic">
+                            <img src="img/blog/blog-detail.jpg" alt="">
+                        </div>
+                        <div class="blog-detail-desc">
+                            <p>${blog.content}
+                            </p>
+                        </div>
+                        <div class="blog-quote">
+                            <p>“ Technology is nothing. What's important is that you have a faith in people, that
+                                they're basically good and smart, and if you give them tools, they'll do wonderful
+                                things with them.” <span>- Steven Jobs</span></p>
+                        </div>
+                        <div class="blog-more">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="img/blog/blog-detail-1.jpg" alt="">
+                                </div>
+                                <div class="col-sm-4">
+                                    <img src="img/blog/blog-detail-2.jpg" alt="">
+                                </div>
+                                <div class="col-sm-4">
+                                    <img src="img/blog/blog-detail-3.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <p>${blog.content}</p>
+                        <div class="tag-share">
+                            <div class="details-tag">
+                                <ul>
+                                    <li><i class="fa fa-tags"></i></li>
+                                    <li>Travel</li>
+                                    <li>Beauty</li>
+                                    <li>Fashion</li>
+                                </ul>
+                            </div>
+                            <div class="blog-share">
+                                <span>Share:</span>
+                                <div class="social-links">
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-google-plus"></i></a>
+                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#"><i class="fa fa-youtube-play"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-6">
+                                    <a href="#" class="prev-blog">
+                                        <div class="pb-pic">
+                                            <i class="ti-arrow-left"></i>
+                                            <img src="img/blog/prev-blog.png" alt="">
+                                        </div>
+                                        <div class="pb-text">
+                                            <span>Previous Post:</span>
+                                            <h5>The Personality Trait That Makes People Happier</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-5 offset-lg-2 col-md-6">
+                                    <a href="#" class="next-blog">
+                                        <div class="nb-pic">
+                                            <img src="img/blog/ti10.jpg" alt="">
+                                            <i class="ti-arrow-right"></i>
+                                        </div>
+                                        <div class="nb-text">
+                                            <span>Next Post:</span>
+                                            <h5>Announcing New Location and Dates for The International - Dota 2 Championships</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="posted-by">
+                            <div class="pb-pic">
+                                <img src="img/blog/post-by.png" alt="">
+                            </div>
+                            <div class="pb-text">
+                                <a href="#">
+                                    <h5>${blog.author.username}</h5>
+                                </a>
+                                <p>Aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                    velit esse cillum bore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    amodo</p>
+                            </div>
+                        </div>
+                        <div class="leave-comment">
+
+                            <form action="#" class="comment-form">
+                                <div class="row">
+                                    <div class="col-lg-12" id="comment-list"></div>
+                                     <h4>Leave A Comment</h4>
+                                    <div class="col-lg-12">
+                                        <textarea id="comment" placeholder="Messages"></textarea>
+                                        <button type="button" class="site-btn" onclick="writeComment()">Send message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>`
+            </div>
+        </div>
+    </section>`
+    }
+
+    function getBlogDetail(id) {
+        $.ajax({
+            type: "GET",
+            url: `/blogs/blog-details/${id}`,
+            success: function (blog) {
+                document.getElementById("blog-section").innerHTML = showBlog(blog);
+                getCommentList();
+            }
+        })
+    }
+
+    function searchBlog(page) {
+        let blogSearch = $('#blog-search-input').val();
+        if (page == undefined) {
+            page = 0;
+        }
+        $.ajax({
+            type: "GET",
+            data: {q: `${blogSearch}`, page: `${page}`},
+            url: "/blogs/search",
+            success: function (blogs) {
+                document.getElementById("blogsContainer").innerHTML = showBlogs(blogs);
+            }, error: function () {
+                document.getElementById("blogsContainer").innerHTML =
+                    `<img src="img/no-result-found.png" alt="" style="margin-left: 20%;"/>
+                     <p style="margin-left:41%">Try again with the search bar</p>`;
+            }
+        })
+    }
+
+    function showBlogs(blogs) {
+        let str = '<div class="row" id="blog-container">';
+        console.log(blogs);
+        blogs.content.forEach((blog) => {
+            str += `<div class="col-lg-6 col-sm-6" ">
+                            <div class="blog-item">
+                                <div class="bi-pic">
+                                    <img src="img/blog/blog-1.jpg" alt="">
+                                </div>
+                                <div class="bi-text">
+                                    <a id="${blog.id}" href="#blog-title" onclick="getBlogDetail(this.id)">
+                                        <h4 >${blog.title}</h4>
+                                    </a>
+                                     <p>
+                                         travel - <span>${blog.date.slice(8, 10)} / ${blog.date.slice(5, 7)} / ${blog.date.slice(0, 4)}</span>
+                                         <span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
+                                            <span>${blog.author.username}</span>
+                                     </p>
+                                </div>
+                            </div>
+                        </div>`
+        })
+
+        //Xem lai hien thi Previous voi Next
+        str += `<div class="col-lg-12 col-sm-12"><nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">`;
+        let preStr = "";
+        let middleStr = ` <li class="page-item"><a class="page-link">${blogs.number + 1}/${blogs.totalPages}</a></li>`;
+        let nextStr = "";
+        if (blogs.number >= 1) {
+            preStr = `<li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number - 1})">Previous</a></li> `;
+        }
+        if(blogs.number+1 < blogs.totalPages ){
+            nextStr =`<li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number + 1 })">Next</a></li>`
+        }
+        str += preStr + middleStr + nextStr + "</nav></div></div>";
+        return str;
+    }
+
+    function writeComment() {
+        let token = localStorage.getItem("token");
+        if (token != null) {
+            let content = $('#comment').val();
+            let blogId = $('#blog-id').val();
+            let comment = {
+                content: content,
+                blog: {
+                    id: blogId
+                }
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer' + token
+                },
+                type: "POST",
+                data: JSON.stringify(comment),
+                url: `/comments/create/${token}`,
+                success: function (comment1) {
+                    getCommentList();
+                    document.getElementById("comment").innerHTML = "";
+                }
+                , error: function () {
+                    swal("Ooops!", "Your comment contain bad word!Please try again", "error");
+                }
+            })
+        } else {
+            swal("Ooops!", "Must login before comment!", "error");
+        }
+    }
+
+    function getCommentList() {
+        let blogId = $('#blog-id').val();
+        $.ajax({
+            type: "GET",
+            url: `/comments/getAll/${blogId}`,
+            success: function (comments) {
+                document.getElementById("comment-list").innerHTML = showCommentList(comments);
+
+            }
+        })
+    }
+
+    function showCommentList(comments) {
+        let str = `<div class="container"><div class="be-comment-block"><h1 class="comments-title" >Comments (${comments.length})</h1>`;
+        for (let i = 0; i < comments.length; i++) {
+            str +=
+                `<div class="be-comment">
+                    <div class="be-img-comment">
+                        <a href="blog-detail-2.html">
+                            <img src="img/default-avatar.png" alt="" class="be-ava-comment">
+                        </a>
+                    </div>
+                    <div class="be-comment-content">
+                        <span class="be-comment-name">
+                            <a href="#" style="cursor: default">${comments[i].user.username}</a>
+                        </span>
+                        <span class="be-comment-time">
+                            <i class="fa fa-clock-o"></i>
+                            ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11, 13)) + 7}:${comments[i].date.slice(14, 16)}
+                        </span>
+                        <p class="be-comment-text">
+                            ${comments[i].content}
+                         </p>
+                         <p><i class="far fa-thumbs-up"></i>${comments[i].likes} like</p>
+                    </div>
+                </div>`
+        }
+        str += "</div></div>";
+        return str;
     }
 </script>
 </body>
