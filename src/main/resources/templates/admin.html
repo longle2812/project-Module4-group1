@@ -79,7 +79,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="index3.html" class="nav-link">Home</a>
+                <a href="http://localhost:8080/" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">Contact</a>
@@ -311,15 +311,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="pages/widgets.html" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            Widgets
-                                            <span class="right badge badge-danger">New</span>
-                                        </p>
-                                    </a>
-                                </li>
+
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-copy"></i>
@@ -945,7 +937,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a >Home</a></li>
                             <li class="breadcrumb-item active">Dashboard v1</li>
                         </ol>
                     </div><!-- /.col -->
@@ -2776,14 +2768,14 @@
 <td>${user.email}</td>
 <td>${user.phoneNumber}</td>
 <td>${user.address.countryName}</td>
-<td><img style="width: 50px;" src="/files/${user.avatar?.name}"></td>
+<td><img class="avatar-name" data-avatar-name="${user.avatar?.name}" style="width: 50px;" src="/files/${user.avatar?.name}"></td>
 <td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
-            id="${user.id}" onclick="updateUser(this.id)">
+            id="${user.id}" onclick="updateUser(${user.id})">
         Edit
     </button></td>
         <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_Modal"
-                    id="${user.id}" onclick="deleteUser(this.id)">
+                    id="${user.id}" onclick="deleteUser(${user.id})">
                 Delete
             </button>
         </td>
@@ -2867,6 +2859,8 @@
     }
 
     function updateUser(id) {
+        //ve lai modal
+        redrawUserModal();
         //hien thi thong tin de chinh
         $.ajax({
             type: "GET",
@@ -2878,89 +2872,56 @@
                 $('#fullName_update').val(data.fullName)
                 $('#email_update').val(data.email)
                 $('#phoneNumber_update').val(data.phoneNumber)
-                $('#address_update').val(data.address)
-            }
-        })
-        $(document).ready(function () {
-            $('#update_button').click(function (event) {
-                //upload file
-                let file = new FormData();
-                let imageFile = $('#edit-profile-pic-update')[0].files[0];
-                file.append("file", imageFile);
-                // //ajax
-                $.ajax({
-                    url: '/upload/image',
-                    data: file,
-                    enctype: 'multipart/form-data',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: 'POST',
-                    type: 'POST',
-                    success: function (fileName) {
-                        let id = $('#id_update').val()
-                        let username = $('#name_update').val()
-                        let password = $('#password_update').val()
-                        let fullName = $('#fullName_update').val()
-                        let email = $('#email_update').val()
-                        let phoneNumber = $('#phoneNumber_update').val()
-                        let address = $('#address_update').val()
-                        let newUser = {
-                            id: id,
-                            username: username,
-                            password: password,
-                            fullName: fullName,
-                            email: email,
-                            phoneNumber: phoneNumber,
-                            address: {
-                                id: address
-                            }
-                        };
+                $('#address_update').val(data.address.id)
+                $('#update_button').click(function (event) {
+                    //upload file
+                    let file = new FormData();
+                    let imageFile = $('#edit-profile-pic-update')[0].files[0];
+                    file.append("file", imageFile);
                         $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
+                            url: '/upload/image',
+                            data: file,
+                            enctype: 'multipart/form-data',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            method: 'POST',
+                            type: 'POST',
+                            success: function (fileName) {
+                                let id = $('#id_update').val()
+                                let username = $('#name_update').val()
+                                let password = $('#password_update').val()
+                                let fullName = $('#fullName_update').val()
+                                let email = $('#email_update').val()
+                                let phoneNumber = $('#phoneNumber_update').val()
+                                let address = $('#address_update').val()
+                                let newUser = {
+                                    id: id,
+                                    username: username,
+                                    password: password,
+                                    fullName: fullName,
+                                    email: email,
+                                    phoneNumber: phoneNumber,
+                                    address: {
+                                        id: address
+                                    }
+                                };
+                                $.ajax({
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    type: "PUT",
+                                    url: `/admin/user/${id}?avatarName=${fileName}`,
+                                    data: JSON.stringify(newUser),
+                                    success: user
+                                })
                             },
-                            type: "PUT",
-                            url: `/admin/user/${id}?avatarName=${fileName}`,
-                            data: JSON.stringify(newUser),
-                            success: user
                         })
-                    },
-                    error: function (){
-                        let id = $('#id_update').val()
-                        let username = $('#name_update').val()
-                        let password = $('#password_update').val()
-                        let fullName = $('#fullName_update').val()
-                        let email = $('#email_update').val()
-                        let phoneNumber = $('#phoneNumber_update').val()
-                        let address = $('#address_update').val()
-                        let newUser = {
-                            id: id,
-                            username: username,
-                            password: password,
-                            fullName: fullName,
-                            email: email,
-                            phoneNumber: phoneNumber,
-                            address: {
-                                id: address
-                            }
-                        };
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            type: "PUT",
-                            url: `/admin/user/${id}?avatarName=""`,
-                            data: JSON.stringify(newUser),
-                            success: user
-                        })
-                    }
-                })
+                    // //ajax
 
-                event.preventDefault();
-            })
+                })
+            }
         })
     }
 
@@ -3505,7 +3466,76 @@
         })
     }
 
+    function redrawUserModal(){
+        let content = `<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" id="id_update">
+                    <label>User Name</label>
+                    <label><input type="text" id="name_update"></label>
+                </div>
+                <div>
+                    <label>Pass Word</label>
+                    <label><input type="text" id="password_update"></label>
+                </div>
+                <div>
+                    <label>Full Name</label>
+                    <label><input type="text" id="fullName_update"></label>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <label><input type="text" id="email_update"></label>
+                </div>
 
+                <div>
+                    <label>Phone Number</label>
+                    <label><input type="text" id="phoneNumber_update"></label>
+                </div>
+                <div>
+                    <label>Address</label>
+                    <label>
+<select id="address_update">`;
+
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "PUT",
+                url: "/address/",
+                success: function(addressList){
+                    for(let i =0; i < addressList.length; i++){
+                        content += getAddress(addressList[i])
+                    }
+                    content += `
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-pic-update">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="update_button">Update</button>
+            </div>
+        </div>
+    </div>`
+                    document.getElementById("updateModal").innerHTML=content;
+                }
+            })
+
+    }
+
+    function getAddress(address){
+        return `
+                            <option value="${address.id}" $>${address.countryName}
+                            </option>
+                       `
+    }
 </script>
 </body>
 </html>

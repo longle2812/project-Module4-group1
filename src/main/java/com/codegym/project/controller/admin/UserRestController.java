@@ -19,6 +19,8 @@ import java.util.Optional;
 @RequestMapping("/admin/user")
 public class UserRestController {
     @Autowired
+    private IAddressService addressService;
+    @Autowired
     private IUserService userService;
     @Autowired
     private IImageService imageService;
@@ -66,8 +68,15 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Image image=imageService.findImageByName(avatarName);
-        user.setAvatar(image);
+        if (image!= null) {
+            user.setAvatar(image);
+        }
         user.setId(userOptional.get().getId());
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
+    }
+
+    @GetMapping("/address")
+    public ResponseEntity<Iterable<Address>> getAddress(){
+        return new ResponseEntity<>(addressService.findAll(), HttpStatus.OK);
     }
 }
