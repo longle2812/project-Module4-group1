@@ -1,5 +1,9 @@
 package com.codegym.project.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +44,16 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
+            String fileName = file.getOriginalFilename();
+            String currentDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+            currentDate ="("+currentDate+")";
+            int index = fileName.length() - 4;
+            StringBuffer newString = new StringBuffer(fileName);
+            newString.insert(index, currentDate);
+            fileName = newString.toString();
             storageService.save(file);
-            imageService.save(new Image(file.getOriginalFilename(), "http://localhost:8080/files/"+file.getOriginalFilename()));
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            imageService.save(new Image(fileName, "http://localhost:8080/files/" + fileName));
+            message = "Uploaded the file successfully: " + fileName;
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
@@ -75,7 +86,7 @@ public class FilesController {
         String message = "";
         try {
             storageService.save(file);
-            pictureService.save(new Picture(file.getOriginalFilename(), "http://localhost:8080/files/"+file.getOriginalFilename()));
+            pictureService.save(new Picture(file.getOriginalFilename(), "http://localhost:8080/files/" + file.getOriginalFilename()));
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {

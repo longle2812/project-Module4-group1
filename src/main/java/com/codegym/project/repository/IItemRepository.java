@@ -17,4 +17,6 @@ public interface IItemRepository extends JpaRepository<Item, Long> {
 
     @Query("select i from Item i where i.product.id = ?1 and i.cart.id = ?2")
     Optional<Item> findItemByProductIdAndCartId(Long productId, Long cartId);
+
+    void deleteItemByProductIdAndCartId (Long productId, Long cartId);
 }

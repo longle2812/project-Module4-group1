@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,7 +57,17 @@ public class CartController {
             itemService.save(newItem);
             return new ResponseEntity<>(newItem, HttpStatus.CREATED);
         }
+    }
 
+    @DeleteMapping("/cart/remove")
+    public ResponseEntity<Item> removeItemFromCart(@RequestParam Long userId, @RequestParam Long productId){
+        Cart cart = cartService.findCartByUserId(userId);
+        Optional<Item> item = itemService.findItemByProductIdAndCartId(productId, cart.getId());
+        if (item.isPresent()){
+            itemService.remove(item.get().getId());
+            return new ResponseEntity(item.get(), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

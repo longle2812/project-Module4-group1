@@ -779,7 +779,6 @@
                     type: "POST",
                     url: `/cart/add?userId=${user.id}&productId=${productId}`,
                     success: function (item) {
-                        console.log(item)
                         renderCartIcon();
                     }
                 })
@@ -788,8 +787,34 @@
         event.preventDefault();
     }
 
-    function removeItemFromCart(product){
-        console.log(product);
+    function removeItemFromCart(productId){
+        let token = window.localStorage.getItem('token');
+        //Get user by token
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                //remove item from cart
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "Delete",
+                    url: `/cart/remove?userId=${user.id}&productId=${productId}`,
+                    success: function (item) {
+                        renderCartIcon();
+                    }
+                })
+            }
+            })
+        event.preventDefault();
     }
 </script>
 

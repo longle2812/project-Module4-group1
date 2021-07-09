@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.stream.Stream;
 
 @Service
@@ -29,8 +31,16 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
     @Override
     public void save(MultipartFile file) {
+        String currentDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+        currentDate ="("+currentDate+")";
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            String fileName = file.getOriginalFilename();
+            int index = fileName.length()-4;
+            StringBuffer newString
+                    = new StringBuffer(fileName);
+            newString.insert(index, currentDate);
+            fileName = newString.toString();
+            Files.copy(file.getInputStream(), this.root.resolve(fileName));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
