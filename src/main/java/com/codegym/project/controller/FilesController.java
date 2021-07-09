@@ -41,7 +41,7 @@ public class FilesController {
     private IPictureService pictureService;
 
     @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
             String fileName = file.getOriginalFilename();
@@ -52,12 +52,13 @@ public class FilesController {
             newString.insert(index, currentDate);
             fileName = newString.toString();
             storageService.save(file);
-            imageService.save(new Image(fileName, "http://localhost:8080/files/" + fileName));
+            Image newFile = new Image(fileName, "http://localhost:8080/files/" + fileName);
+            imageService.save(newFile);
             message = "Uploaded the file successfully: " + fileName;
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            return new ResponseEntity<>(fileName, HttpStatus.OK);
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 

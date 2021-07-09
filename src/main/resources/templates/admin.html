@@ -2474,9 +2474,25 @@
                     <input type="file" id="edit-profile-product">
                 </div>
                 <div>
-                    <select id="collection_Product">
-
-                    </select>
+                    <label>Collection</label>
+                    <label>
+                        <select id="collection_ProductCreate">
+                            <option th:each="collection:${collections}" th:value="${collection.id}"
+                                    th:text="${collection.name}"></option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <label>
+                        <select id="color_ProductCreate">
+                            <option th:each="color:${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>description</label>
+                    <input type="text" id="description_ProductCreate">
                 </div>
             </div>
             <div class="modal-footer">
@@ -2529,6 +2545,27 @@
                 <div>
                     <label>Image</label>
                     <input type="file" id="edit-profile-productUpdate">
+                </div>
+                <div>
+                    <label>Collection</label>
+                    <label>
+                        <select id="collection_ProductUpdate">
+                            <option th:each="collection:${collections}" th:value="${collection.id}"
+                                    th:text="${collection.name}"></option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <label>
+                        <select id="color_ProductUpdate">
+                            <option th:each="color:${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>description</label>
+                    <input type="text" id="description_ProductUpdate">
                 </div>
             </div>
             <div class="modal-footer">
@@ -2768,35 +2805,64 @@
             processData: false,
             method: 'POST',
             type: 'POST',
-            success: function (data) {
+            success: function (avatarName) {
+                let username = $('#name_create').val()
+                let password = $('#password_create').val()
+                let fullName = $('#fullName_create').val()
+                let email = $('#email_create').val()
+                let phoneNumber = $('#phoneNumber_create').val()
+                let address = $('#address_create').val()
+                let newUser = {
+                    username: username,
+                    password: password,
+                    fullName: fullName,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    address: {
+                        id: address
+                    },
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: JSON.stringify(newUser),
+                    url: `/admin/user?avatarName=${avatarName}`,
+                    success: user
+                });
+            },
+            error: function (data) {
+                let username = $('#name_create').val()
+                let password = $('#password_create').val()
+                let fullName = $('#fullName_create').val()
+                let email = $('#email_create').val()
+                let phoneNumber = $('#phoneNumber_create').val()
+                let address = $('#address_create').val()
+                let newUser = {
+                    username: username,
+                    password: password,
+                    fullName: fullName,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    address: {
+                        id: address
+                    },
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: JSON.stringify(newUser),
+                    url: `/admin/user?avatarName=""`,
+                    success: user
+                });
             }
         })
-        let username = $('#name_create').val()
-        let password = $('#password_create').val()
-        let fullName = $('#fullName_create').val()
-        let email = $('#email_create').val()
-        let phoneNumber = $('#phoneNumber_create').val()
-        let address = $('#address_create').val()
-        let newUser = {
-            username: username,
-            password: password,
-            fullName: fullName,
-            email: email,
-            phoneNumber: phoneNumber,
-            address: {
-                id: address
-            },
-        };
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            data: JSON.stringify(newUser),
-            url: `/admin/user?avatarName=${imageFile.name}`,
-            success: user
-        });
+
         event.preventDefault();
     }
 
@@ -2831,37 +2897,68 @@
                     processData: false,
                     method: 'POST',
                     type: 'POST',
-                    success: function (data) {
-                    }
-                })
-                let id=$('#id_update').val()
-                let username = $('#name_update').val()
-                let password = $('#password_update').val()
-                let fullName = $('#fullName_update').val()
-                let email = $('#email_update').val()
-                let phoneNumber = $('#phoneNumber_update').val()
-                let address = $('#address_update').val()
-                let newUser = {
-                    id:id,
-                    username: username,
-                    password: password,
-                    fullName: fullName,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    address: {
-                        id: address
-                    }
-                };
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                    success: function (fileName) {
+                        let id = $('#id_update').val()
+                        let username = $('#name_update').val()
+                        let password = $('#password_update').val()
+                        let fullName = $('#fullName_update').val()
+                        let email = $('#email_update').val()
+                        let phoneNumber = $('#phoneNumber_update').val()
+                        let address = $('#address_update').val()
+                        let newUser = {
+                            id: id,
+                            username: username,
+                            password: password,
+                            fullName: fullName,
+                            email: email,
+                            phoneNumber: phoneNumber,
+                            address: {
+                                id: address
+                            }
+                        };
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "PUT",
+                            url: `/admin/user/${id}?avatarName=${fileName}`,
+                            data: JSON.stringify(newUser),
+                            success: user
+                        })
                     },
-                    type: "PUT",
-                    url: `/admin/user/${id}?avatarName=${imageFile.name}`,
-                    data: JSON.stringify(newUser),
-                    success: user
+                    error: function (){
+                        let id = $('#id_update').val()
+                        let username = $('#name_update').val()
+                        let password = $('#password_update').val()
+                        let fullName = $('#fullName_update').val()
+                        let email = $('#email_update').val()
+                        let phoneNumber = $('#phoneNumber_update').val()
+                        let address = $('#address_update').val()
+                        let newUser = {
+                            id: id,
+                            username: username,
+                            password: password,
+                            fullName: fullName,
+                            email: email,
+                            phoneNumber: phoneNumber,
+                            address: {
+                                id: address
+                            }
+                        };
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "PUT",
+                            url: `/admin/user/${id}?avatarName=""`,
+                            data: JSON.stringify(newUser),
+                            success: user
+                        })
+                    }
                 })
+
                 event.preventDefault();
             })
         })
@@ -2889,6 +2986,7 @@
             type: "GET",
             url: "/admin/product",
             success: function (data) {
+                console.log(data)
                 let contents = `<table border="1px" class="table table-striped">
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_ProductModals" style="width: 150px">
     Create
@@ -2897,7 +2995,10 @@
         <th>Brand</th>
         <th>Category</th>
         <th>Price</th>
-        <th>Image</th>`
+        <th>Image</th>
+        <th>Collection</th>
+        <th>Color</th>
+        <th>Description</th>`
                 for (let i = 0; i < data.length; i++) {
                     contents += getProduct(data[i]);
                 }
@@ -2915,6 +3016,9 @@
 <td>${product.category.name}</td>
 <td>${product.price}</td>
 <td><img style="width: 50px;" src="/files/${product.image?.name}"></td>
+<td>${product.collection.name}</td>
+<td>${product.color.name}</td>
+<td>${product.description}</td>
    <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal"
                     id="${product.id}" onclick="updateProduct(this.id)">
@@ -2954,6 +3058,9 @@
         let brand = $('#brand_ProductCreate').val()
         let category = $('#category_ProductCreate').val()
         let price = $('#price_ProductCreate').val()
+        let collection = $('#collection_ProductCreate').val()
+        let color = $('#color_ProductCreate').val()
+        let description = $('#description_ProductCreate').val()
         let newProduct = {
             name: name,
             brand: {
@@ -2962,7 +3069,15 @@
             category: {
                 id: category
             },
-            price: price
+            price: price,
+            collection: {
+                id: collection
+            },
+            color: {
+                id: color
+            },
+            description: description
+
         };
         $.ajax({
             headers: {
@@ -3008,13 +3123,13 @@
                     success: function (data) {
                     }
                 })
-                let id=$('#id_Productupdate').val()
+                let id = $('#id_Productupdate').val()
                 let name = $('#name_Productupdate').val()
                 let brand = $('#brand_Productupdate').val()
                 let category = $('#category_Productupdate').val()
                 let price = $('#price_Productupdate').val()
                 let newProduct = {
-                    id:id,
+                    id: id,
                     name: name,
                     brand: {
                         id: brand
@@ -3070,13 +3185,14 @@
             <th>Id</th>
             <th>Name</th>`
                 for (let i = 0; i < data.length; i++) {
-                  contents+=getCategory(data[i]);
+                    contents += getCategory(data[i]);
                 }
-                document.getElementById('draw').innerHTML=contents;
+                document.getElementById('draw').innerHTML = contents;
             }
         })
     }
-    function getCategory(category){
+
+    function getCategory(category) {
         return `<tr>
 <td>${category.id}</td>
 <td>${category.name}</td>
@@ -3093,6 +3209,7 @@
     </td>
 </tr>`
     }
+
     function createCategory() {
         let id = $('#id_CategoryCreate').val()
         let name = $('#name_CategoryCreate').val()
@@ -3112,6 +3229,7 @@
         });
         event.preventDefault();
     }
+
     function update(id) {
         $.ajax({
             type: "GET",
@@ -3143,6 +3261,7 @@
             })
         })
     }
+
     function updateCategory(id) {
         $.ajax({
             type: "GET",
@@ -3174,41 +3293,44 @@
             })
         })
     }
-    function deleteCategory(id){
-        $(document).ready(function (){
-            $('#delete_CategoryButton').click(function (event){
+
+    function deleteCategory(id) {
+        $(document).ready(function () {
+            $('#delete_CategoryButton').click(function (event) {
                 $.ajax({
-                    type:"DELETE",
-                    url:`/admin/category/`+id,
-                    success:showCategory
+                    type: "DELETE",
+                    url: `/admin/category/` + id,
+                    success: showCategory
                 })
                 event.preventDefault();
             })
         })
     }
-    function showBrand(){
+
+    function showBrand() {
         $('#create_BrandModals').modal('hide');
         $('#update_BrandModal').modal('hide');
         $('#delete_BrandModal').modal('hide');
-     $.ajax({
-         type:"GET",
-         url:"/admin/brand",
-         success:function (data){
-             let contents=`<table class="table table-striped">
+        $.ajax({
+            type: "GET",
+            url: "/admin/brand",
+            success: function (data) {
+                let contents = `<table class="table table-striped">
 <h3>Brand Table</h3>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_BrandModals" style="width: 150px">
     Create
 </button>
 <th>Id</th>
 <th>Name</th>`
-             for (let i=0;i<data.length;i++){
-                 contents+=getBrand(data[i])
-             }
-             document.getElementById('draw').innerHTML=contents
-         }
-     })
+                for (let i = 0; i < data.length; i++) {
+                    contents += getBrand(data[i])
+                }
+                document.getElementById('draw').innerHTML = contents
+            }
+        })
     };
-    function getBrand(brand){
+
+    function getBrand(brand) {
         return `<tr>
 <td>${brand.id}</td>
 <td>${brand.name}</td>
@@ -3227,6 +3349,7 @@
         </td>
 </tr>`
     }
+
     function createBrand() {
         let id = $('#id_Brandcreate').val()
         let name = $('#name_BrandCreate').val()
@@ -3246,6 +3369,7 @@
         });
         event.preventDefault();
     }
+
     function updateBrand(id) {
         $.ajax({
             type: "GET",
@@ -3277,13 +3401,14 @@
             })
         })
     }
-    function deleteBrand(id){
-        $(document).ready(function (){
-            $('#deleteBrand_button').click(function (event){
+
+    function deleteBrand(id) {
+        $(document).ready(function () {
+            $('#deleteBrand_button').click(function (event) {
                 $.ajax({
-                    type:"DELETE",
-                    url:`/admin/brand/`+id,
-                    success:showBrand
+                    type: "DELETE",
+                    url: `/admin/brand/` + id,
+                    success: showBrand
                 })
                 event.preventDefault();
             })

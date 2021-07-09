@@ -37,8 +37,4 @@ public class ImageService implements IImageService{
         iImageRepository.deleteById(id);
     }
 
-    @Override
-    public Image findImageByName(String name) {
-        return iImageRepository.findImageByName(name);
-    }
 }

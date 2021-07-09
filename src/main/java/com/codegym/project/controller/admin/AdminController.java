@@ -24,12 +24,13 @@ public class AdminController {
     }
     @Autowired
     private ICollectionService collectionService;
-    @ModelAttribute("collection")
+    @ModelAttribute("collections")
     public Iterable<Collection> collections(){
         return collectionService.findAll();
     }
     @Autowired
     private IColorService colorService;
+    @ModelAttribute("colors")
     public Iterable<Color> colors(){
         return colorService.findAll();
     }
