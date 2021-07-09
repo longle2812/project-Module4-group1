@@ -8,6 +8,7 @@ import com.codegym.project.service.jwt.JwtService;
 import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -62,12 +63,16 @@ public class BlogController {
     }
 
     @GetMapping("/blogs/search")
-    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q, Pageable pageable){
-        Page<Blog> blogs = blogService.findByTitleContains(q,pageable);
+    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q,@RequestParam("page") Optional<Integer> page, Pageable pageable){
+        Page<Blog> blogs;
+        if(!page.isPresent()){
+            blogs = blogService.findByTitleContains(q, PageRequest.of(0,6,Sort.by("date").descending()));
+        }else{
+            blogs=  blogService.findByTitleContains(q, PageRequest.of(page.get(),6,Sort.by("date").descending()));
+        }
         if(blogs.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
-            return new ResponseEntity<>(blogs, HttpStatus.OK);
         }
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
     }
 }

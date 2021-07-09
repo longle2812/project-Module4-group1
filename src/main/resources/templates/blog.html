@@ -428,10 +428,8 @@
 <script type="text/javascript">
     window.onload = () => {
         let token = localStorage.getItem("token");
-        console.log(token);
         if (token != null) {
             document.getElementById("write-blog").innerHTML = '<a href="/blogs/create">Write your own blog</a>'
-            console.log("success");
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -587,12 +585,14 @@
             }
         })
     }
-    function searchBlog(){
+    function searchBlog(page){
         let blogSearch = $('#blog-search-input').val();
-        console.log("Blog search:" + blogSearch);
+        if(page == undefined){
+            page = 0;
+        }
         $.ajax({
             type: "GET",
-            data:{q:`${blogSearch}`},
+            data:{q:`${blogSearch}`, page:`${page}`},
             url: "/blogs/search",
             success : function(blogs){
                 console.log(blogs);
@@ -622,7 +622,12 @@
                         </div>
 `
         })
-        str+="</div>";
+        str+=`<nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                    <li class="page-item"><a  class="page-link" onclick="searchBlog(${blogs.number - 1})">Previous</a></li>
+                    <li class="page-item"><a class="page-link">${blogs.number+1}/${blogs.totalPages}</a></li>
+                    <li class="page-item"><a  class="page-link" onclick="searchBlog(${blogs.number + 1})">Next</a></li></ul>
+               </nav></div>`;
         return str;
     }
 
@@ -637,7 +642,6 @@
                     id: blogId
                 }
             }
-            console.log(comment);
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
