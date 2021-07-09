@@ -12,10 +12,11 @@
 }
 
 .comments-title {
-    font-size: 16px;
+    font-size: 24px;
     color: #262626;
     margin-bottom: 15px;
     font-family: 'Conv_helveticaneuecyr-bold';
+    font-weight:bold;
 }
 
 .be-img-comment {
@@ -39,6 +40,8 @@
     display: inline-block;
     width: 49%;
     margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .be-comment-name {

@@ -253,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="blogsContainer"  class="col-lg-9 order-1 order-lg-2">
+                <div id="blogsContainer" class="col-lg-9 order-1 order-lg-2">
                     <div class="row" id="blog-container">
                         <div class="col-lg-6 col-sm-6" th:each="blog : ${blogs}">
                             <div class="blog-item">
@@ -283,7 +283,8 @@
                                         <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}"
                                            th:if="${blogs.hasPrevious()}">Previous</a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" ><span th:text="${blogs.number+1}"></span>/<span th:text="${blogs.totalPages}"></span></a></li>
+                                    <li class="page-item"><a class="page-link"><span th:text="${blogs.number+1}"></span>/<span
+                                            th:text="${blogs.totalPages}"></span></a></li>
 
                                     <li class="page-item">
                                         <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}"
@@ -415,7 +416,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -596,6 +598,7 @@
         </div>
     </section>`
     }
+
     function getBlogDetail(id) {
         $.ajax({
             type: "GET",
@@ -606,29 +609,31 @@
             }
         })
     }
-    function searchBlog(page){
+
+    function searchBlog(page) {
         let blogSearch = $('#blog-search-input').val();
-        if(page == undefined){
+        if (page == undefined) {
             page = 0;
         }
         $.ajax({
             type: "GET",
-            data:{q:`${blogSearch}`, page:`${page}`},
+            data: {q: `${blogSearch}`, page: `${page}`},
             url: "/blogs/search",
-            success : function(blogs){
-                console.log(blogs);
+            success: function (blogs) {
                 document.getElementById("blogsContainer").innerHTML = showBlogs(blogs);
-            },error : function(){
+            }, error: function () {
                 document.getElementById("blogsContainer").innerHTML =
                     `<img src="img/no-result-found.png" alt="" style="margin-left: 20%;"/>
                      <p style="margin-left:41%">Try again with the search bar</p>`;
             }
         })
     }
-    function showBlogs(blogs){
+
+    function showBlogs(blogs) {
         let str = '<div class="row" id="blog-container">';
-        blogs.content.forEach((blog) =>{
-            str+=`<div class="col-lg-6 col-sm-6" ">
+        console.log(blogs);
+        blogs.content.forEach((blog) => {
+            str += `<div class="col-lg-6 col-sm-6" ">
                             <div class="blog-item">
                                 <div class="bi-pic">
                                     <img src="img/blog/blog-1.jpg" alt="">
@@ -644,15 +649,22 @@
                                      </p>
                                 </div>
                             </div>
-                        </div>
-`
+                        </div>`
         })
-        str+=` <div class="col-lg-12 col-sm-12"><nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                    <li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number - 1})">Previous</a></li>
-                    <li class="page-item"><a class="page-link">${blogs.number+1}/${blogs.totalPages}</a></li>
-                    <li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number + 1})">Next</a></li></ul>
-               </nav></div></div>`;
+
+        //Xem lai hien thi Previous voi Next
+        str += `<div class="col-lg-12 col-sm-12"><nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">`;
+        let preStr = "";
+        let middleStr = ` <li class="page-item"><a class="page-link">${blogs.number + 1}/${blogs.totalPages}</a></li>`;
+        let nextStr = "";
+        if (blogs.number >= 1) {
+            preStr = `<li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number - 1})">Previous</a></li> `;
+        }
+        if(blogs.number+1 < blogs.totalPages ){
+            nextStr =`<li class="page-item"><a  class="page-link" href="#blog-title" onclick="searchBlog(${blogs.number + 1 })">Next</a></li>`
+        }
+        str += preStr + middleStr + nextStr + "</nav></div></div>";
         return str;
     }
 
@@ -678,31 +690,33 @@
                 url: `/comments/create/${token}`,
                 success: function (comment1) {
                     getCommentList();
-                    document.getElementById("comment").innerHTML ="";
+                    document.getElementById("comment").innerHTML = "";
                 }
-                ,error: function(){
+                , error: function () {
                     swal("Ooops!", "Your comment contain bad word!Please try again", "error");
                 }
             })
-        }else{
+        } else {
             swal("Ooops!", "Must login before comment!", "error");
         }
     }
-    function getCommentList(){
+
+    function getCommentList() {
         let blogId = $('#blog-id').val();
         $.ajax({
-            type:"GET",
+            type: "GET",
             url: `/comments/getAll/${blogId}`,
-            success : function(comments){
+            success: function (comments) {
                 document.getElementById("comment-list").innerHTML = showCommentList(comments);
 
             }
         })
     }
-    function showCommentList(comments){
-        let str = `<div class="container"><div class="be-comment-block"><h1 class="comments-title">Comments (${comments.length})</h1>`;
-        for(let i =0;i<comments.length;i++){
-            str+=
+
+    function showCommentList(comments) {
+        let str = `<div class="container"><div class="be-comment-block"><h1 class="comments-title" >Comments (${comments.length})</h1>`;
+        for (let i = 0; i < comments.length; i++) {
+            str +=
                 `<div class="be-comment">
                     <div class="be-img-comment">
                         <a href="blog-detail-2.html">
@@ -711,19 +725,20 @@
                     </div>
                     <div class="be-comment-content">
                         <span class="be-comment-name">
-                            <a href="#">${comments[i].user.username}</a>
+                            <a href="#" style="cursor: default">${comments[i].user.username}</a>
                         </span>
                         <span class="be-comment-time">
                             <i class="fa fa-clock-o"></i>
-                            ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11,13))+7}:${comments[i].date.slice(14,16)}
+                            ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11, 13)) + 7}:${comments[i].date.slice(14, 16)}
                         </span>
                         <p class="be-comment-text">
                             ${comments[i].content}
                          </p>
+                         <p><i class="far fa-thumbs-up"></i>${comments[i].likes} like</p>
                     </div>
                 </div>`
         }
-        str+="</div></div>";
+        str += "</div></div>";
         return str;
     }
 </script>
