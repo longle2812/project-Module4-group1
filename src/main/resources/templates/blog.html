@@ -26,6 +26,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="css/comment.css" type="text/css">
 </head>
 
 <body>
@@ -184,8 +185,8 @@
                         <div class="search-form">
                             <h4>Search</h4>
                             <form action="#">
-                                <input type="text" placeholder="Search . . .  ">
-                                <button type="submit"><i class="fa fa-search"></i></button>
+                                <input id="blog-search-input" type="text" placeholder="Search . . .  ">
+                                <button type="button" onclick="searchBlog()"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
                         <div class="blog-catagory">
@@ -252,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 order-1 order-lg-2">
+                <div id="blogsContainer"  class="col-lg-9 order-1 order-lg-2">
                     <div class="row" id="blog-container">
                         <div class="col-lg-6 col-sm-6" th:each="blog : ${blogs}">
                             <div class="blog-item">
@@ -264,9 +265,9 @@
                                         <h4 th:text="${blog.title}"></h4>
                                     </a>
                                     <p>travel -
-                                        <span th:text="${blog.date.getDay()}"></span>
+                                        <span th:text="${blog.date.getDate()}"></span>
                                         <span> / </span>
-                                        <span th:text="${blog.date.getMonth()}"></span>
+                                        <span th:text="${blog.date.getMonth()+1}"></span>
                                         <span> / </span>
                                         <span th:text="${blog.date.getYear()+1900}"></span>
                                         <span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
@@ -458,7 +459,6 @@
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
         window.location.href = "/login";
     }
-
     function showBlog(blog) {
         return `<section class="blog-details spad">
         <div class="container">
@@ -559,15 +559,14 @@
                             </div>
                         </div>
                         <div class="leave-comment">
-                            <h4>Leave A Comment</h4>
+
                             <form action="#" class="comment-form">
                                 <div class="row">
+                                    <div class="col-lg-12" id="comment-list"></div>
+                                     <h4>Leave A Comment</h4>
                                     <div class="col-lg-12">
                                         <textarea id="comment" placeholder="Messages"></textarea>
                                         <button type="button" class="site-btn" onclick="writeComment()">Send message</button>
-                                    </div>
-                                    <div class="col-lg-12" id="comment-list">
-
                                     </div>
                                 </div>
                             </form>
@@ -578,15 +577,53 @@
         </div>
     </section>`
     }
-
     function getBlogDetail(id) {
         $.ajax({
             type: "GET",
             url: `/blogs/blog-details/${id}`,
             success: function (blog) {
                 document.getElementById("blog-section").innerHTML = showBlog(blog);
+                getCommentList();
             }
         })
+    }
+    function searchBlog(){
+        let blogSearch = $('#blog-search-input').val();
+        console.log("Blog search:" + blogSearch);
+        $.ajax({
+            type: "GET",
+            data:{q:`${blogSearch}`},
+            url: "/blogs/search",
+            success : function(blogs){
+                console.log(blogs);
+                document.getElementById("blogsContainer").innerHTML = showBlogs(blogs);
+            }
+        })
+    }
+    function showBlogs(blogs){
+        let str = '<div class="row" id="blog-container">';
+        blogs.content.forEach((blog) =>{
+            str+=`<div class="col-lg-6 col-sm-6" ">
+                            <div class="blog-item">
+                                <div class="bi-pic">
+                                    <img src="img/blog/blog-1.jpg" alt="">
+                                </div>
+                                <div class="bi-text">
+                                    <a id="${blog.id}" href="#blog-title" onclick="getBlogDetail(this.id)">
+                                        <h4 >${blog.title}</h4>
+                                    </a>
+                                     <p>
+                                         travel - <span>${blog.date.slice(8, 10)} / ${blog.date.slice(5, 7)} / ${blog.date.slice(0, 4)}</span>
+                                         <span style="margin-bottom: 0;font-size: 14px;font-weight: 700;text-transform: uppercase;color: #e7ab3c; letter-spacing: 2px;line-height: 20px;"> - Author: </span>
+                                            <span>${blog.author.username}</span>
+                                     </p>
+                                </div>
+                            </div>
+                        </div>
+`
+        })
+        str+="</div>";
+        return str;
     }
 
     function writeComment() {
@@ -594,7 +631,6 @@
         if (token != null) {
             let content = $('#comment').val();
             let blogId = $('#blog-id').val();
-            // console.log(content);
             let comment = {
                 content: content,
                 blog: {
@@ -612,7 +648,11 @@
                 data: JSON.stringify(comment),
                 url: `/comments/create/${token}`,
                 success: function (comment1) {
-                    console.log(comment1);
+                    getCommentList();
+                    document.getElementById("comment").innerHTML ="";
+                }
+                ,error: function(){
+                    swal("Ooops!", "Your comment contain bad word!Please try again", "error");
                 }
             })
         }else{
@@ -625,28 +665,28 @@
             type:"GET",
             url: `/comments/getAll/${blogId}`,
             success : function(comments){
-                console.log(comments);
-                showCommentList(comments);
+                document.getElementById("comment-list").innerHTML = showCommentList(comments);
+
             }
         })
     }
     function showCommentList(comments){
-        let str = "<div class=\"container\">\n    <div class=\"be-comment-block\">\n        <h1 class=\"comments-title\">Comments (3)</h1>";
+        let str = `<div class="container"><div class="be-comment-block"><h1 class="comments-title">Comments (${comments.length})</h1>`;
         for(let i =0;i<comments.length;i++){
             str+=
                 `<div class="be-comment">
                     <div class="be-img-comment">
                         <a href="blog-detail-2.html">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="be-ava-comment">
+                            <img src="img/default-avatar.png" alt="" class="be-ava-comment">
                         </a>
                     </div>
                     <div class="be-comment-content">
                         <span class="be-comment-name">
-                            <a href="blog-detail-2.html">${comments[i].user.username}</a>
+                            <a href="#">${comments[i].user.username}</a>
                         </span>
                         <span class="be-comment-time">
                             <i class="fa fa-clock-o"></i>
-                            ${comments[i].date}
+                            ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11,13))+7}:${comments[i].date.slice(14,16)}
                         </span>
                         <p class="be-comment-text">
                             ${comments[i].content}
@@ -654,6 +694,8 @@
                     </div>
                 </div>`
         }
+        str+="</div></div>";
+        return str;
     }
 </script>
 </body>

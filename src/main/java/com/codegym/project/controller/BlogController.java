@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -57,6 +58,16 @@ public class BlogController {
             throw new NotFoundException();
         }else{
             return new ResponseEntity<>(blog.get(),HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/blogs/search")
+    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q, Pageable pageable){
+        Page<Blog> blogs = blogService.findByTitleContains(q,pageable);
+        if(blogs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(blogs, HttpStatus.OK);
         }
     }
 }

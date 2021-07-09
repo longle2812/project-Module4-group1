@@ -32,10 +32,13 @@ public class CommentController {
         String userName = jwtService.getUserNameFromJwtToken(token);
         if(userName==null){
             throw new NotFoundException();
-        }else{
+        }
+        if(!commentService.containBadWord(comment)){
             comment.setUser(userService.findByUsername(userName).get());
             comment.setDate(new Date());
             return new ResponseEntity<>(commentService.save(comment), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping("/comments/getAll/{blogId}")
