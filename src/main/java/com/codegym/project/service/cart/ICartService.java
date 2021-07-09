@@ -5,4 +5,5 @@ import com.codegym.project.service.IGeneralService;
 import org.springframework.stereotype.Service;
 
 public interface ICartService extends IGeneralService<Cart> {
+    Cart findCartByUserId(Long id);
 }

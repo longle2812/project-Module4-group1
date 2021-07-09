@@ -15,4 +15,13 @@ public class Item {
     private Product product;
     @ManyToOne
     private Cart cart;
+
+    public Item() {
+    }
+
+    public Item(Long quantity, Product product, Cart cart) {
+        this.quantity = quantity;
+        this.product = product;
+        this.cart = cart;
+    }
 }

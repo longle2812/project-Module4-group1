@@ -28,6 +28,26 @@ public class ItemService implements IItemService{
     }
 
     @Override
+    public Integer countAllByCartId(Long id) {
+        return iItemRepository.countAllByCartId(id);
+    }
+
+    @Override
+    public Iterable<Item> findAllByCartId(Long id) {
+        return iItemRepository.findAllByCartId(id);
+    }
+
+    @Override
+    public void deleteItemByProductIdAndCartId(Long productId, Long cartId) {
+            iItemRepository.deleteItemByProductIdAndCartId(productId, cartId);
+    }
+
+    @Override
+    public Optional<Item> findItemByProductIdAndCartId(Long productId, Long cartId) {
+        return iItemRepository.findItemByProductIdAndCartId(productId, cartId);
+    }
+
+    @Override
     public void remove(Long id) {
         iItemRepository.deleteById(id);
     }

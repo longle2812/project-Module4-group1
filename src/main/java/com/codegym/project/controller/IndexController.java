@@ -1,9 +1,12 @@
 package com.codegym.project.controller;
 
 import com.codegym.project.model.*;
+import com.codegym.project.repository.IItemRepository;
 import com.codegym.project.service.brand.IBrandService;
+import com.codegym.project.service.cart.ICartService;
 import com.codegym.project.service.category.ICategoryService;
 import com.codegym.project.service.collection.ICollectionService;
+import com.codegym.project.service.item.IItemService;
 import com.codegym.project.service.picture.IPictureService;
 import com.codegym.project.service.product.IProductService;
 import com.codegym.project.service.review.IReviewService;
@@ -40,6 +43,10 @@ public class IndexController {
 
     @Autowired
     private IReviewService reviewService;
+    @Autowired
+    private IItemService itemService;
+    @Autowired
+    private ICartService cartService;
 
     @ModelAttribute("products")
     private Iterable<Product> products(){
@@ -87,15 +94,10 @@ public class IndexController {
             modelAndView.addObject("collections", collections());
             modelAndView.addObject("brands", brands());
             modelAndView.addObject("categories", categories());
-            Picture main_picture = null;
-            if (!pictures.isEmpty()){
-                main_picture = pictures.get(0);
-                pictures.remove(0);
-            }
-            else {
-                main_picture = pictureService.findPictureByName("no-picture.png");
-                pictures.add(main_picture);
-                pictures.add(main_picture);
+            Image main_picture = product.get().getImage();
+            if (pictures.isEmpty()){
+                pictures.add(pictureService.findPictureByName("no-picture.png"));
+                pictures.add(pictureService.findPictureByName("no-picture.png"));
             }
             modelAndView.addObject("main_picture", main_picture);
             modelAndView.addObject("sub_pictures", pictures);
