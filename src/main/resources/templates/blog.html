@@ -276,22 +276,22 @@
                                 </div>
                             </div>
                         </div>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                                <!--                            <li class="page-item disabled"></li>-->
-                                <li class="page-item">
-                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}"
-                                       th:if="${blogs.hasPrevious()}">Previous</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=0)}">1</a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{'/blogs'(page=1)}">2</a></li>
-                                <!--                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-                                <li class="page-item">
-                                    <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}"
-                                       th:if="${blogs.hasNext()}">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <div class="col-lg-12 col-sm-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/blogs'(page=${blogs.number - 1})}"
+                                           th:if="${blogs.hasPrevious()}">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" ><span th:text="${blogs.number+1}"></span>/<span th:text="${blogs.totalPages}"></span></a></li>
+
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/blogs'(page=${blogs.number + 1})}"
+                                           th:if="${blogs.hasNext()}">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -597,6 +597,10 @@
             success : function(blogs){
                 console.log(blogs);
                 document.getElementById("blogsContainer").innerHTML = showBlogs(blogs);
+            },error : function(){
+                document.getElementById("blogsContainer").innerHTML =
+                    `<img src="img/no-result-found.png" alt="" style="margin-left: 20%;"/>
+                     <p style="margin-left:41%">Try again with the search bar</p>`;
             }
         })
     }
@@ -622,12 +626,12 @@
                         </div>
 `
         })
-        str+=`<nav aria-label="Page navigation example">
+        str+=` <div class="col-lg-12 col-sm-12"><nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                     <li class="page-item"><a  class="page-link" onclick="searchBlog(${blogs.number - 1})">Previous</a></li>
                     <li class="page-item"><a class="page-link">${blogs.number+1}/${blogs.totalPages}</a></li>
                     <li class="page-item"><a  class="page-link" onclick="searchBlog(${blogs.number + 1})">Next</a></li></ul>
-               </nav></div>`;
+               </nav></div></div>`;
         return str;
     }
 

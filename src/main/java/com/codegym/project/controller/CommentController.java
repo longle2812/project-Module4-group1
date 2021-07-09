@@ -28,10 +28,10 @@ public class CommentController {
     private JwtService jwtService;
 
     @PostMapping("/comments/create/{token}")
-    public ResponseEntity<Comment>  createComment(@PathVariable String token, @RequestBody Comment comment) throws NotFoundException {
+    public ResponseEntity<Comment>  createComment(@PathVariable String token, @RequestBody Comment comment)  {
         String userName = jwtService.getUserNameFromJwtToken(token);
         if(userName==null){
-            throw new NotFoundException();
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if(!commentService.containBadWord(comment)){
             comment.setUser(userService.findByUsername(userName).get());
@@ -42,10 +42,10 @@ public class CommentController {
         }
     }
     @GetMapping("/comments/getAll/{blogId}")
-    public ResponseEntity<List<Comment>> findAll(@PathVariable Long blogId) throws NotFoundException {
+    public ResponseEntity<List<Comment>> findAll(@PathVariable Long blogId) {
         Optional<Blog> blogOptional = blogService.findById(blogId);
         if(!blogOptional.isPresent()){
-            throw new NotFoundException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
             List<Comment> comments = (List<Comment>) commentService.findByBlog(blogOptional.get());
             return new ResponseEntity<>(comments, HttpStatus.OK);

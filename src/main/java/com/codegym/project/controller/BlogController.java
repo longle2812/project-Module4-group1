@@ -53,26 +53,25 @@ public class BlogController {
     }
 
     @GetMapping("/blogs/blog-details/{id}")
-    public ResponseEntity<Blog> showBlogDetail(@PathVariable Long id) throws NotFoundException {
+    public ResponseEntity<Blog> showBlogDetail(@PathVariable Long id) {
         Optional<Blog> blog = blogService.findById(id);
         if(!blog.isPresent()){
-            throw new NotFoundException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
             return new ResponseEntity<>(blog.get(),HttpStatus.OK);
         }
     }
 
     @GetMapping("/blogs/search")
-    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q,@RequestParam("page") Optional<Integer> page, Pageable pageable){
-        Page<Blog> blogs;
-        if(!page.isPresent()){
-            blogs = blogService.findByTitleContains(q, PageRequest.of(0,6,Sort.by("date").descending()));
-        }else{
-            blogs=  blogService.findByTitleContains(q, PageRequest.of(page.get(),6,Sort.by("date").descending()));
-        }
+    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q,@RequestParam("page") int page, Pageable pageable){
+        Page<Blog> blogs=  blogService.findByTitleContains(q, PageRequest.of(page,6,Sort.by("date").descending()));
         if(blogs.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+    @GetMapping("/error-404")
+    public ModelAndView show404Error(){
+        return new ModelAndView("error-404");
     }
 }
