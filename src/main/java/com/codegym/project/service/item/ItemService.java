@@ -38,6 +38,11 @@ public class ItemService implements IItemService{
     }
 
     @Override
+    public Optional<Item> findItemByProductIdAndCartId(Long productId, Long cartId) {
+        return iItemRepository.findItemByProductIdAndCartId(productId, cartId);
+    }
+
+    @Override
     public void remove(Long id) {
         iItemRepository.deleteById(id);
     }

@@ -110,7 +110,7 @@
                                                 </div>
                                             </td>
                                             <td class="si-close">
-                                                <i class="ti-close"></i>
+                                                <i class="ti-close" ></i>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -319,9 +319,9 @@
                                         <i class="icon_heart_alt"></i>
                                     </div>
                                     <ul>
-                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="w-icon active"><a href="#" th:id="${product.id}" onclick="addToCart(this.id)"><i class="icon_bag_alt"></i></a></li>
                                         <li class="quick-view" th:attr="data-view-id=${product.id}"
-                                            onclick="showProductDetail(this)"><a th:href="@{/product/__${product.id}__}">+ Quick View</a></li>
+                                        ><a th:href="@{/product/__${product.id}__}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                     </ul>
                                 </div>
@@ -631,7 +631,6 @@
             })
         })
 
-
     });
 
     function redrawCartItems(items){
@@ -668,7 +667,7 @@
                                                 </div>
                                             </td>
                                             <td class="si-close">
-                                                <i class="ti-close"></i>
+                                                <i class="ti-close" onclick="removeItemFromCart(${item.product.id})"></i>
                                             </td>
                                         </tr>`
     }
@@ -696,7 +695,8 @@
                                         <i class="icon_heart_alt"></i>
                                     </div>
                                     <ul>
-                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="w-icon active"><a href="#" id="${product.id}" onclick="addToCart(${product.id})"
+                                        ><i class="icon_bag_alt"></i></a></li>
                                         <li class="quick-view" data-view-id="${product.id}" onclick="showProductDetail(this)"><a href="/product/${product.id}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                     </ul>
@@ -716,6 +716,7 @@
                         </div>`
     }
 
+    //Render Cart List
     function renderCartIcon(){
         let token = window.localStorage.getItem('token');
         $.ajax({
@@ -753,6 +754,42 @@
                 })
             }
         })
+    }
+
+    //Add Product To Cart
+    function addToCart(productId){
+        let token = window.localStorage.getItem('token');
+        //Get user by token
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                //add Item to Cart
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "POST",
+                    url: `/cart/add?userId=${user.id}&productId=${productId}`,
+                    success: function (item) {
+                        console.log(item)
+                        renderCartIcon();
+                    }
+                })
+            }
+        })
+        event.preventDefault();
+    }
+
+    function removeItemFromCart(product){
+        console.log(product);
     }
 </script>
 
