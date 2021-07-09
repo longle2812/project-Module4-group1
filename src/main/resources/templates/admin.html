@@ -2469,6 +2469,15 @@
                     <label>Price</label>
                     <label><input type="text" id="price_ProductCreate"></label>
                 </div>
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-product">
+                </div>
+                <div>
+                    <select id="collection_Product">
+
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -2516,6 +2525,10 @@
                 <div>
                     <label>Price</label>
                     <label><input type="text" id="price_Productupdate"></label>
+                </div>
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-productUpdate">
                 </div>
             </div>
             <div class="modal-footer">
@@ -2726,7 +2739,7 @@
 <td>${user.email}</td>
 <td>${user.phoneNumber}</td>
 <td>${user.address.countryName}</td>
-<td><img style="width: 50px; src="/files/${user.avatar?.name}"></td>
+<td><img style="width: 50px;" src="/files/${user.avatar?.name}"></td>
 <td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             id="${user.id}" onclick="updateUser(this.id)">
         Edit
@@ -2804,6 +2817,23 @@
         })
         $(document).ready(function () {
             $('#update_button').click(function (event) {
+                //upload file
+                let file = new FormData();
+                let imageFile = $('#edit-profile-pic-update')[0].files[0];
+                file.append("file", imageFile);
+                // //ajax
+                $.ajax({
+                    url: '/upload/image',
+                    data: file,
+                    enctype: 'multipart/form-data',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function (data) {
+                    }
+                })
                 let id=$('#id_update').val()
                 let username = $('#name_update').val()
                 let password = $('#password_update').val()
@@ -2828,7 +2858,7 @@
                         'Content-Type': 'application/json'
                     },
                     type: "PUT",
-                    url: `/admin/user/` + id,
+                    url: `/admin/user/${id}?avatarName=${imageFile.name}`,
                     data: JSON.stringify(newUser),
                     success: user
                 })
@@ -2866,7 +2896,8 @@
         <th>Name</th>
         <th>Brand</th>
         <th>Category</th>
-        <th>Price</th>`
+        <th>Price</th>
+        <th>Image</th>`
                 for (let i = 0; i < data.length; i++) {
                     contents += getProduct(data[i]);
                 }
@@ -2883,6 +2914,7 @@
 <td>${product.brand.name}</td>
 <td>${product.category.name}</td>
 <td>${product.price}</td>
+<td><img style="width: 50px;" src="/files/${product.image?.name}"></td>
    <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal"
                     id="${product.id}" onclick="updateProduct(this.id)">
@@ -2902,6 +2934,22 @@
 
     //them moi product
     function createProduct() {
+        let file = new FormData();
+        let imageFile = $('#edit-profile-product')[0].files[0];
+        file.append("file", imageFile);
+        // //ajax
+        $.ajax({
+            url: '/upload/image',
+            data: file,
+            enctype: 'multipart/form-data',
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST',
+            success: function (data) {
+            }
+        })
         let name = $('#name_ProductCreate').val()
         let brand = $('#brand_ProductCreate').val()
         let category = $('#category_ProductCreate').val()
@@ -2923,7 +2971,7 @@
             },
             type: "POST",
             data: JSON.stringify(newProduct),
-            url: "/admin/product",
+            url: `/admin/product?avatarProduct=${imageFile.name}`,
             success: showProduct
         });
         event.preventDefault();
@@ -2944,6 +2992,22 @@
         })
         $(document).ready(function () {
             $('#Productupdate_button').click(function (event) {
+                let file = new FormData();
+                let imageFile = $('#edit-profile-productUpdate')[0].files[0];
+                file.append("file", imageFile);
+                // //ajax
+                $.ajax({
+                    url: '/upload/image',
+                    data: file,
+                    enctype: 'multipart/form-data',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success: function (data) {
+                    }
+                })
                 let id=$('#id_Productupdate').val()
                 let name = $('#name_Productupdate').val()
                 let brand = $('#brand_Productupdate').val()
@@ -2966,7 +3030,7 @@
                         'Content-Type': 'application/json'
                     },
                     type: "PUT",
-                    url: "/admin/product/" + id,
+                    url: `/admin/product/${id}?avatarProduct=${imageFile.name}`,
                     data: JSON.stringify(newProduct),
                     success: showProduct
                 })
@@ -3047,7 +3111,8 @@
             success: showCategory
         });
         event.preventDefault();
-    } function update(id) {
+    }
+    function update(id) {
         $.ajax({
             type: "GET",
             url: "/admin/category/" + id,
@@ -3072,7 +3137,7 @@
                     type: "PUT",
                     url: "/admin/category/" + id,
                     data: JSON.stringify(newCategory),
-                    success: successHander
+                    success: showCategory
                 })
                 event.preventDefault();
             })

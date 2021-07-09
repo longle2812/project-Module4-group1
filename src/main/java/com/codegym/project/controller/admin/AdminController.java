@@ -1,11 +1,11 @@
 package com.codegym.project.controller.admin;
 
-import com.codegym.project.model.Address;
-import com.codegym.project.model.Brand;
-import com.codegym.project.model.Category;
+import com.codegym.project.model.*;
 import com.codegym.project.service.address.IAddressService;
 import com.codegym.project.service.brand.IBrandService;
 import com.codegym.project.service.category.ICategoryService;
+import com.codegym.project.service.collection.ICollectionService;
+import com.codegym.project.service.color.IColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,17 @@ public class AdminController {
     public Iterable<Address> addresses(){
         return addressService.findAll();
     }
-
+    @Autowired
+    private ICollectionService collectionService;
+    @ModelAttribute("collection")
+    public Iterable<Collection> collections(){
+        return collectionService.findAll();
+    }
+    @Autowired
+    private IColorService colorService;
+    public Iterable<Color> colors(){
+        return colorService.findAll();
+    }
     @Autowired
     private IBrandService brandService;
     @ModelAttribute("brands")

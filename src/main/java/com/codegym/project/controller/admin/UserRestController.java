@@ -60,11 +60,13 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.NO_CONTENT);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user){
+    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user,@RequestParam String avatarName){
         Optional<User>userOptional=userService.findById(id);
         if (!userOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Image image=imageService.findImageByName(avatarName);
+        user.setAvatar(image);
         user.setId(userOptional.get().getId());
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }

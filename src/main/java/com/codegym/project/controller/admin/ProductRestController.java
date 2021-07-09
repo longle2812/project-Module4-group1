@@ -2,9 +2,11 @@ package com.codegym.project.controller.admin;
 
 import com.codegym.project.model.Brand;
 import com.codegym.project.model.Category;
+import com.codegym.project.model.Image;
 import com.codegym.project.model.Product;
 import com.codegym.project.service.brand.IBrandService;
 import com.codegym.project.service.category.ICategoryService;
+import com.codegym.project.service.image.IImageService;
 import com.codegym.project.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/admin/product")
 public class ProductRestController {
+
+    @Autowired
+    private IImageService imageService;
     @Autowired
     private IProductService productService;
     @Autowired
@@ -57,7 +62,9 @@ public class ProductRestController {
         return new ResponseEntity<>(optionalProduct.get(),HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@RequestBody Product product,@RequestParam String avatarProduct){
+        Image image= imageService.findImageByName(avatarProduct);
+        product.setImage(image);
         return new ResponseEntity<>(productService.save(product),HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
@@ -70,11 +77,13 @@ public class ProductRestController {
         return new ResponseEntity<>(optionalProduct.get(),HttpStatus.NO_CONTENT);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Product> editProduct(@PathVariable Long id,@RequestBody Product product){
+    public ResponseEntity<Product> editProduct(@PathVariable Long id,@RequestBody Product product,@RequestParam String avatarProduct){
         Optional<Product>optionalProduct=productService.findById(id);
         if (!optionalProduct.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Image image=imageService.findImageByName(avatarProduct);
+        product.setImage(image);
         product.setId(optionalProduct.get().getId());
         return new ResponseEntity<>(productService.save(product),HttpStatus.OK);
     }
