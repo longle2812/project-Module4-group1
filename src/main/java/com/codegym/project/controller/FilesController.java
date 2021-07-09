@@ -51,7 +51,7 @@ public class FilesController {
             StringBuffer newString = new StringBuffer(fileName);
             newString.insert(index, currentDate);
             fileName = newString.toString();
-            storageService.save(file);
+            storageService.save(file, currentDate);
             Image newFile = new Image(fileName, "http://localhost:8080/files/" + fileName);
             imageService.save(newFile);
             message = "Uploaded the file successfully: " + fileName;
@@ -86,7 +86,14 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadPicture(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            storageService.save(file);
+            String fileName = file.getOriginalFilename();
+            String currentDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+            currentDate ="("+currentDate+")";
+            int index = fileName.length() - 4;
+            StringBuffer newString = new StringBuffer(fileName);
+            newString.insert(index, currentDate);
+            fileName = newString.toString();
+            storageService.save(file, currentDate);
             pictureService.save(new Picture(file.getOriginalFilename(), "http://localhost:8080/files/" + file.getOriginalFilename()));
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));

@@ -47,9 +47,11 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<User>createUser(@RequestBody User user, @RequestParam String avatarName){
-        Image image = imageService.findImageByName(avatarName);
-        user.setAvatar(image);
+    public ResponseEntity<User>createUser(@RequestBody User user, @RequestParam(required = false) String avatarName){
+        if (avatarName != null) {
+            Image image = imageService.findImageByName(avatarName);
+            user.setAvatar(image);
+        }
         return new ResponseEntity<>(userService.save(user),HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
@@ -62,16 +64,18 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.NO_CONTENT);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user,@RequestParam String avatarName){
+    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user,@RequestParam(required = false) String avatarName){
         Optional<User>userOptional=userService.findById(id);
         if (!userOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Image image=imageService.findImageByName(avatarName);
-        if (image!= null) {
+        if (avatarName!= null) {
+            Image image= imageService.findImageByName(avatarName);
             user.setAvatar(image);
         }
-        user.setId(userOptional.get().getId());
+        else if(userOptional.get().getAvatar()!= null){
+            user.setAvatar(userOptional.get().getAvatar());
+        }
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
 
