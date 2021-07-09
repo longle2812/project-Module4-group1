@@ -131,7 +131,7 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/blogs">Blog</a></li>
                     <li><a href="./contact.html">Contact</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="dropdown">
@@ -331,6 +331,7 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     document.ready
     $('.forget-pass').click(function (event) {
@@ -361,23 +362,69 @@
         $.ajax({
             type: "GET",
             url: `/forget-pass/${userName}/${email}`,
-            success: function (password) {
+            success: function (user) {
                 let form = document.getElementById("login-form");
-                form.innerHTML = `
-                        <h2>Find your email, username</h2>
+                form.innerHTML =
+                    `<form><h2>Type in your new password</h2>
+                            <input type="hidden" id="user-id-new-pass" value="${user.id}">
                             <div class="group-input">
-                                <label >Here is your password: </label>
-                                <input type="text" readonly="readonly" value="${password}">
+                                <p id="error-new-pass" style="color:red"></p>
+                                <label>New password:</label>
+                                <input type="password" id="newPass">
                             </div>
+                            <div class="group-input">
+                                <p id="error-new-pass-mismatch" style="color:red"></p>
+                                <label>Confirm new password :</label>
+                                <input type="password" id="newPassConfirm">
+                            </div>
+                            <button type="button" id="newPassBtn" class="site-btn login-btn" onclick="saveNewPass()">Confirm new pass</button>
+                            <hr>
                             <button type="submit" class="site-btn login-btn" >
                             <a href="/login">Back to login</a>
                             </button>
                         <div class="switch-login">
                             <a href="/register" class="or-login">Or Create An Account</a>
-                        </div>`;
+                        </div></form>`;
             }
         })
     };
+    function saveNewPass(){
+        document.getElementById("error-new-pass-mismatch").innerHTML="";
+        document.getElementById("error-new-pass").innerHTML="";
+        let newPass = $('#newPass').val();
+        let newPassConfirm = $('#newPassConfirm').val();
+        let userId= $('#user-id-new-pass').val();
+        if(newPass !== newPassConfirm){
+            document.getElementById("error-new-pass-mismatch").innerHTML = "Passwords do not match";
+        }
+        if(newPass.length<6){
+            document.getElementById("error-new-pass").innerHTML ="Password length can not be less than 6 characters";
+        }
+        if(newPass === newPassConfirm && newPass.length >=6){
+            let token = localStorage.getItem("token");
+            let user = {
+                id: userId,
+                password: newPass
+            }
+            console.log(user);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    "Authorization": 'Bearer ' + token
+                },
+                type:"PUT",
+                data: JSON.stringify(user),
+                url:`/users/saveNewPass`,
+                success : function (){
+                    swal("", "Your password has been updated", "success");
+                },error : function(){
+                    console.log("error");
+                }
+            })
+
+        }
+    }
     function login(){
         let username = $('#username').val();
         let password = $('#pass').val();
