@@ -3051,44 +3051,82 @@
             processData: false,
             method: 'POST',
             type: 'POST',
-            success: function (data) {
+            success: function (avatarProduct) {
+                let name = $('#name_ProductCreate').val()
+                let brand = $('#brand_ProductCreate').val()
+                let category = $('#category_ProductCreate').val()
+                let price = $('#price_ProductCreate').val()
+                let collection = $('#collection_ProductCreate').val()
+                let color = $('#color_ProductCreate').val()
+                let description = $('#description_ProductCreate').val()
+                let newProduct = {
+                    name: name,
+                    brand: {
+                        id: brand
+                    },
+                    category: {
+                        id: category
+                    },
+                    price: price,
+                    collection: {
+                        id: collection
+                    },
+                    color: {
+                        id: color
+                    },
+                    description: description
+
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: JSON.stringify(newProduct),
+                    url: `/admin/product?avatarProduct=${avatarProduct}`,
+                    success: showProduct
+                });
+            },
+            error:function (data){
+                let name = $('#name_ProductCreate').val()
+                let brand = $('#brand_ProductCreate').val()
+                let category = $('#category_ProductCreate').val()
+                let price = $('#price_ProductCreate').val()
+                let collection = $('#collection_ProductCreate').val()
+                let color = $('#color_ProductCreate').val()
+                let description = $('#description_ProductCreate').val()
+                let newProduct = {
+                    name: name,
+                    brand: {
+                        id: brand
+                    },
+                    category: {
+                        id: category
+                    },
+                    price: price,
+                    collection: {
+                        id: collection
+                    },
+                    color: {
+                        id: color
+                    },
+                    description: description
+
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: JSON.stringify(newProduct),
+                    url: `/admin/product?avatarProduct=""`,
+                    success: showProduct
+                });
             }
         })
-        let name = $('#name_ProductCreate').val()
-        let brand = $('#brand_ProductCreate').val()
-        let category = $('#category_ProductCreate').val()
-        let price = $('#price_ProductCreate').val()
-        let collection = $('#collection_ProductCreate').val()
-        let color = $('#color_ProductCreate').val()
-        let description = $('#description_ProductCreate').val()
-        let newProduct = {
-            name: name,
-            brand: {
-                id: brand
-            },
-            category: {
-                id: category
-            },
-            price: price,
-            collection: {
-                id: collection
-            },
-            color: {
-                id: color
-            },
-            description: description
 
-        };
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            data: JSON.stringify(newProduct),
-            url: `/admin/product?avatarProduct=${imageFile.name}`,
-            success: showProduct
-        });
         event.preventDefault();
     }
 
@@ -3103,6 +3141,9 @@
                 $('#brand_Productupdate').val(data.brand)
                 $('#category_ProductCreate').val(data.category)
                 $('#price_Productupdate').val(data.price)
+                $('#collection_ProductUpdate').val(data.collection)
+                $('#color_ProductUpdate').val(data.color)
+                $('#description_ProductUpdate').val(data.description)
             }
         })
         $(document).ready(function () {
@@ -3120,35 +3161,84 @@
                     processData: false,
                     method: 'POST',
                     type: 'POST',
-                    success: function (data) {
+                    success: function (fileName) {
+                        let id = $('#id_Productupdate').val()
+                        let name = $('#name_Productupdate').val()
+                        let brand = $('#brand_Productupdate').val()
+                        let category = $('#category_Productupdate').val()
+                        let price = $('#price_Productupdate').val()
+                        let collection=$('#collection_ProductUpdate').val()
+                        let color=$('#color_ProductUpdate').val()
+                        let description=$('#description_ProductUpdate').val()
+                        let newProduct = {
+                            id: id,
+                            name: name,
+                            brand: {
+                                id: brand
+                            },
+                            category: {
+                                id: category
+                            },
+                            price: price,
+                            collection:{
+                                id:collection
+                            },
+                            color:{
+                                id:color
+                            },
+                            description:description
+                        };
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "PUT",
+                            url: `/admin/product/${id}?avatarProduct=${fileName}`,
+                            data: JSON.stringify(newProduct),
+                            success: showProduct
+                        })
+                    },
+                    error:function (){
+                        let id = $('#id_Productupdate').val()
+                        let name = $('#name_Productupdate').val()
+                        let brand = $('#brand_Productupdate').val()
+                        let category = $('#category_Productupdate').val()
+                        let price = $('#price_Productupdate').val()
+                        let collection=$('#collection_ProductUpdate').val()
+                        let color=$('#color_ProductUpdate').val()
+                        let description=$('#description_ProductUpdate').val()
+                        let newProduct = {
+                            id: id,
+                            name: name,
+                            brand: {
+                                id: brand
+                            },
+                            category: {
+                                id: category
+                            },
+                            price: price,
+                            collection:{
+                                id:collection
+                            },
+                            color:{
+                                id:color
+                            },
+                            description:description
+                        };
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "PUT",
+                            url: `/admin/product/${id}?avatarProduct=""`,
+                            data: JSON.stringify(newProduct),
+                            success: showProduct
+                        })
                     }
                 })
-                let id = $('#id_Productupdate').val()
-                let name = $('#name_Productupdate').val()
-                let brand = $('#brand_Productupdate').val()
-                let category = $('#category_Productupdate').val()
-                let price = $('#price_Productupdate').val()
-                let newProduct = {
-                    id: id,
-                    name: name,
-                    brand: {
-                        id: brand
-                    },
-                    category: {
-                        id: category
-                    },
-                    price: price
-                };
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "PUT",
-                    url: `/admin/product/${id}?avatarProduct=${imageFile.name}`,
-                    data: JSON.stringify(newProduct),
-                    success: showProduct
-                })
+
                 event.preventDefault();
             })
         })
