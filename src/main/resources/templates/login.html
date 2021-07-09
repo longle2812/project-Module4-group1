@@ -395,7 +395,23 @@
             url: "/api/login",
             success: function(data){
                 localStorage.setItem("token", data.accessToken);
-                window.location.href = "/index";
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    },
+                    type: "GET",
+                    url:`/current_user/${data.accessToken}`,
+                    success: function(user){
+                        console.log(user.roles);
+                        if(user.roles[0].name=="ROLE_USER"){
+                            window.location.href = "/index";
+                        }
+                        if(user.roles[0].name=="ROLE_ADMIN"){
+                            window.location.href = "/admin";
+                        }
+                    }
+                })
             },error: function(){
                 document.getElementById("error-login").innerHTML = "<p style='color:red;'>Wrong username or password. Please try again</p>";
             }
