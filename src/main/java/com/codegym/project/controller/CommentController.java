@@ -51,4 +51,14 @@ public class CommentController {
             return new ResponseEntity<>(comments, HttpStatus.OK);
         }
     }
+    @PutMapping("/comments/increaseLike")
+    public ResponseEntity<Comment> increaseLike(@RequestBody Comment comment){
+        Optional<Comment> commentOptional = commentService.findById(comment.getId());
+        if(!commentOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(commentService.increaseLike(commentOptional.get()),HttpStatus.OK );
+
+        }
+    }
 }

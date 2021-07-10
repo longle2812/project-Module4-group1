@@ -708,7 +708,6 @@
             url: `/comments/getAll/${blogId}`,
             success: function (comments) {
                 document.getElementById("comment-list").innerHTML = showCommentList(comments);
-
             }
         })
     }
@@ -734,12 +733,40 @@
                         <p class="be-comment-text">
                             ${comments[i].content}
                          </p>
-                         <p><i class="far fa-thumbs-up"></i>${comments[i].likes} like</p>
+                         <p><i id="like-id-${comments[i].id}"  class="fa fa-thumbs-o-up" aria-hidden="true" style="margin-right: 5px;cursor:pointer;}" onclick="likeComment(this.id)"></i>${comments[i].likes} like</p>
                     </div>
                 </div>`
         }
         str += "</div></div>";
         return str;
+    }
+    function likeComment(id){
+        let commentId = id.slice(8);
+        console.log(commentId);
+        let comment = {
+            id: commentId
+        }
+        let token = localStorage.getItem("token");
+        if(token!=null){
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer' + token
+                },
+                type: "PUT",
+                data: JSON.stringify(comment),
+                url: "/comments/increaseLike",
+                success : function(comment){
+                    console.log("success");
+                    getCommentList();
+                },error: function(){
+                    console.log("error");
+                }
+            })
+        }else {
+            swal("Ooops!", "Must login before liking comments!", "error");
+        }
     }
 </script>
 </body>
