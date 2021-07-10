@@ -93,10 +93,13 @@ public class UserController {
             roleService.save(new Role(2L, "ROLE_ADMIN"));
             Optional<Role> role = roleService.findById(1L);
             user.getRoles().add(role.get());
+            imageService.save(new Image(1L, "no-avatar.png","http://localhost:8080/img/no-avatar.png"));
             Image avatar = imageService.findImageByName("no-avatar.png");
             user.setAvatar(avatar);
             Optional<Address> address = addressService.findById(1L);
-            user.setAddress(address.get());
+            if(address.isPresent()){
+                user.setAddress(address.get());
+            }
             userService.save(user);
             cartService.save(new Cart(user));
             ModelAndView modelAndView1 =new ModelAndView("login");
@@ -112,7 +115,6 @@ public class UserController {
         if (!user1.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
-//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             return new ResponseEntity<>(user1.get(),HttpStatus.OK);
         }
     }

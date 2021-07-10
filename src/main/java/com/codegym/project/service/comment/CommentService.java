@@ -55,4 +55,12 @@ public class CommentService implements ICommentService{
         }
         return isBadWord;
     }
+
+    @Override
+    public Comment increaseLike(Comment comment) {
+        comment.setLikes(comment.getLikes() +1);
+        commentRepository.save(comment);
+        return comment;
+    }
+
 }
