@@ -93,6 +93,7 @@ public class UserController {
             roleService.save(new Role(2L, "ROLE_ADMIN"));
             Optional<Role> role = roleService.findById(1L);
             user.getRoles().add(role.get());
+            imageService.save(new Image(1L, "no-avatar.png","http://localhost:8080/img/no-avatar.png"));
             Image avatar = imageService.findImageByName("no-avatar.png");
             user.setAvatar(avatar);
             Optional<Address> address = addressService.findById(1L);

@@ -568,7 +568,9 @@
                         </div>
                         <div class="posted-by">
                             <div class="pb-pic">
-                                <img src="img/blog/post-by.png" alt="">
+                                <img src="${blog.author.avatar.url}" alt="" style="height: 100px;
+    width: 100px;
+    border-radius: 50%;">
                             </div>
                             <div class="pb-text">
                                 <a href="#">
@@ -719,7 +721,7 @@
                 `<div class="be-comment">
                     <div class="be-img-comment">
                         <a href="blog-detail-2.html">
-                            <img src="img/default-avatar.png" alt="" class="be-ava-comment">
+                            <img src="${comments[i].user.avatar.url}" alt="" class="be-ava-comment" >
                         </a>
                     </div>
                     <div class="be-comment-content">
