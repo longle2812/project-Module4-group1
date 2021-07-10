@@ -566,21 +566,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="posted-by">
-                            <div class="pb-pic">
-                                <img src="${blog.author.avatar.url}" alt="" style="height: 100px;
-    width: 100px;
-    border-radius: 50%;">
-                            </div>
-                            <div class="pb-text">
-                                <a href="#">
-                                    <h5>${blog.author.username}</h5>
-                                </a>
-                                <p>Aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum bore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    amodo</p>
-                            </div>
-                        </div>
+
                         <div class="leave-comment">
 
                             <form action="#" class="comment-form">
@@ -717,27 +703,23 @@
     function showCommentList(comments) {
         let str = `<div class="container"><div class="be-comment-block"><h1 class="comments-title" >Comments (${comments.length})</h1>`;
         for (let i = 0; i < comments.length; i++) {
-            str +=
-                `<div class="be-comment">
-                    <div class="be-img-comment">
-                        <a href="blog-detail-2.html">
-                            <img src="${comments[i].user.avatar.url}" alt="" class="be-ava-comment" >
-                        </a>
-                    </div>
-                    <div class="be-comment-content">
-                        <span class="be-comment-name">
-                            <a href="#" style="cursor: default">${comments[i].user.username}</a>
-                        </span>
-                        <span class="be-comment-time">
-                            <i class="fa fa-clock-o"></i>
-                            ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11, 13)) + 7}:${comments[i].date.slice(14, 16)}
-                        </span>
-                        <p class="be-comment-text">
-                            ${comments[i].content}
-                         </p>
-                         <p><i id="like-id-${comments[i].id}"  class="fa fa-thumbs-o-up" aria-hidden="true" style="margin-right: 5px;cursor:pointer;}" onclick="likeComment(this.id)"></i>${comments[i].likes} like</p>
-                    </div>
-                </div>`
+           str+= `<div class="posted-by" style="margin-bottom: 20px;padding: 20px 65px;">
+                            <div class="pb-pic">
+                                <img src="${comments[i].user.avatar.url}" alt="" style="height: 100px;width: 100px;border-radius: 50%;">
+                            </div>
+                            <div class="pb-text">
+                                <a href="#">
+                                    <h5 style="margin-bottom:0px">${comments[i].user.username}</h5>
+                                </a>
+                                <span class="be-comment-time">
+                                    <i class="fa fa-clock-o"></i>
+                                    ${comments[i].date.slice(8, 10)} / ${comments[i].date.slice(5, 7)} / ${comments[i].date.slice(0, 4)} at ${parseInt(comments[i].date.slice(11, 13)) + 7}:${comments[i].date.slice(14, 16)}
+                                </span>
+                                <p style="margin-top: 11px;font-size: 21px;">${comments[i].content}</p>
+                            </div>
+                            <hr style="margin-top: 33px;">
+                                <p style="margin-bottom: 0px;"><i id="like-id-${comments[i].id}"  class="fa fa-thumbs-o-up" aria-hidden="true" style="margin-right: 5px;cursor:pointer;}" onclick="likeComment(this.id)"></i>${comments[i].likes} likes</p>
+                        </div>`
         }
         str += "</div></div>";
         return str;
