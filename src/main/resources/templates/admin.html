@@ -2491,11 +2491,11 @@
                     <input type="text" id="description_ProductCreate">
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="createProduct-button" onclick="createProduct()">Save
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="createProduct-button" onclick="createProduct()">Save
+                    </button>
+                </div>
         </div>
     </div>
 </div>
@@ -2957,10 +2957,10 @@
                 for (let i = 0; i < data.length; i++) {
                     contents += getProduct(data[i]);
                 }
-                document.getElementById('draw').innerHTML = contents;
-
+                document.getElementById('main_content').innerHTML = contents;
             }
         })
+       redDrawUpdateModalProduct()
     };
 
     function getProduct(product) {
@@ -3232,7 +3232,7 @@
                 for (let i = 0; i < data.length; i++) {
                     contents += getCategory(data[i]);
                 }
-                document.getElementById('draw').innerHTML = contents;
+                document.getElementById('main_content').innerHTML = contents;
             }
         })
     }
@@ -3362,7 +3362,7 @@
             success: function (data) {
                 let contents = `<table class="table table-striped">
 <h3>Brand Table</h3>
-<button type="button" class="btn btn-primary" data-bs-target="#create_BrandModals" style="width: 150px">
+<button type="button" class="btn btn-primary" data-bs-target="#create_BrandModals" style="width: 100px">
     Create
 </button>
 <th>Id</th>
@@ -3370,7 +3370,7 @@
                 for (let i = 0; i < data.length; i++) {
                     contents += getBrand(data[i])
                 }
-                document.getElementById('draw').innerHTML = contents
+                document.getElementById('main_content').innerHTML = contents
             }
         })
     };
@@ -3596,6 +3596,79 @@
                 $('#createUserModal').modal('hide');
             }
         })
+    }
+    function redDrawUpdateModalProduct(){
+        let updateProductModal=`<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabels">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden"  id="id_Productupdate">
+                    <label>Name</label>
+                    <label><input type="text" id="name_Productupdate"></label>
+                </div>
+                <div>
+                    <label>Brand</label>
+                    <label>
+                        <select id="brand_Productupdate">`;
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/admin/product/brand/",
+            success:function (brandList){
+                for (let i=0;i<brandList.length;i++){
+                    updateProductModal +=getBrandList(brandList[i])
+                }
+                updateProductModal+=`
+
+                <div>
+                    <label>Category</label>
+                    <label>
+                        <select id="category_ProductCreate">`;
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type:"GET",
+                    url:"/admin/product/category",
+                    success:function (categoryList){
+                        for (let i=0;i<categoryList.length;i++){
+                            updateCategoryModal+=getCategoryList(categoryList[i])
+                        }
+                        updateCategoryModal+=`
+                         <div>
+                    <label>Price</label>
+                    <label><input type="text" id="price_ProductCreate"></label>
+                </div>
+                <div>
+                    <label>Image</label>
+                    <input type="file" id="edit-profile-product">
+                </div>
+                  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createProduct-button" onclick="createProduct()">Save
+                </button>
+            </div>`
+                    }
+                })
+          document.getElementById("updateProductModal").innerHTML=updateProductModal;
+                $('#updateProductModal').modal('hide');
+
+            }
+        })
+    }
+    function getCategoryList(category){
+        return `<option value="${category.id}" $>${category.name}</option>`
+    }
+    function getBrandList(brand){
+        return `<option value="${brand.id}" $>${brand.name}</option>`
     }
 </script>
 </body>
