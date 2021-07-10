@@ -1,9 +1,11 @@
 package com.codegym.project.controller.admin;
 
 import com.codegym.project.model.Address;
+import com.codegym.project.model.Cart;
 import com.codegym.project.model.Image;
 import com.codegym.project.model.User;
 import com.codegym.project.service.address.IAddressService;
+import com.codegym.project.service.cart.ICartService;
 import com.codegym.project.service.image.IImageService;
 import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/admin/user")
 public class UserRestController {
+    @Autowired
+    private ICartService cartService;
     @Autowired
     private IAddressService addressService;
     @Autowired
@@ -47,10 +51,15 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<User>createUser(@RequestBody User user, @RequestParam String avatarName){
-        Image image = imageService.findImageByName(avatarName);
-        user.setAvatar(image);
-        return new ResponseEntity<>(userService.save(user),HttpStatus.CREATED);
+    public ResponseEntity<User>createUser(@RequestBody User user, @RequestParam(required = false) String avatarName){
+        if (avatarName != null) {
+            Image image = imageService.findImageByName(avatarName);
+            user.setAvatar(image);
+        }
+        userService.save(user);
+        cartService.save(new Cart(user));
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id){
@@ -62,16 +71,18 @@ public class UserRestController {
         return new ResponseEntity<>(userOptional.get(),HttpStatus.NO_CONTENT);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user,@RequestParam String avatarName){
+    public ResponseEntity<User> editUser(@PathVariable Long id,@RequestBody User user,@RequestParam(required = false) String avatarName){
         Optional<User>userOptional=userService.findById(id);
         if (!userOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Image image=imageService.findImageByName(avatarName);
-        if (image!= null) {
+        if (avatarName!= null) {
+            Image image= imageService.findImageByName(avatarName);
             user.setAvatar(image);
         }
-        user.setId(userOptional.get().getId());
+        else if(userOptional.get().getAvatar()!= null){
+            user.setAvatar(userOptional.get().getAvatar());
+        }
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
 

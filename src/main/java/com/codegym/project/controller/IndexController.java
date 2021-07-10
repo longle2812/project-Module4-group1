@@ -74,6 +74,7 @@ public class IndexController {
         return new ModelAndView("index");
     }
 
+
     @GetMapping("/shop")
     public ModelAndView showShop(@PageableDefault Pageable pageable) {
         pageable = PageRequest.of(0, 6, Sort.by("name").ascending());
@@ -113,4 +114,8 @@ public class IndexController {
         return new ModelAndView("/product/product");
     }
 
+    @GetMapping("/shop/cart")
+    public ModelAndView showCart(){
+        return new ModelAndView("/product/shopping-cart");
+    }
 }

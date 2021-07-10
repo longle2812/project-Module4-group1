@@ -13,7 +13,7 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @ColumnDefault(value = "varchar(10000)")
+    @Column(columnDefinition = "varchar(10000)")
     private String content;
     @OneToOne
     private User author;

@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
-
     private final Path root = Paths.get("uploads");
 
     @Override
@@ -30,9 +29,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public void save(MultipartFile file) {
-        String currentDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-        currentDate ="("+currentDate+")";
+    public void save(MultipartFile file, String currentDate) {
         try {
             String fileName = file.getOriginalFilename();
             int index = fileName.length()-4;

@@ -482,7 +482,7 @@
     $(document).ready(function () {
         //Set select
         let size = 6;
-        //Init OverlayScrollbars
+
         //collection filter
         $(".filter-catagories li a ").on('click', function () {
             size = 6;
@@ -650,7 +650,7 @@
                                     <h5>$${totalValue}.00</h5>
                                 </div>
                                 <div class="select-button">
-                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="/shop/cart" class="primary-btn view-card">VIEW CARD</a>
                                     <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                                 </div>`;
         document.getElementById("cart-hover").innerHTML = content;
@@ -787,6 +787,7 @@
         event.preventDefault();
     }
 
+    //Remove Items From Cart
     function removeItemFromCart(productId){
         let token = window.localStorage.getItem('token');
         //Get user by token

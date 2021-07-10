@@ -285,7 +285,7 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
-                                        <li class="nav-item" onclick="user()">
+                                        <li class="nav-item" onclick="drawUserList()">
                                             <a class="nav-link active">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>User</p>
@@ -937,7 +937,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a >Home</a></li>
+                            <li class="breadcrumb-item"><a>Home</a></li>
                             <li class="breadcrumb-item active">Dashboard v1</li>
                         </ol>
                     </div><!-- /.col -->
@@ -1014,7 +1014,7 @@
                 </div>
                 <!-- /.row -->
                 <!-- Main row -->
-                <div class="row" id="draw">
+                <div class="row" id="main_content">
                     <!-- Left col -->
                     <section class="col-lg-7 connectedSortable ui-sortable">
                         <!-- Custom tabs (Charts with tabs)-->
@@ -2301,8 +2301,9 @@
     <!-- /.control-sidebar -->
     <div id="sidebar-overlay"></div>
 </div>
+<!-- MODAL USER -->
 <!--modal create user-->
-<div class="modal fade" id="create_modals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -2311,31 +2312,31 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <input type="hidden" value="${data.id}" id="id_create">
+                    <input type="hidden" id="userId_create">
                     <label>User Name</label>
-                    <label><input type="text" id="name_create"></label>
+                    <label><input type="text" id="userName_create"></label>
                 </div>
                 <div>
                     <label>Pass Word</label>
-                    <label><input type="text" id="password_create"></label>
+                    <label><input type="text" id="userPassword_create"></label>
                 </div>
                 <div>
                     <label>Full Name</label>
-                    <label><input type="text" id="fullName_create"></label>
+                    <label><input type="text" id="userFullName_create"></label>
                 </div>
                 <div>
                     <label>Email</label>
-                    <label><input type="text" id="email_create"></label>
+                    <label><input type="text" id="userEmail_create"></label>
                 </div>
 
                 <div>
                     <label>Phone Number</label>
-                    <label><input type="text" id="phoneNumber_create"></label>
+                    <label><input type="text" id="userPhoneNumber_create"></label>
                 </div>
                 <div>
                     <label>Address</label>
                     <label>
-                        <select id="address_create">
+                        <select id="userAddress_create">
                             <option th:each="ad:${address}" th:value="${ad.id}" th:text="${ad.countryName}">
                             </option>
                         </select>
@@ -2343,51 +2344,52 @@
                 </div>
                 <div>
                     <label>Image</label>
-                    <input type="file" id="edit-profile-pic">
+                    <input type="file" id="userAvatar_create">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="create-button" onclick="createUser()">Save</button>
+                <button type="button" class="btn btn-primary" id="userCreate_button" onclick="createUser()">Save
+                </button>
             </div>
         </div>
     </div>
 </div>
 <!-- Modal update -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <h5 class="modal-title">EDIT</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div>
-                    <input type="hidden" value="${data.id}" id="id_update">
+                    <input type="hidden" id="userId_update">
                     <label>User Name</label>
-                    <label><input type="text" id="name_update"></label>
+                    <label><input type="text" id="userName_update"></label>
                 </div>
                 <div>
                     <label>Pass Word</label>
-                    <label><input type="text" id="password_update"></label>
+                    <label><input type="text" id="userPassword_update"></label>
                 </div>
                 <div>
                     <label>Full Name</label>
-                    <label><input type="text" id="fullName_update"></label>
+                    <label><input type="text" id="userFullName_update"></label>
                 </div>
                 <div>
                     <label>Email</label>
-                    <label><input type="text" id="email_update"></label>
+                    <label><input type="text" id="userEmail_update"></label>
                 </div>
 
                 <div>
                     <label>Phone Number</label>
-                    <label><input type="text" id="phoneNumber_update"></label>
+                    <label><input type="text" id="userPhoneNumber_update"></label>
                 </div>
                 <div>
                     <label>Address</label>
                     <label>
-                        <select id="address_update">
+                        <select id="userAddress_update">
                             <option th:each="ad:${address}" th:value="${ad.id}" th:text="${ad.countryName}">
                             </option>
                         </select>
@@ -2395,18 +2397,18 @@
                 </div>
                 <div>
                     <label>Image</label>
-                    <input type="file" id="edit-profile-pic-update">
+                    <input type="file" id="userAvatar_update">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="update_button">Update</button>
+                <button type="button" class="btn btn-primary" id="userUpdate_button">Update</button>
             </div>
         </div>
     </div>
 </div>
 <!--modal delete-->
-<div class="modal fade" id="delete_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -2418,12 +2420,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="delete_button">Yes</button>
+                <button type="button" class="btn btn-primary" id="userDelete_button">Yes</button>
             </div>
         </div>
     </div>
 </div>
-<!--PRODUCT-->
+
+
+<!--MODAL PRODUCT-->
 <!--//modal create-->
 <div class="modal fade" id="create_ProductModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -2496,7 +2500,6 @@
     </div>
 </div>
 <!--modal updateproduct-->
-
 <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -2585,6 +2588,8 @@
         </div>
     </div>
 </div>
+
+<!--MODAL CATEGORY-->
 <!--modal category-->
 <div class="modal fade" id="createCategory_modals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -2654,7 +2659,8 @@
         </div>
     </div>
 </div>
-<!--Brand-->
+
+<!--MODAL BRAND-->
 <!--//modal create-->
 <div class="modal fade" id="create_BrandModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -2728,18 +2734,17 @@
 <script type="text/javascript">
     //user table
 
-    function user() {
-
-        $('#create_modals').modal('hide');
-        $('#updateModal').modal('hide');
-        $('#delete_Modal').modal('hide');
+    function drawUserList() {
+        // $('#create_modals').modal('hide');
+        // $('#updateModal').modal('hide');
+        // $('#delete_Modal').modal('hide');
         $.ajax({
             type: "GET",
             url: "/admin/user",
             success: function (data) {
-                let contents = `<table border="1px" class="table table-success table-striped" >
+                let content = `<table border="1px" class="table table-success table-striped" >
 <h3>USER TABLE</h3>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_modals" style="width: 150px">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal" style="width: 150px">
     Create
 </button>
       <th>User Name</th>
@@ -2749,135 +2754,132 @@
       <th>Phone Number</th>
       <th>Address</th>
       <th>Image</th>
-`
+      <th>Action</th>
+      <th>Action</th>`
                 for (let i = 0; i < data.length; i++) {
-                    contents += getUser(data[i]);
+                    content += getUser(data[i]);
                 }
-                document.getElementById('draw').innerHTML = contents;
-
+                document.getElementById('main_content').innerHTML = content;
             }
         })
+        redrawCreateUserModal();
+        redrawUpdateUserModal();
     };
 
     function getUser(user) {
-        return `
-<tr>
-<td>${user.username}</td>
-<td>${user.password}</td>
-<td>${user.fullName}</td>
-<td>${user.email}</td>
-<td>${user.phoneNumber}</td>
-<td>${user.address.countryName}</td>
-<td><img class="avatar-name" data-avatar-name="${user.avatar?.name}" style="width: 50px;" src="/files/${user.avatar?.name}"></td>
-<td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
-            idUpdateUser="${user.id}" onclick="updateUser(${user.id})">
-        Edit
-    </button></td>
-        <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_Modal"
-                    idDeleteUser="${user.id}" onclick="deleteUser(${user.id})">
-                Delete
-            </button>
-        </td>
-</tr>`
+        return `<tr>
+                    <td>${user.username}</td>
+                    <td>${user.password}</td>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phoneNumber}</td>
+                    <td>${user.address.countryName}</td>
+                    <td><img class="avatar-name" data-avatar-name="${user.avatar?.name}" style="width: 50px;" src="/files/${user.avatar?.name}"></td>
+                    <td>   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateUserModal"
+                            onclick="updateUser(${user.id})">Edit</button></td>
+                    <td>   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteUserModal"
+                            onclick="deleteUser(${user.id})">Delete</button></td>
+                 </tr>`
     }
 
+    //Create New User
     function createUser() {
+        let username = $('#userName_create').val()
+        let password = $('#userPassword_create').val()
+        let fullName = $('#userFullName_create').val()
+        let email = $('#userEmail_create').val()
+        let phoneNumber = $('#userPhoneNumber_create').val()
+        let address = $('#userAddress_create').val()
+        let newUser = {
+            username: username,
+            password: password,
+            fullName: fullName,
+            email: email,
+            phoneNumber: phoneNumber,
+            address: {
+                id: address
+            },
+        };
         //upload file
         let file = new FormData();
-        let imageFile = $('#edit-profile-pic')[0].files[0];
+        let imageFile = $('#userAvatar_create')[0].files[0];
         file.append("file", imageFile);
-        // //ajax
-        $.ajax({
-            url: '/upload/image',
-            data: file,
-            enctype: 'multipart/form-data',
-            cache: false,
-            contentType: false,
-            processData: false,
-            method: 'POST',
-            type: 'POST',
-            success: function (avatarName) {
-                let username = $('#name_create').val()
-                let password = $('#password_create').val()
-                let fullName = $('#fullName_create').val()
-                let email = $('#email_create').val()
-                let phoneNumber = $('#phoneNumber_create').val()
-                let address = $('#address_create').val()
-                let newUser = {
-                    username: username,
-                    password: password,
-                    fullName: fullName,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    address: {
-                        id: address
-                    },
-                };
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "POST",
-                    data: JSON.stringify(newUser),
-                    url: `/admin/user?avatarName=${avatarName}`,
-                    success: user
-                });
-            },
-            error: function (data) {
-                let username = $('#name_create').val()
-                let password = $('#password_create').val()
-                let fullName = $('#fullName_create').val()
-                let email = $('#email_create').val()
-                let phoneNumber = $('#phoneNumber_create').val()
-                let address = $('#address_create').val()
-                let newUser = {
-                    username: username,
-                    password: password,
-                    fullName: fullName,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    address: {
-                        id: address
-                    },
-                };
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "POST",
-                    data: JSON.stringify(newUser),
-                    url: `/admin/user?avatarName=""`,
-                    success: user
-                });
-            }
-        })
-
+        if (imageFile != undefined) {
+            $.ajax({
+                url: '/upload/image',
+                data: file,
+                enctype: 'multipart/form-data',
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                success: function (avatarName) {
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: "POST",
+                        data: JSON.stringify(newUser),
+                        url: `/admin/user?avatarName=${avatarName}`,
+                        success: drawUserList
+                    });
+                }
+            })
+        } else {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(newUser),
+                url: `/admin/user`,
+                success: drawUserList
+            });
+        }
         event.preventDefault();
     }
 
+    //Update User
     function updateUser(id) {
-        //ve lai modal
-        redrawUserModal();
         //hien thi thong tin de chinh
         $.ajax({
             type: "GET",
             url: "/admin/user/" + id,
             success: function (data) {
-                $('#id_update').val(data.id)
-                $('#name_update').val(data.username)
-                $('#password_update').val(data.password)
-                $('#fullName_update').val(data.fullName)
-                $('#email_update').val(data.email)
-                $('#phoneNumber_update').val(data.phoneNumber)
-                $('#address_update').val(data.address.id)
-                $('#update_button').click(function (event) {
+                $('#userId_update').val(data.id)
+                $('#userName_update').val(data.username)
+                $('#userPassword_update').val(data.password)
+                $('#userFullName_update').val(data.fullName)
+                $('#userEmail_update').val(data.email)
+                $('#userPhoneNumber_update').val(data.phoneNumber)
+                $('#userAddress_update').val(data.address.id)
+                $('#userUpdate_button').click(function () {
+                    let userId = $('#userId_update').val()
+                    let userName = $('#userName_update').val()
+                    let userPassword =$('#userPassword_update').val()
+                    let userFullName = $('#userFullName_update').val()
+                    let userEmail = $('#userEmail_update').val()
+                    let userPhoneNumber = $('#userPhoneNumber_update').val()
+                    let userAddress = $('#userAddress_update').val()
+                    let newUser = {
+                        id: userId,
+                        username: userName,
+                        password: userPassword,
+                        fullName: userFullName,
+                        email: userEmail,
+                        phoneNumber: userPhoneNumber,
+                        address: {
+                            id: userAddress
+                        }
+                    };
                     //upload file
                     let file = new FormData();
-                    let imageFile = $('#edit-profile-pic-update')[0].files[0];
+                    let imageFile = $('#userAvatar_update')[0].files[0];
                     file.append("file", imageFile);
+                    if (imageFile != undefined) {
                         $.ajax({
                             url: '/upload/image',
                             data: file,
@@ -2888,24 +2890,6 @@
                             method: 'POST',
                             type: 'POST',
                             success: function (fileName) {
-                                let id = $('#id_update').val()
-                                let username = $('#name_update').val()
-                                let password = $('#password_update').val()
-                                let fullName = $('#fullName_update').val()
-                                let email = $('#email_update').val()
-                                let phoneNumber = $('#phoneNumber_update').val()
-                                let address = $('#address_update').val()
-                                let newUser = {
-                                    id: id,
-                                    username: username,
-                                    password: password,
-                                    fullName: fullName,
-                                    email: email,
-                                    phoneNumber: phoneNumber,
-                                    address: {
-                                        id: address
-                                    }
-                                };
                                 $.ajax({
                                     headers: {
                                         'Accept': 'application/json',
@@ -2914,28 +2898,38 @@
                                     type: "PUT",
                                     url: `/admin/user/${id}?avatarName=${fileName}`,
                                     data: JSON.stringify(newUser),
-                                    success: user
+                                    success: drawUserList
                                 })
-                            },
+                            }
                         })
-                    // //ajax
-
+                    } else {
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "PUT",
+                            url: `/admin/user/${id}`,
+                            data: JSON.stringify(newUser),
+                            success: drawUserList
+                        })
+                    }
                 })
             }
         })
     }
 
     function deleteUser(id) {
-        $(document).ready(function () {
-            $('#delete_button').click(function (event) {
+            $('#userDelete_button').click(function (event) {
                 $.ajax({
                     type: "DELETE",
                     url: `/admin/user/` + id,
-                    success: user
+                    success: function (){
+                        $('#deleteUserModal').modal('hide');
+                        drawUserList();
+                    }
                 })
-                event.preventDefault();
             })
-        })
     }
 
     //product
@@ -2982,14 +2976,14 @@
 <td>${product.description}</td>
    <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal"
-                    idUpdateProduct="${product.id}" onclick="updateProduct(this.id)">
+                    id="${product.id}" onclick="updateProduct(this.id)">
                 Edit
             </button>
 
         </td>
      <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_ProductModal"
-                 idDeleteProduct="${product.id}" onclick="deleteProduct(this.id)">
+                 id="${product.id}" onclick="deleteProduct(this.id)">
                 Delete
             </button>
         </td>
@@ -3049,7 +3043,7 @@
                     success: showProduct
                 });
             },
-            error:function (data){
+            error: function (data) {
                 let name = $('#name_ProductCreate').val()
                 let brand = $('#brand_ProductCreate').val()
                 let category = $('#category_ProductCreate').val()
@@ -3128,9 +3122,9 @@
                         let brand = $('#brand_Productupdate').val()
                         let category = $('#category_Productupdate').val()
                         let price = $('#price_Productupdate').val()
-                        let collection=$('#collection_ProductUpdate').val()
-                        let color=$('#color_ProductUpdate').val()
-                        let description=$('#description_ProductUpdate').val()
+                        let collection = $('#collection_ProductUpdate').val()
+                        let color = $('#color_ProductUpdate').val()
+                        let description = $('#description_ProductUpdate').val()
                         let newProduct = {
                             id: id,
                             name: name,
@@ -3141,13 +3135,13 @@
                                 id: category
                             },
                             price: price,
-                            collection:{
-                                id:collection
+                            collection: {
+                                id: collection
                             },
-                            color:{
-                                id:color
+                            color: {
+                                id: color
                             },
-                            description:description
+                            description: description
                         };
                         $.ajax({
                             headers: {
@@ -3160,15 +3154,15 @@
                             success: showProduct
                         })
                     },
-                    error:function (){
+                    error: function () {
                         let id = $('#id_Productupdate').val()
                         let name = $('#name_Productupdate').val()
                         let brand = $('#brand_Productupdate').val()
                         let category = $('#category_Productupdate').val()
                         let price = $('#price_Productupdate').val()
-                        let collection=$('#collection_ProductUpdate').val()
-                        let color=$('#color_ProductUpdate').val()
-                        let description=$('#description_ProductUpdate').val()
+                        let collection = $('#collection_ProductUpdate').val()
+                        let color = $('#color_ProductUpdate').val()
+                        let description = $('#description_ProductUpdate').val()
                         let newProduct = {
                             id: id,
                             name: name,
@@ -3179,13 +3173,13 @@
                                 id: category
                             },
                             price: price,
-                            collection:{
-                                id:collection
+                            collection: {
+                                id: collection
                             },
-                            color:{
-                                id:color
+                            color: {
+                                id: color
                             },
-                            description:description
+                            description: description
                         };
                         $.ajax({
                             headers: {
@@ -3248,13 +3242,13 @@
 <td>${category.id}</td>
 <td>${category.name}</td>
 <td>  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_CategoryModal"
-                idUpdateCategory="${category.id}" onclick="updateCategory(this.id)">
+                id="${category.id}" onclick="updateCategory(this.id)">
             Edit
         </button>
 </td>
  <td>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_CategoryModal"
-               idDeleteCategory="${category.id}" onclick="deleteCategory(this.id)">
+               id="${category.id}" onclick="deleteCategory(this.id)">
             Delete
         </button>
     </td>
@@ -3368,7 +3362,7 @@
             success: function (data) {
                 let contents = `<table class="table table-striped">
 <h3>Brand Table</h3>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_BrandModals" style="width: 150px">
+<button type="button" class="btn btn-primary" data-bs-target="#create_BrandModals" style="width: 150px">
     Create
 </button>
 <th>Id</th>
@@ -3387,14 +3381,14 @@
 <td>${brand.name}</td>
  <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_BrandModal"
-                    idBrandUpdate="${brand.id}" onclick="updateBrand(this.id)">
+                    id="${brand.id}" onclick="updateBrand(this.id)">
                 Edit
             </button>
 
         </td>
          <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_BrandModal"
-                 idDeleteBrand="${brand.id}" onclick="deleteBrand(this.id)">
+                 id="${brand.id}" onclick="deleteBrand(this.id)">
                 Delete
             </button>
         </td>
@@ -3466,75 +3460,142 @@
         })
     }
 
-    function redrawUserModal(){
-        let content = `<div class="modal-dialog">
+    function redrawUpdateUserModal() {
+        let updateUserModal = `<div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <h5 class="modal-title" >EDIT</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div>
-                    <input type="hidden" id="id_update">
+                    <input type="hidden" id="userId_update">
                     <label>User Name</label>
-                    <label><input type="text" id="name_update"></label>
+                    <label><input type="text" id="userName_update"></label>
                 </div>
                 <div>
                     <label>Pass Word</label>
-                    <label><input type="text" id="password_update"></label>
+                    <label><input type="text" id="userPassword_update"></label>
                 </div>
                 <div>
                     <label>Full Name</label>
-                    <label><input type="text" id="fullName_update"></label>
+                    <label><input type="text" id="userFullName_update"></label>
                 </div>
                 <div>
                     <label>Email</label>
-                    <label><input type="text" id="email_update"></label>
+                    <label><input type="text" id="userEmail_update"></label>
                 </div>
 
                 <div>
                     <label>Phone Number</label>
-                    <label><input type="text" id="phoneNumber_update"></label>
+                    <label><input type="text" id="userPhoneNumber_update"></label>
                 </div>
                 <div>
                     <label>Address</label>
                     <label>
-<select id="address_update">`;
+                        <select id="userAddress_update">`;
 
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "PUT",
-                url: "/address/",
-                success: function(addressList){
-                    for(let i =0; i < addressList.length; i++){
-                        content += getAddress(addressList[i])
-                    }
-                    content += `
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/admin/user/address/",
+            success: function (addressList) {
+                for (let i = 0; i < addressList.length; i++) {
+                    updateUserModal += getAddress(addressList[i])
+                }
+                updateUserModal += `
                 <div>
                     <label>Image</label>
-                    <input type="file" id="edit-profile-pic-update">
+                    <input type="file" id="userAvatar_update">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="update_button">Update</button>
+                <button type="button" class="btn btn-primary" id="userUpdate_button">Update</button>
             </div>
         </div>
     </div>`
-                    document.getElementById("updateModal").innerHTML=content;
-                }
-            })
+                document.getElementById("updateUserModal").innerHTML = updateUserModal;
+                $('#updateUserModal').modal('hide');
+            }
+        })
 
     }
 
-    function getAddress(address){
+    function getAddress(address) {
         return `
                             <option value="${address.id}" $>${address.countryName}
                             </option>
                        `
+    }
+
+    function redrawCreateUserModal() {
+        let createUserModal = `<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create_modal">CREATE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" id="userId_create">
+                    <label>User Name</label>
+                    <label><input type="text" id="userName_create"></label>
+                </div>
+                <div>
+                    <label>Pass Word</label>
+                    <label><input type="text" id="userPassword_create"></label>
+                </div>
+                <div>
+                    <label>Full Name</label>
+                    <label><input type="text" id="userFullName_create"></label>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <label><input type="text" id="userEmail_create"></label>
+                </div>
+
+                <div>
+                    <label>Phone Number</label>
+                    <label><input type="text" id="userPhoneNumber_create"></label>
+                </div>
+                <div>
+                    <label>Address</label>
+                    <label>
+                        <select id="userAddress_create">`;
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/admin/user/address/",
+            success: function (addressList) {
+                for (let i = 0; i < addressList.length; i++) {
+                    createUserModal += getAddress(addressList[i])
+                }
+                createUserModal += `</select>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>Image</label>
+                                    <input type="file" id="userAvatar_create">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="userCreate_button" onclick="createUser()">Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>`
+                document.getElementById('createUserModal').innerHTML = createUserModal;
+                $('#createUserModal').modal('hide');
+            }
+        })
     }
 </script>
 </body>

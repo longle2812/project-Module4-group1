@@ -1,6 +1,7 @@
 package com.codegym.project.model;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,5 +18,6 @@ public class Comment {
     private Blog blog;
     private String content;
     private Date date;
-
+    @Column(columnDefinition = "integer default 0")
+    private int likes;
 }

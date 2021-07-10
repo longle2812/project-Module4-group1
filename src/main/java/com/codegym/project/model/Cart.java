@@ -12,4 +12,11 @@ public class Cart {
     private Long id;
     @OneToOne
     private User user;
+
+    public Cart() {
+    }
+
+    public Cart(User user) {
+        this.user = user;
+    }
 }

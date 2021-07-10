@@ -1,5 +1,6 @@
 package com.codegym.project.controller;
 
+import com.codegym.project.exception.NotFoundException;
 import com.codegym.project.model.Blog;
 import com.codegym.project.model.User;
 import com.codegym.project.service.blog.IBlogService;
@@ -49,5 +50,28 @@ public class BlogController {
             blog.setDate(new Date());
             return new ResponseEntity<>(blogService.save(blog), HttpStatus.CREATED);
         }
+    }
+
+    @GetMapping("/blogs/blog-details/{id}")
+    public ResponseEntity<Blog> showBlogDetail(@PathVariable Long id) {
+        Optional<Blog> blog = blogService.findById(id);
+        if(!blog.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(blog.get(),HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/blogs/search")
+    public ResponseEntity<Page<Blog>> searchBlogByKeyWord(@RequestParam("q") String q,@RequestParam("page") int page, Pageable pageable){
+        Page<Blog> blogs=  blogService.findByTitleContains(q, PageRequest.of(page,6,Sort.by("date").descending()));
+        if(blogs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+    @GetMapping("/error-404")
+    public ModelAndView show404Error(){
+        return new ModelAndView("error-404");
     }
 }
