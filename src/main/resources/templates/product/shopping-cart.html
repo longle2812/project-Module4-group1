@@ -239,7 +239,7 @@
                     <div class="col-lg-4">
                         <div class="cart-buttons">
                             <a href="#" class="primary-btn continue-shop">Continue shopping</a>
-                            <a href="#" class="primary-btn up-cart">Update cart</a>
+<!--                            <a href="#" class="primary-btn up-cart">Update cart</a>-->
                         </div>
                         <div class="discount-coupon">
                             <h6>Discount Codes</h6>
@@ -253,7 +253,7 @@
                         <div class="proceed-checkout">
                             <ul>
                                 <li class="subtotal">Subtotal <span>$240.00</span></li>
-                                <li class="cart-total">Total <span>$240.00</span></li>
+                                <li class="cart-total" value="">Total <span>$240.00</span></li>
                             </ul>
                             <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
                         </div>
@@ -567,6 +567,7 @@
                     url: `/cart/remove?userId=${user.id}&productId=${productId}`,
                     success: function (item) {
                         renderCartIcon();
+                        renderMainCart();
                     }
                 })
             }
@@ -638,7 +639,7 @@
                             <div class="proceed-checkout">
                                 <ul>
                                     <li class="subtotal">Subtotal <span>$${cartTotal}.00</span></li>
-                                    <li class="cart-total">Total <span>$${cartTotal}.00</span></li>
+                                    <li class="cart-total" value="${cartTotal}">Total <span>$${cartTotal}.00</span></li>
                                 </ul>
                                 <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
                             </div>
@@ -671,8 +672,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td id="product_${item.product.id}_Price" class="total-price first-row ">$${total}.00</td>
-                                    <td class="close-td first-row"><i class="ti-close"></i></td>
+                                    <td id="product_${item.product.id}_Price" class="total-price first-row " value="${total}">$${total}.00</td>
+                                    <td class="close-td first-row"><i class="ti-close" onclick="removeItemFromCart(${item.product.id})"></i></td>
                                 </tr>`
     }
 
@@ -705,6 +706,15 @@
     function renderNewProductPrice(productId, quantity, price){
         let newPrice = price * quantity;
         $('#product_'+productId+'_Price').text("$"+ newPrice+".00");
+        $('#product_'+productId+'_Price').attr("value",newPrice);
+        let totalPrice = parseFloat(0);
+        jQuery('.total-price').each(function(){
+            totalPrice += parseFloat($(this).attr("value"));
+        })
+        $('.cart-total').attr("value", totalPrice);
+        $('.subtotal').attr("value", totalPrice);
+        $('.subtotal span').text("$"+totalPrice+".00");
+        $('.cart-total span').text("$"+totalPrice+".00");
     }
 </script>
 </body>
