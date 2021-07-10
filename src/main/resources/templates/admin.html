@@ -2770,12 +2770,12 @@
 <td>${user.address.countryName}</td>
 <td><img class="avatar-name" data-avatar-name="${user.avatar?.name}" style="width: 50px;" src="/files/${user.avatar?.name}"></td>
 <td>    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
-            id="${user.id}" onclick="updateUser(${user.id})">
+            idUpdateUser="${user.id}" onclick="updateUser(${user.id})">
         Edit
     </button></td>
         <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_Modal"
-                    id="${user.id}" onclick="deleteUser(${user.id})">
+                    idDeleteUser="${user.id}" onclick="deleteUser(${user.id})">
                 Delete
             </button>
         </td>
@@ -2982,14 +2982,14 @@
 <td>${product.description}</td>
    <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal"
-                    id="${product.id}" onclick="updateProduct(this.id)">
+                    idUpdateProduct="${product.id}" onclick="updateProduct(this.id)">
                 Edit
             </button>
 
         </td>
      <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_ProductModal"
-                 id="${product.id}" onclick="deleteProduct(this.id)">
+                 idDeleteProduct="${product.id}" onclick="deleteProduct(this.id)">
                 Delete
             </button>
         </td>
@@ -3248,13 +3248,13 @@
 <td>${category.id}</td>
 <td>${category.name}</td>
 <td>  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_CategoryModal"
-                id="${category.id}" onclick="updateCategory(this.id)">
+                idUpdateCategory="${category.id}" onclick="updateCategory(this.id)">
             Edit
         </button>
 </td>
  <td>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_CategoryModal"
-               id="${category.id}" onclick="deleteCategory(this.id)">
+               idDeleteCategory="${category.id}" onclick="deleteCategory(this.id)">
             Delete
         </button>
     </td>
@@ -3387,14 +3387,14 @@
 <td>${brand.name}</td>
  <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update_BrandModal"
-                    id="${brand.id}" onclick="updateBrand(this.id)">
+                    idBrandUpdate="${brand.id}" onclick="updateBrand(this.id)">
                 Edit
             </button>
 
         </td>
          <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_BrandModal"
-                 id="${brand.id}" onclick="deleteBrand(this.id)">
+                 idDeleteBrand="${brand.id}" onclick="deleteBrand(this.id)">
                 Delete
             </button>
         </td>
