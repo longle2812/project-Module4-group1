@@ -68,7 +68,7 @@ public class IndexController {
         return collectionService.findAll();
     }
 
-    @GetMapping("/index")
+    @GetMapping("/home")
     public ModelAndView showIndex(){
         String a = "";
         return new ModelAndView("index");
