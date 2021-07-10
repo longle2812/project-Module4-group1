@@ -473,12 +473,10 @@
 <script src="js/jquery.slicknav.js" id="js8"></script>
 <script src="js/owl.carousel.min.js" id="js9"></script>
 <script src="js/main.js" id="js10"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <script>
-    window.onload = () => {
-
-    }
-
     $(document).ready(function () {
         //Set select
         let size = 6;
@@ -779,6 +777,13 @@
                     type: "POST",
                     url: `/cart/add?userId=${user.id}&productId=${productId}`,
                     success: function (item) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your item has been added',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         renderCartIcon();
                     }
                 })

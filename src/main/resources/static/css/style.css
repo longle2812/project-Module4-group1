@@ -4322,3 +4322,8 @@ ol {
 .callout.callout-warning {
 	border-left-color: #d39e00;
 }
+
+
+.swal-wide{
+	width:850px !important;
+}

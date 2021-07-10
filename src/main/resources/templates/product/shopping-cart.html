@@ -699,6 +699,7 @@
             $button.parent().find('input').attr("value",newVal);
             let productId = $button.parent().find('input').attr("id");
             let price = $button.parent().find('input').attr("price");
+            changeQuantityValue(productId, newVal);
             renderNewProductPrice(productId, newVal, price );
         });
     }
@@ -715,6 +716,33 @@
         $('.subtotal').attr("value", totalPrice);
         $('.subtotal span').text("$"+totalPrice+".00");
         $('.cart-total span').text("$"+totalPrice+".00");
+    }
+
+    function changeQuantityValue(productId, newQuantity){
+        let token = window.localStorage.getItem('token');
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "PUT",
+                    url: `/cart/items?userId=${user.id}&productId=${productId}&newQuantity=${newQuantity}`,
+                    success: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+        })
     }
 </script>
 </body>
