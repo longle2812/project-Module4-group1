@@ -45,7 +45,9 @@
                 </div>
             </div>
             <div class="ht-right">
-                <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                <span id="name_or_login">
+                    <a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                </span>
                 <div class="lan-selector">
                     <select class="language_drop" name="countries" id="countries" style="width:300px;">
                         <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
@@ -474,7 +476,26 @@
 <script src="js/owl.carousel.min.js" id="js9"></script>
 <script src="js/main.js" id="js10"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<!-- Modal -->
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                See you next time
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -821,6 +842,35 @@
             }
             })
         event.preventDefault();
+    }
+
+    window.onload = () =>{
+        let token = localStorage.getItem("token");
+        if(token!= null){
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    "Authorization": 'Bearer ' + token
+                },
+                type:"GET",
+                url:`/current_user/${token}`,
+                success : function(user){
+                    let username = document.getElementById("name_or_login");
+                    username.innerHTML =
+                        `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
+                            <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
+                            Log out
+                        </i></div>`;
+                }
+            })
+        }
+    }
+    function logout(){
+        localStorage.clear();
+        let username = document.getElementById("name_or_login");
+        username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+        window.location.href="/login";
     }
 </script>
 

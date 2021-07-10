@@ -46,7 +46,9 @@
                 </div>
             </div>
             <div class="ht-right">
-                <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                <span id="name_or_login">
+                    <a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                </span>
                 <div class="lan-selector">
                     <select class="language_drop" name="countries" id="countries" style="width:300px;">
                         <option value='yt' data-image="/../img/flag-1.jpg" data-imagecss="flag yt"
@@ -153,7 +155,7 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li><a href="product/shop.html">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
@@ -238,7 +240,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="cart-buttons">
-                            <a href="#" class="primary-btn continue-shop">Continue shopping</a>
+                            <a href="/home" class="primary-btn continue-shop">Continue shopping</a>
 <!--                            <a href="#" class="primary-btn up-cart">Update cart</a>-->
                         </div>
                         <div class="discount-coupon">
@@ -376,7 +378,26 @@
     </div>
 </footer>
 <!-- Footer Section End -->
-
+<!-- Modal -->
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                See you next time
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Js Plugins -->
 <script src="/../js/jquery-3.3.1.min.js"></script>
 <script src="/../js/bootstrap.min.js"></script>
@@ -391,6 +412,27 @@
 <script src="/../js/jquery.star-rating-svg.js"></script>
 <script>
     window.onload = () => {
+            let token = localStorage.getItem("token");
+            if(token!= null){
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json',
+                        "Authorization": 'Bearer ' + token
+                    },
+                    type:"GET",
+                    url:`/current_user/${token}`,
+                    success : function(user){
+                        let username = document.getElementById("name_or_login");
+                        username.innerHTML =
+                            `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
+                            <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
+                            Log out
+                        </i></div>`;
+                    }
+                })
+            }
+
         renderCartIcon();
         renderMainCart();
         // When quantity change
@@ -624,7 +666,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="cart-buttons">
-                                <a href="#" class="primary-btn continue-shop">Continue shopping</a>
+                                <a href="/home" class="primary-btn continue-shop">Continue shopping</a>
 <!--                                <a href="#" class="primary-btn up-cart">Update cart</a>-->
                             </div>
                             <div class="discount-coupon">
@@ -641,7 +683,7 @@
                                     <li class="subtotal">Subtotal <span>$${cartTotal}.00</span></li>
                                     <li class="cart-total" value="${cartTotal}">Total <span>$${cartTotal}.00</span></li>
                                 </ul>
-                                <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
+                                <a href="/shop/check-out" class="proceed-btn">PROCEED TO CHECK OUT</a>
                             </div>
                         </div>
                     </div>
@@ -744,6 +786,13 @@
                 })
             }
         })
+    }
+
+    function logout(){
+        localStorage.clear();
+        let username = document.getElementById("name_or_login");
+        username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+        window.location.href="/login";
     }
 </script>
 </body>

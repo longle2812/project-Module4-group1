@@ -464,10 +464,10 @@
                 success: function (user) {
                     let username = document.getElementById("name_or_login");
                     username.innerHTML =
-                        `<a href="/users/edit/${user.username}">${user.username}</a>
+                        `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
                             <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
                             Log out
-                        </i>`;
+                        </i></div>`;
                 }
             })
         }

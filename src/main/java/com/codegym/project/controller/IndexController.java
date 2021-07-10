@@ -118,4 +118,9 @@ public class IndexController {
     public ModelAndView showCart(){
         return new ModelAndView("/product/shopping-cart");
     }
+
+    @GetMapping("/shop/check-out")
+    public ModelAndView showCheckout(){
+        return new ModelAndView("/product/check-out");
+    }
 }
