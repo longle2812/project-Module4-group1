@@ -1,6 +1,5 @@
 package com.codegym.project.service.product;
 
-import com.codegym.project.model.Collection;
 import com.codegym.project.model.Product;
 import com.codegym.project.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,11 @@ public class ProductService implements IProductService{
     @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Page<Product> findProductByName(String keyword, Pageable pageable) {
+        return productRepository.findProductByName(keyword, pageable);
     }
 
     @Override

@@ -54,7 +54,7 @@
                         <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                 data-title="English">English
                         </option>
-                        <option value='yu' data-image="img/flag-3.png" data-imagecss="flag yu"
+                        <option value='yu' data-image="/../img/flag-3.png" data-imagecss="flag yu"
                                 data-title="Vietnam">Vietnamese
                         </option>
                     </select>
@@ -73,17 +73,17 @@
             <div class="row">
                 <div class="col-lg-2 col-md-2">
                     <div class="logo">
-                        <a href="/index">
+                        <a href="/home">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7">
                     <div class="advanced-search">
-                        <button type="button" class="category-btn">All Categories</button>
+                        <button type="button" class="category-btn">Search product</button>
                         <div class="input-group">
                             <input type="text" placeholder="What do you need?">
-                            <button type="button"><i class="ti-search"></i></button>
+                            <button type="button"><i class="ti-search" onclick="searchProduct()"></i></button>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,36 @@
                         <li class="cart-icon">
                             <a href="#">
                                 <i class="icon_bag_alt"></i>
+                                <span>3</span>
                             </a>
+                            <div id="cart-hover" class="cart-hover">
+                                <div class="select-items">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>
+                                            <td class="si-text">
+                                                <div class="product-selected">
+                                                    <p>$60.00 x 1</p>
+                                                    <h6>Kabino Bedside Table</h6>
+                                                </div>
+                                            </td>
+                                            <td class="si-close">
+                                                <i class="ti-close" ></i>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="select-total">
+                                    <span>total:</span>
+                                    <h5>$120.00</h5>
+                                </div>
+                                <div class="select-button">
+                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="cart-price"></li>
                     </ul>
@@ -163,7 +192,7 @@
                         <h1>Black friday</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                             incididunt ut labore et dolore</p>
-                        <a href="#" class="primary-btn">Shop Now</a>
+                        <a href="/shop" class="primary-btn">Shop Now</a>
                     </div>
                 </div>
                 <div class="off-card">
@@ -179,7 +208,7 @@
                         <h1>Black friday</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                             incididunt ut labore et dolore</p>
-                        <a href="#" class="primary-btn">Shop Now</a>
+                        <a href="/shop" class="primary-btn">Shop Now</a>
                     </div>
                 </div>
                 <div class="off-card">
@@ -372,7 +401,7 @@
                     <p>Secs</p>
                 </div>
             </div>
-            <a href="#" class="primary-btn">Shop Now</a>
+            <a href="/shop" class="primary-btn">Shop Now</a>
         </div>
     </div>
 </section>
@@ -561,7 +590,7 @@
                                 5
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/blogs">
                             <h4>The Best Street Style From London Fashion Week</h4>
                         </a>
                         <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
@@ -582,7 +611,7 @@
                                 5
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/blogs">
                             <h4>Vogue's Ultimate Guide To Autumn/Winter 2019 Shoes</h4>
                         </a>
                         <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
@@ -603,7 +632,7 @@
                                 5
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/blogs">
                             <h4>How To Brighten Your Wardrobe With A Dash Of Lime</h4>
                         </a>
                         <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
@@ -722,6 +751,7 @@
 <script src="js/main.js"></script>
 <script type="text/javascript">
     window.onload = () =>{
+        renderCartIcon();
         let token = localStorage.getItem("token");
         if(token!= null){
             $.ajax({
@@ -750,6 +780,91 @@
         window.location.href="/login";
     }
 
+    //Render Cart List
+    function renderCartIcon(){
+        let token = window.localStorage.getItem('token');
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "GET",
+                    url: `/cart?userId=${user.id}`,
+                    success: function (itemNumber) {
+                        $('.cart-icon a span').text(itemNumber);
+                    }
+                })
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "GET",
+                    url: `/cart/items?userId=${user.id}`,
+                    success: function (itemsList) {
+                        redrawCartItems(itemsList);
+                    }
+                })
+            }
+        })
+    }
+    function redrawCartItems(items){
+        let totalValue = 0;
+        let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
+                                    <table>
+                                        <tbody>`;
+        for (let i = 0; i < items.length; i++) {
+            content += getItems(items[i]);
+            totalValue += items[i].product.price * items[i].quantity;
+        }
+        $('.cart-price').text('$'+totalValue+'.00');
+        content +=   `</tbody>
+                                    </table>
+                                </div>
+                                <div class="select-total">
+                                    <span>total:</span>
+                                    <h5>$${totalValue}.00</h5>
+                                </div>
+                                <div class="select-button">
+                                    <a href="/shop/cart" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                </div>`;
+        document.getElementById("cart-hover").innerHTML = content;
+    }
+    function getItems(item){
+        let price = parseFloat(item.product.price);
+        return `<tr>
+                                            <td class="si-pic"><img src="/files/${item.product.image.name}" alt=""></td>
+                                            <td class="si-text">
+                                                <div class="product-selected">
+                                                    <p>$${price}.00 x ${item.quantity}</p>
+                                                    <h6>${item.product.name}</h6>
+                                                </div>
+                                            </td>
+                                            <td class="si-close">
+                                                <i class="ti-close" onclick="removeItemFromCart(${item.product.id})"></i>
+                                            </td>
+                                        </tr>`
+    }
+
+    //Search product
+    function searchProduct(){
+        let keyword = $('.input-group input').val();
+        if (keyword != ""){
+            window.location.href = "http://localhost:8080/shop?q="+keyword;
+        }
+    }
 </script>
 </body>
 

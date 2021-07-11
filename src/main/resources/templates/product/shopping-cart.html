@@ -432,9 +432,8 @@
                     }
                 })
             }
-
-        renderCartIcon();
         renderMainCart();
+        renderCartIcon();
         // When quantity change
     }
 
@@ -475,7 +474,7 @@
 
     });
 
-    function redrawCartItems(items) {
+    function redrawCartItems(items){
         let totalValue = 0;
         let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
                                     <table>
@@ -484,7 +483,8 @@
             content += getItems(items[i]);
             totalValue += items[i].product.price * items[i].quantity;
         }
-        content += `</tbody>
+        $('.cart-price').text('$'+totalValue+'.00');
+        content +=   `</tbody>
                                     </table>
                                 </div>
                                 <div class="select-total">
@@ -741,9 +741,9 @@
             $button.parent().find('input').attr("value",newVal);
             let productId = $button.parent().find('input').attr("id");
             let price = $button.parent().find('input').attr("price");
-            changeQuantityValue(productId, newVal);
-            renderNewProductPrice(productId, newVal, price );
-            renderCartIcon();
+            changeQuantityValue(productId, newVal,price);
+
+
         });
     }
 
@@ -759,9 +759,10 @@
         $('.subtotal').attr("value", totalPrice);
         $('.subtotal span').text("$"+totalPrice+".00");
         $('.cart-total span').text("$"+totalPrice+".00");
+        renderCartIcon();
     }
 
-    function changeQuantityValue(productId, newQuantity){
+    function changeQuantityValue(productId, newQuantity, price){
         let token = window.localStorage.getItem('token');
         $.ajax({
             headers: {
@@ -781,7 +782,7 @@
                     type: "PUT",
                     url: `/cart/items?userId=${user.id}&productId=${productId}&newQuantity=${newQuantity}`,
                     success: function (data) {
-                        console.log(data)
+                        renderNewProductPrice(productId, newQuantity, price );
                     }
                 })
             }

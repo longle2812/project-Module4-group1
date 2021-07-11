@@ -1106,7 +1106,7 @@
 
 
     //Redraw Cart Item
-    function redrawCartItems(items) {
+    function redrawCartItems(items){
         let totalValue = 0;
         let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
                                     <table>
@@ -1115,7 +1115,8 @@
             content += getItems(items[i]);
             totalValue += items[i].product.price * items[i].quantity;
         }
-        content += `</tbody>
+        $('.cart-price').text('$'+totalValue+'.00');
+        content +=   `</tbody>
                                     </table>
                                 </div>
                                 <div class="select-total">

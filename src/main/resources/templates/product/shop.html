@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-lg-2 col-md-2">
                     <div class="logo">
-                        <a href="../index.html">
+                        <a href="/home">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
@@ -157,7 +157,7 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li><a href="/index">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li class="active"><a href="/shop">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
@@ -343,7 +343,7 @@
                         </div>
                     </div>
                 </div>
-                <div hidden class="loading-more">
+                <div class="loading-more">
                     <i class="icon_loading"></i>
                     <a href="#">
                         Loading More
@@ -519,6 +519,7 @@
                 url: `/api/products/collection/${id}`,
                 success: function (data) {
                     redrawProduct(data)
+                    $(window).off("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -529,7 +530,6 @@
                     document.getElementById("product_list").innerHTML = content;
                     $("html, body").animate({scrollTop: 180}, 1000);
                     $(window).off("scroll", loadMore);
-
                 }
             })
             return false;
@@ -577,48 +577,48 @@
         //Infinite Scroll
         $(window).scroll(loadMore);
         function loadMore(e) {
+            let keyword = getUrlParameter("q");
             let hT = $('.loading-more').offset().top,
                 hH = $('.loading-more').outerHeight(),
                 wH = $(window).height(),
                 wS = $(this).scrollTop();
-            if (wS > (hT + hH - wH) + 200) {
-                $(window).off("scroll", loadMore);
-
-                let brandIds = [];
-                $(':checkbox:checked').each(function (i) {
-                    brandIds[i] = $(this).val();
-                });
-                let minPrice = $('#minamount').val();
-                let maxPrice = $('#maxamount').val();
-                minPrice = minPrice.substr(1, minPrice.length);
-                maxPrice = maxPrice.substr(1, maxPrice.length);
-                let sort = $('#sorting_product').val();
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "GET",
-                    url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}`,
-                    success: function (data) {
-                        if (size -2 <= data.content.length) {
-                            redrawProduct(data.content)
-                            size = parseInt(size) + 3;
-                        }
-                        setTimeout(function(){
-                            $(window).on("scroll", loadMore)
-                        }, 500) ;
-                    },
-                    error: function () {
-                        let content = `<div className="callout callout-warning">
+                if (wS > (hT + hH - wH) + 200) {
+                    $(window).off("scroll", loadMore);
+                    let brandIds = [];
+                    $(':checkbox:checked').each(function (i) {
+                        brandIds[i] = $(this).val();
+                    });
+                    let minPrice = $('#minamount').val();
+                    let maxPrice = $('#maxamount').val();
+                    minPrice = minPrice.substr(1, minPrice.length);
+                    maxPrice = maxPrice.substr(1, maxPrice.length);
+                    let sort = $('#sorting_product').val();
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: "GET",
+                        url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}&keyword=${keyword}`,
+                        success: function (data) {
+                            if (size -2 <= data.content.length) {
+                                redrawProduct(data.content)
+                                size = parseInt(size) + 3;
+                            }
+                            setTimeout(function(){
+                                $(window).on("scroll", loadMore)
+                            }, 500) ;
+                        },
+                        error: function () {
+                            let content = `<div className="callout callout-warning">
                         <h5>Ops!!</h5>
                         <p>Nothing matched your search terms. Please try again with some different filter</p>
                     </div>`
-                        document.getElementById("product_list").innerHTML = content;
-                        $("html, body").animate({scrollTop: 180}, 1000);
-                    }
-                })
-            }
+                            document.getElementById("product_list").innerHTML = content;
+                            $("html, body").animate({scrollTop: 180}, 1000);
+                        }
+                    })
+                }
             e.preventDefault();
         }
 
@@ -639,8 +639,10 @@
                     type: "GET",
                     url: `/api/products/search?keyword=${keyword}`,
                     success: function (data) {
-                        redrawProduct(data);
-                        // $(window).off("scroll", loadMore);
+                        if (keyword != ""){
+                            $(window).off("scroll", loadMore);
+                        }
+                        redrawProduct(data.content);
                     },
                     error: function () {
                         let content = `<div className="callout callout-warning">
@@ -668,7 +670,6 @@
                     redrawProduct(data.content)
                     $(window).off("scroll", loadMore);
                     $("html, body").animate({scrollTop: 180}, 1000);
-                    $(window).on("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -699,7 +700,6 @@
                     redrawProduct(data.content)
                     $(window).off("scroll", loadMore);
                     $("html, body").animate({scrollTop: 180}, 1000);
-                    $(window).on("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -723,6 +723,7 @@
             content += getItems(items[i]);
             totalValue += items[i].product.price * items[i].quantity;
         }
+        $('.cart-price').text('$'+totalValue+'.00');
             content +=   `</tbody>
                                     </table>
                                 </div>
@@ -937,6 +938,22 @@
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
         window.location.href="/login";
     }
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
 
 </script>
 

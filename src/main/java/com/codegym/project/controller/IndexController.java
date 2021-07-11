@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -49,54 +50,59 @@ public class IndexController {
     private ICartService cartService;
 
     @ModelAttribute("products")
-    private Iterable<Product> products(){
+    private Iterable<Product> products() {
         return productService.findAll();
     }
 
     @ModelAttribute("brands")
-    private Iterable<Brand> brands(){
+    private Iterable<Brand> brands() {
         return brandService.findAll();
     }
 
     @ModelAttribute("categories")
-    public Iterable<Category> categories(){
+    public Iterable<Category> categories() {
         return categoryService.findAll();
     }
 
     @ModelAttribute("collections")
-    public Iterable<Collection> collections(){
+    public Iterable<Collection> collections() {
         return collectionService.findAll();
     }
 
     @GetMapping("/home")
-    public ModelAndView showIndex(){
+    public ModelAndView showIndex() {
         String a = "";
         return new ModelAndView("index");
     }
 
 
     @GetMapping("/shop")
-    public ModelAndView showShop(@PageableDefault Pageable pageable) {
+    public ModelAndView showShop(@PageableDefault Pageable pageable, @RequestParam(required = false) String q) {
         pageable = PageRequest.of(0, 6, Sort.by("name").ascending());
         ModelAndView modelAndView = new ModelAndView("/product/shop");
         modelAndView.addObject("collections", collections());
         modelAndView.addObject("brands", brands());
         modelAndView.addObject("categories", categories());
-        modelAndView.addObject("products", productService.findAllPage(pageable));
+        if (q != null) {
+            modelAndView.addObject("products", productService.findProductByName(q, pageable));
+        }
+        else{
+            modelAndView.addObject("products", productService.findAllPage(pageable));
+        }
         return modelAndView;
     }
 
     @GetMapping("/product/{id}")
-    public ModelAndView showProductDetail(@PathVariable Long id){
+    public ModelAndView showProductDetail(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
         List<Picture> pictures = (List<Picture>) pictureService.findPictureByProductId(id);
-        if (product.isPresent()){
-            ModelAndView modelAndView =  new ModelAndView("/product/product", "product", product.get());
+        if (product.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("/product/product", "product", product.get());
             modelAndView.addObject("collections", collections());
             modelAndView.addObject("brands", brands());
             modelAndView.addObject("categories", categories());
             Image main_picture = product.get().getImage();
-            if (pictures.isEmpty()){
+            if (pictures.isEmpty()) {
                 pictures.add(pictureService.findPictureByName("no-picture.png"));
                 pictures.add(pictureService.findPictureByName("no-picture.png"));
             }
@@ -110,17 +116,17 @@ public class IndexController {
     }
 
     @GetMapping("/test")
-    public ModelAndView test(){
+    public ModelAndView test() {
         return new ModelAndView("test");
     }
 
     @GetMapping("/shop/cart")
-    public ModelAndView showCart(){
+    public ModelAndView showCart() {
         return new ModelAndView("/product/shopping-cart");
     }
 
     @GetMapping("/shop/check-out")
-    public ModelAndView showCheckout(){
+    public ModelAndView showCheckout() {
         return new ModelAndView("/product/check-out");
     }
 }
