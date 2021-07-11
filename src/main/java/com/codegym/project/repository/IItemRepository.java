@@ -2,8 +2,10 @@ package com.codegym.project.repository;
 
 import com.codegym.project.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,4 +21,9 @@ public interface IItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findItemByProductIdAndCartId(Long productId, Long cartId);
 
     void deleteItemByProductIdAndCartId (Long productId, Long cartId);
+
+    @Transactional
+    @Modifying
+    @Query("delete from Item i where i.cart.id = ?1")
+    void deleteItemByCartId(Long cartId);
 }

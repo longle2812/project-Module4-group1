@@ -17,4 +17,13 @@ public class OrderDetail {
     private Long quantity;
     @OneToOne
     private Product product;
+
+    public OrderDetail(Order order, Long quantity, Product product) {
+        this.order = order;
+        this.quantity = quantity;
+        this.product = product;
+    }
+
+    public OrderDetail() {
+    }
 }

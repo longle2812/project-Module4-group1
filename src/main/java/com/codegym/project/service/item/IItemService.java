@@ -10,4 +10,5 @@ public interface IItemService extends IGeneralService<Item> {
     Iterable<Item> findAllByCartId(Long id);
     Optional<Item> findItemByProductIdAndCartId(Long productId, Long cartId);
     void deleteItemByProductIdAndCartId (Long productId, Long cartId);
+    void deleteItemByCartId(Long cartId);
 }

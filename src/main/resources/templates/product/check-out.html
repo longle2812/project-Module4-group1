@@ -220,6 +220,7 @@
                         <!--                            <a href="#" class="content-btn">Click Here To Login</a>-->
                     </div>
                     <h4>Biiling Details</h4>
+                    <input hidden type="text" id="total-bill">
                     <div class="row">
                         <div class="col-lg-6">
                             <label for="firstName">First Name<span>*</span></label>
@@ -287,7 +288,8 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <button type="submit" class="site-btn place-btn" onclick="processOrder()">Place Order</button>
+                                <button type="submit" class="site-btn place-btn" onclick="processOrder()">Place Order
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -444,6 +446,10 @@
 <script src="/../js/owl.carousel.min.js"></script>
 <script src="/../js/main.js"></script>
 <script src="/../js/jquery.star-rating-svg.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+
+
 <script>
     window.onload = () => {
         let token = localStorage.getItem("token");
@@ -482,7 +488,7 @@
     })
 
     //Render Cart List
-    function renderCartIcon(){
+    function renderCartIcon() {
         let token = window.localStorage.getItem('token');
         $.ajax({
             headers: {
@@ -547,7 +553,7 @@
     }
 
     //Remove Items From Cart
-    function removeItemFromCart(productId){
+    function removeItemFromCart(productId) {
         let token = window.localStorage.getItem('token');
         //Get user by token
         $.ajax({
@@ -616,11 +622,12 @@
                     success: function (itemsList) {
                         let orderTableContent = `<li>Product <span>Total</span></li>`;
                         let total = 0;
-                        for (let i =0; i < itemsList.length; i++){
+                        for (let i = 0; i < itemsList.length; i++) {
                             orderTableContent += getOrderItems(itemsList[i])
                             total += itemsList[i].product.price * itemsList[i].quantity;
                         }
-                        orderTableContent+= `<li class="total-price">Total <span>$${total}.00</span></li>`
+                        $('#total-bill').val(total);
+                        orderTableContent += `<li class="total-price">Total <span>$${total}.00</span></li>`
                         document.getElementById('order-table').innerHTML = orderTableContent;
                     }
                 })
@@ -628,70 +635,87 @@
         })
     }
 
-    function getOrderItems(item){
+    function getOrderItems(item) {
         let itemSum = item.product.price * item.quantity;
         return `<li class="fw-normal">${item.product.name} x ${item.quantity} <span>$${itemSum}.00</span></li>`
     }
 
-    function processOrder(){
-        //Check Validation
-        var isValid = true;
-        $('input[type="text"].required').each(function() {
-            if ($.trim($(this).val()) == '') {
-                isValid = false;
-                $(this).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-            }
-            else {
-                $(this).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-        });
-        if (isValid == false)
-            event.preventDefault();
-        else{
-            alert('Thank you for submitting');
-            //Process Order
-            let token = window.localStorage.getItem('token');
-            //Get user by token
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem("token"),
-                },
-                type: "GET",
-                url: `/users/get/${token}`,
-                success: function (user) {
-                    let firstName = $('#firstName').val();
-                    let lastName = $('#lastName').val();
-                    let country = $('#countryName').val();
-                    let street = $('#street').val();
-                    let zipCode = $('#zip').val();
-                    let city = $('#city').val();
-                    let email = $('#email').val();
-                    let phone = $('#phone').val();
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': localStorage.getItem("token"),
-                        },
-                        type: "POST",
-                        url: `/order/${user.id}?first=${firstName}&last=${lastName}&country=${country}
-                        &street=${street}&zip=${zipCode}&city=${city}&email=${email}&phone=${phone}`,
-                        success: function (data) {
-                            console.log("test");
-                        }
-                    })
-                }
+    function processOrder() {
+        //Check total bill
+        let totalBill = parseFloat($('#total-bill').val());
+        if (totalBill <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Look like your cart is empty!',
+                footer: '<a href="/shop">Add something to your cart</a>'
             })
         }
-
+        else{
+            //Check Validation
+            var isValid = true;
+            $('input[type="text"].required').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                } else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false)
+                event.preventDefault();
+            else {
+                //Process Order
+                let token = window.localStorage.getItem('token');
+                //Get user by token
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "GET",
+                    url: `/users/get/${token}`,
+                    success: function (user) {
+                        let firstName = $('#firstName').val();
+                        let lastName = $('#lastName').val();
+                        let country = $('#countryName').val();
+                        let street = $('#street').val();
+                        let zipCode = $('#zip').val();
+                        let city = $('#city').val();
+                        let email = $('#email').val();
+                        let phone = $('#phone').val();
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization': localStorage.getItem("token"),
+                            },
+                            type: "POST",
+                            url: `/order/${user.id}?first=${firstName}&last=${lastName}&country=${country}
+                        &street=${street}&zip=${zipCode}&city=${city}&email=${email}&phone=${phone}`,
+                            success: function (data) {
+                                Swal.fire({
+                                    title: 'Thank for your order #' +data.id,
+                                    width: 600,
+                                    padding: '3em',
+                                    background: '#fff url(/../img/trees.png)',
+                                    backdrop: `rgba(0,0,123,0.4)    url("/../img/nyan-cat.gif")
+                                            left top
+                                            no-repeat`
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        }
         event.preventDefault();
     }
 </script>

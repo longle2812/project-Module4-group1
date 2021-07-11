@@ -18,6 +18,19 @@ public class Order {
 
     private Date date;
 
+    public Order() {
+    }
+
+    public Order(User user, Date date, Address address, String firstName, String lastName, String email, String phoneNumber) {
+        this.user = user;
+        this.date = date;
+        this.address = address;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     @OneToOne
     private Address address;
 
@@ -25,5 +38,5 @@ public class Order {
     private String lastName;
     private String email;
     private String phoneNumber;
-
+    private double totalBill;
 }
