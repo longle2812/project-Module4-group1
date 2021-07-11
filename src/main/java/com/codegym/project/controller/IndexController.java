@@ -111,7 +111,7 @@ public class IndexController {
 
     @GetMapping("/test")
     public ModelAndView test(){
-        return new ModelAndView("/product/product");
+        return new ModelAndView("test");
     }
 
     @GetMapping("/shop/cart")

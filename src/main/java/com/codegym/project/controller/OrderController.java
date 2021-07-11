@@ -48,7 +48,7 @@ public class OrderController {
         double totalBill = 0;
         for (Item item: itemList){
             orderDetailService.save(new OrderDetail(order, item.getQuantity(), item.getProduct()));
-            totalBill = item.getProduct().getPrice()* item.getQuantity();
+            totalBill += item.getProduct().getPrice()* item.getQuantity();
         }
         order.setTotalBill(totalBill);
         orderService.save(order);
