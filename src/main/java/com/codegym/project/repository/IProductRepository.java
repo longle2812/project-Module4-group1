@@ -20,4 +20,10 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     Iterable<Product> findProductByCollectionIds(Long id);
 
     Iterable<Product> findProductByNameContaining(String keyword);
+
+    @Query("select p from Product p where p.category.name = ?1")
+    Page<Product> findProductByCategory(String category, Pageable pageable);
+
+    @Query("select p from Product p where p.color.name = ?1")
+    Page<Product> findProductByColor(String color, Pageable pageable);
 }

@@ -24,135 +24,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
 <!-- Alert style-->
-    <style>
-        @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-        /*****************************/
-        /* MESSAGE BOX RELATED CLASS */
-        /*          (START)          */
-        /*****************************/
-        .msgbox-area {
-            max-height: 100%;
-            position: fixed;
-            bottom: 15px;
-            left: 20px;
-            right: 20px;
-        }
 
-        .msgbox-area .msgbox-box {
-            font-size: inherit;
-            color: #ffffff;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 18px 20px;
-            margin: 0 0 15px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.65);
-            transition: opacity 300ms ease-in;
-        }
-
-        .msgbox-area .msgbox-box.msgbox-box-hide {
-            opacity: 0;
-        }
-
-        .msgbox-area .msgbox-box:last-child {
-            margin: 0;
-        }
-
-        .msgbox-area .msgbox-content {
-            flex-shrink: 1;
-        }
-
-        .msgbox-area .msgbox-close {
-            color: #ffffff;
-            font-weight: bold;
-            text-decoration: none;
-            margin: 0 0 0 20px;
-            flex-grow: 0;
-            flex-shrink: 0;
-            position: relative;
-            transition: text-shadow 225ms ease-out;
-        }
-
-        .msgbox-area .msgbox-close:hover {
-            text-shadow: 0 0 3px #efefef;
-        }
-
-        @media (min-width: 481px) and (max-width: 767px) {
-            .msgbox-area {
-                left: 80px;
-                right: 80px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .msgbox-area {
-                width: 480px;
-                height: 0;
-                top: 15px;
-                left: auto;
-                right: 15px;
-            }
-        }
-
-        /*****************************/
-        /* MESSAGE BOX RELATED CLASS */
-        /*           (END)           */
-        /*****************************/
-        body {
-            font-family: "Open Sans", sans-serif;
-        }
-
-        .msgbox-area {
-            font-size: 16px;
-        }
-
-        .msgbox-message-container {
-            text-align: center;
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .msgbox-message-container h1, .msgbox-message-container h3 {
-            margin: 10px 20px;
-        }
-
-        .msgbox-message-container p {
-            margin: 5px 20px;
-        }
-
-        .msgbox-message-button {
-            font-size: 18px;
-            font-weight: bold;
-            font-family: inherit;
-            color: white;
-            background-color: #1476ff;
-            width: 250px;
-            border: solid 2px #005de0;
-            padding: 10px 20px;
-            cursor: pointer;
-            outline: none;
-            box-shadow: 0 5px #005de0;
-            transition: background-color 100ms ease-out, box-shadow 100ms ease-out, transform 100ms ease-out;
-        }
-
-        .msgbox-message-button:hover, .msgbox-message-button:focus, .msgbox-message-button:active {
-            background-color: #2e85ff;
-        }
-
-        .msgbox-message-button:active {
-            background-color: #0068fa;
-            box-shadow: 0 0 #005de0;
-            transform: translateY(5px);
-        }
-    </style>
 </head>
 
 <body>
@@ -383,28 +255,28 @@
                     <h4 class="fw-title">Color</h4>
                     <div class="fw-color-choose">
                         <div class="cs-item">
-                            <input type="radio" id="cs-black">
-                            <label class="cs-black" for="cs-black">Black</label>
+                            <input type="radio" id="cs-black" value="black">
+                            <label class="cs-black" for="cs-black" data-id="black">Black</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-violet">
-                            <label class="cs-violet" for="cs-violet">Violet</label>
+                            <input type="radio" id="cs-violet" value="violet">
+                            <label class="cs-violet" for="cs-violet" data-id="violet">Violet</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-blue">
-                            <label class="cs-blue" for="cs-blue">Blue</label>
+                            <input type="radio" id="cs-blue" value="blue">
+                            <label class="cs-blue" for="cs-blue" data-id="blue">Blue</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-yellow">
-                            <label class="cs-yellow" for="cs-yellow">Yellow</label>
+                            <input type="radio" id="cs-yellow" value="yellow">
+                            <label class="cs-yellow" for="cs-yellow" data-id="yellow">Yellow</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-red">
-                            <label class="cs-red" for="cs-red">Red</label>
+                            <input type="radio" id="cs-red" value="red">
+                            <label class="cs-red" for="cs-red" data-id="red">Red</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-green">
-                            <label class="cs-green" for="cs-green">Green</label>
+                            <input type="radio" id="cs-green" value="green">
+                            <label class="cs-green" for="cs-green" data-id="green">Green</label>
                         </div>
                     </div>
                 </div>
@@ -436,9 +308,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 text-right">
-                            <p>Show 01- 09 Of 36 Product</p>
-                        </div>
+<!--                        <div class="col-lg-5 col-md-5 text-right">-->
+<!--                            <p>Show 01- 09 Of 36 Product</p>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div id="product_list" class="product-list">
@@ -471,7 +343,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="loading-more">
+                <div hidden class="loading-more">
                     <i class="icon_loading"></i>
                     <a href="#">
                         Loading More
@@ -647,7 +519,6 @@
                 url: `/api/products/collection/${id}`,
                 success: function (data) {
                     redrawProduct(data)
-                    $(window).off("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -657,6 +528,8 @@
                     </div>`
                     document.getElementById("product_list").innerHTML = content;
                     $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).off("scroll", loadMore);
+
                 }
             })
             return false;
@@ -758,16 +631,44 @@
             size = $('#p_select').val();
             $(window).on("scroll", loadMore);
             let keyword = $("#search_box").val();
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    url: `/api/products/search?keyword=${keyword}`,
+                    success: function (data) {
+                        redrawProduct(data);
+                        // $(window).off("scroll", loadMore);
+                    },
+                    error: function () {
+                        let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                        document.getElementById("product_list").innerHTML = content;
+                        $(window).off("scroll", loadMore);
+                    }
+                })
+        })
+
+        //category filter
+        $('.filter-widget div a').on('click', function(){
+            let category = this.text;
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 type: "GET",
-                url: `/api/products/search/${keyword}`,
+                url: `/api/products/category/${category}`,
                 success: function (data) {
-                    redrawProduct(data);
+                    redrawProduct(data.content)
                     $(window).off("scroll", loadMore);
+                    $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).on("scroll", loadMore);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -776,13 +677,43 @@
                         <p>Nothing matched your search terms. Please try again with some different filter</p>
                     </div>`
                     document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 300}, 1000);
                     $(window).off("scroll", loadMore);
                 }
             })
+            event.preventDefault();
         })
 
+        //color filter
+        $(".cs-item").on("click", "label", function(event)
+        {
+            let color = $(this).prev(":radio").val();
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: `/api/products/color/${color}`,
+                success: function (data) {
+                    redrawProduct(data.content)
+                    $(window).off("scroll", loadMore);
+                    $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).on("scroll", loadMore);
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 300}, 1000);
+                    $(window).off("scroll", loadMore);
+                }
+            });
+        });
     });
-    renderCartIcon();
     function redrawCartItems(items){
         let totalValue = 0;
         let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
@@ -975,7 +906,10 @@
         event.preventDefault();
     }
 
+
+
     window.onload = () =>{
+        renderCartIcon();
         let token = localStorage.getItem("token");
         if(token!= null){
             $.ajax({
@@ -1003,6 +937,7 @@
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
         window.location.href="/login";
     }
+
 </script>
 
 </body>

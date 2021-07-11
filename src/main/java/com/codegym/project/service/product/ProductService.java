@@ -22,6 +22,16 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Page<Product> findProductByColor(String color, Pageable pageable) {
+        return productRepository.findProductByColor(color, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductByCategory(String category, Pageable pageable) {
+        return productRepository.findProductByCategory(category, pageable);
+    }
+
+    @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }

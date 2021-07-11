@@ -77,10 +77,10 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<Iterable<Product>> findProductByName(@PathVariable Optional<String> keyword) {
-        if (keyword.isPresent()) {
-            Iterable<Product> products = productService.findProductByNameContaining(keyword.get());
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Product>> findProductByName(@RequestParam String keyword) {
+        if (!keyword.equals("")) {
+            Iterable<Product> products = productService.findProductByNameContaining(keyword);
             if (products.iterator().hasNext()) {
                 return new ResponseEntity<>(products, HttpStatus.OK);
             }
@@ -89,5 +89,23 @@ public class ProductController {
         return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Page<Product>> findProductByCategory(@PathVariable String category, Pageable pageable){
+        pageable = PageRequest.of(0,6);
+        Page<Product> products = productService.findProductByCategory(category,pageable);
+        if (products.hasContent()){
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @GetMapping("/color/{color}")
+    public ResponseEntity<Page<Product>> findProductByColor(@PathVariable String color, Pageable pageable){
+        pageable = PageRequest.of(0,6);
+        Page<Product> products = productService.findProductByColor(color,pageable);
+        if (products.hasContent()){
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
