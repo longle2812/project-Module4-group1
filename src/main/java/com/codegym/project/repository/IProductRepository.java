@@ -30,4 +30,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.name like %:keyword%")
     Page<Product> findProductByName(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("select p from Product p where p.collection.name = ?1")
+    Page<Product> findProductByCollection (String collection, Pageable pageable);
 }

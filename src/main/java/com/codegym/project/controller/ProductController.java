@@ -115,4 +115,11 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/collections/{collection}")
+    public ResponseEntity<Page<Product>> findProductByCollection(@PathVariable String collection, Pageable pageable){
+        pageable = PageRequest.of(0,4);
+        Page<Product> products = productService.findProductByCollection(collection, pageable);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

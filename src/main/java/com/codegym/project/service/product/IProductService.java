@@ -22,4 +22,7 @@ public interface IProductService extends IGeneralService<Product> {
     Page<Product> findProductByColor(String color, Pageable pageable);
 
     Page<Product> findProductByName(String keyword, Pageable pageable);
+
+    Page<Product> findProductByCollection (String collection, Pageable pageable);
+
 }

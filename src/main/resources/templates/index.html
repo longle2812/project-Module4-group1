@@ -112,7 +112,7 @@
                                                 </div>
                                             </td>
                                             <td class="si-close">
-                                                <i class="ti-close" ></i>
+                                                <i class="ti-close"></i>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -152,7 +152,7 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li class="active"><a href="/index">Home</a></li>
+                    <li class="active"><a href="/home">Home</a></li>
                     <li><a href="/shop">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
@@ -162,23 +162,23 @@
                         </ul>
                     </li>
                     <li><a href="/blogs">Blog</a></li>
-                    <li><a href="./contact.html">Contact</a></li>
-                    <li><a href="#">Pages</a>
-                        <ul class="dropdown">
-                            <li><a href="/blog-details">Blog Details</a></li>
-                            <li><a href="/shopping-cart">Shopping Cart</a></li>
-                            <li><a href="/check-out">Checkout</a></li>
-                            <li><a href="/faq">Faq</a></li>
-                            <li><a href="/register">Register</a></li>
-                            <li><a href="/login">Login</a></li>
-                        </ul>
+                    <li><a href="/contact">Contact</a></li>
+<!--                    <li><a href="#">Pages</a>-->
+<!--                        <ul class="dropdown">-->
+<!--                            <li><a href="/blog-details">Blog Details</a></li>-->
+<!--                            <li><a href="/shopping-cart">Shopping Cart</a></li>-->
+<!--                            <li><a href="/check-out">Checkout</a></li>-->
+<!--                            <li><a href="/faq">Faq</a></li>-->
+<!--                            <li><a href="/register">Register</a></li>-->
+<!--                            <li><a href="/login">Login</a></li>-->
+<!--                        </ul>-->
                     </li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
         </div>
     </div>
-</header >
+</header>
 <!-- Header End -->
 
 <!-- Hero Section Begin -->
@@ -263,7 +263,7 @@
                     <a href="#">Discover More</a>
                 </div>
             </div>
-            <div class="col-lg-8 offset-lg-1">
+            <div class="col-lg-8 offset-lg-1" id="womenSlide">
                 <div class="filter-control">
                     <ul>
                         <li class="active">Clothings</li>
@@ -411,7 +411,7 @@
 <section class="man-banner spad">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8" id="manSlide">
                 <div class="filter-control">
                     <ul>
                         <li class="active">Clothings</li>
@@ -420,7 +420,7 @@
                         <li>Accessories</li>
                     </ul>
                 </div>
-                <div class="product-slider owl-carousel">
+                <div class="product-slider owl-carousel" >
                     <div class="product-item">
                         <div class="pi-pic">
                             <img src="img/products/man-1.jpg" alt="">
@@ -719,7 +719,8 @@
 <footer th:replace="layout::footer"></footer>
 <!-- Footer Section End -->
 <!-- Modal -->
-<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -749,20 +750,22 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
-    window.onload = () =>{
+
+    window.onload = () => {
         renderCartIcon();
         let token = localStorage.getItem("token");
-        if(token!= null){
+        if (token != null) {
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-type': 'application/json',
                     "Authorization": 'Bearer ' + token
                 },
-                type:"GET",
-                url:`/current_user/${token}`,
-                success : function(user){
+                type: "GET",
+                url: `/current_user/${token}`,
+                success: function (user) {
                     let username = document.getElementById("name_or_login");
                     username.innerHTML =
                         `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
@@ -772,16 +775,19 @@
                 }
             })
         }
+        renderWomenSlideshow();
+        renderMenSlideshow();
     }
-    function logout(){
+
+    function logout() {
         localStorage.clear();
         let username = document.getElementById("name_or_login");
         username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
-        window.location.href="/login";
+        window.location.href = "/login";
     }
 
     //Render Cart List
-    function renderCartIcon(){
+    function renderCartIcon() {
         let token = window.localStorage.getItem('token');
         $.ajax({
             headers: {
@@ -819,7 +825,8 @@
             }
         })
     }
-    function redrawCartItems(items){
+
+    function redrawCartItems(items) {
         let totalValue = 0;
         let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
                                     <table>
@@ -828,8 +835,8 @@
             content += getItems(items[i]);
             totalValue += items[i].product.price * items[i].quantity;
         }
-        $('.cart-price').text('$'+totalValue+'.00');
-        content +=   `</tbody>
+        $('.cart-price').text('$' + totalValue + '.00');
+        content += `</tbody>
                                     </table>
                                 </div>
                                 <div class="select-total">
@@ -842,7 +849,8 @@
                                 </div>`;
         document.getElementById("cart-hover").innerHTML = content;
     }
-    function getItems(item){
+
+    function getItems(item) {
         let price = parseFloat(item.product.price);
         return `<tr>
                                             <td class="si-pic"><img src="/files/${item.product.image.name}" alt=""></td>
@@ -859,11 +867,169 @@
     }
 
     //Search product
-    function searchProduct(){
+    function searchProduct() {
         let keyword = $('.input-group input').val();
-        if (keyword != ""){
-            window.location.href = "http://localhost:8080/shop?q="+keyword;
+        if (keyword != "") {
+            window.location.href = "http://localhost:8080/shop?q=" + keyword;
         }
+    }
+
+    //Render Women slideshow
+    function renderWomenSlideshow() {
+        let slideShow = `
+                <div class="filter-control">
+                    <ul>
+                        <li class="active">Clothings</li>
+                        <li>HandBag</li>
+                        <li>Shoes</li>
+                        <li>Accessories</li>
+                    </ul>
+                </div>
+                <div class="product-slider owl-carousel">`;
+        //Get women list
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            type: "GET",
+            url: `/api/products/collections/women`,
+            success: function (data) {
+                for (let i =0; i < data.content.length; i++){
+                    slideShow+= renderWomenItem(data.content[i]);
+                }
+                document.getElementById("womenSlide").innerHTML = slideShow;
+                $.getScript("js/main.js");
+
+            }
+        })
+
+    }
+    function renderWomenItem(item){
+        return `<div class="product-item">
+                        <div class="pi-pic">
+                            <img src="/files/${item.image.name}" alt="">
+                            <div class="sale">Sale</div>
+                            <div class="icon">
+                                <i class="icon_heart_alt"></i>
+                            </div>
+                            <ul>
+                                <li class="w-icon active"><a href="#" onclick="addToCart(${item.id})"><i class="icon_bag_alt"></i></a></li>
+                                <li class="quick-view"><a href="/product/${item.id}">+ Quick View</a></li>
+                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-text">
+                            <div class="catagory-name">${item.category.name}</div>
+                            <a href="/product/${item.id}">
+                                <h5>${item.name}</h5>
+                            </a>
+                            <div class="product-price">
+                                $${item.price}.00
+                            </div>
+                        </div>
+                    </div>`
+    }
+
+    //Render Men slideshow
+    function renderMenSlideshow(){
+        let slideShow = `
+                <div class="filter-control">
+                    <ul>
+                        <li class="active">Clothings</li>
+                        <li>HandBag</li>
+                        <li>Shoes</li>
+                        <li>Accessories</li>
+                    </ul>
+                </div>
+                <div class="product-slider owl-carousel">`;
+        //Get women list
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            type: "GET",
+            url: `/api/products/collections/men`,
+            success: function (data) {
+                for (let i =0; i < data.content.length; i++){
+                    slideShow+= renderWomenItem(data.content[i]);
+                }
+                document.getElementById("manSlide").innerHTML = slideShow;
+                $.getScript("js/main.js");
+
+            }
+        })
+
+    }
+
+    //Remove Items From Cart
+    function removeItemFromCart(productId){
+        let token = window.localStorage.getItem('token');
+        //Get user by token
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                //remove item from cart
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "Delete",
+                    url: `/cart/remove?userId=${user.id}&productId=${productId}`,
+                    success: function (item) {
+                        renderCartIcon();
+                    }
+                })
+            }
+        })
+        event.preventDefault();
+    }
+
+    //Add to Cart
+    function addToCart(productId){
+        let token = window.localStorage.getItem('token');
+        //Get user by token
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            },
+            type: "GET",
+            url: `/users/get/${token}`,
+            success: function (user) {
+                //add Item to Cart
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem("token"),
+                    },
+                    type: "POST",
+                    url: `/cart/add?userId=${user.id}&productId=${productId}`,
+                    success: function (item) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your item has been added',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        renderCartIcon();
+                    }
+                })
+            }
+        })
+        event.preventDefault();
     }
 </script>
 </body>
