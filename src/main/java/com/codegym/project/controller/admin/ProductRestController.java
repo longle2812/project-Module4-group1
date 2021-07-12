@@ -87,4 +87,12 @@ public class ProductRestController {
         product.setId(optionalProduct.get().getId());
         return new ResponseEntity<>(productService.save(product),HttpStatus.OK);
     }
+    @GetMapping("/brand")
+    public ResponseEntity<Iterable<Brand>> getBrand(){
+        return new ResponseEntity<>(brandService.findAll(),HttpStatus.OK);
+    }
+    @GetMapping("/category")
+    public ResponseEntity<Iterable<Category>> getCategory(){
+        return new ResponseEntity<>(categoryService.findAll(),HttpStatus.OK);
+    }
 }
