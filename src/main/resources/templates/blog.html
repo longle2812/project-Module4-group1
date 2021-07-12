@@ -555,7 +555,7 @@
                                 <div class="col-lg-5 offset-lg-2 col-md-6">
                                     <a href="#" class="next-blog">
                                         <div class="nb-pic">
-                                            <img src="img/blog/ti10.jpg" alt="">
+                                            <img src="img/blog/ti10.jpg" alt="" style="border-radius:50%">
                                             <i class="ti-arrow-right"></i>
                                         </div>
                                         <div class="nb-text">
@@ -621,10 +621,11 @@
         let str = '<div class="row" id="blog-container">';
         console.log(blogs);
         blogs.content.forEach((blog) => {
+            let randomPic= Math.floor(Math.random() * (6 - 1 + 1)) + 1;
             str += `<div class="col-lg-6 col-sm-6" ">
                             <div class="blog-item">
                                 <div class="bi-pic">
-                                    <img src="img/blog/blog-1.jpg" alt="">
+                                    <img src="img/blog/blog-${randomPic}.jpg" alt="">
                                 </div>
                                 <div class="bi-text">
                                     <a id="${blog.id}" href="#blog-title" onclick="getBlogDetail(this.id)">
