@@ -1,6 +1,5 @@
 package com.codegym.project.service.product;
 
-import com.codegym.project.model.Collection;
 import com.codegym.project.model.Product;
 import com.codegym.project.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,21 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Page<Product> findProductByName(String keyword, Pageable pageable) {
+        return productRepository.findProductByName(keyword, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductByColor(String color, Pageable pageable) {
+        return productRepository.findProductByColor(color, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductByCategory(String category, Pageable pageable) {
+        return productRepository.findProductByCategory(category, pageable);
+    }
+
+    @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
@@ -34,6 +48,11 @@ public class ProductService implements IProductService{
     @Override
     public Iterable<Product> findProductByCollectionIds(Long id) {
         return productRepository.findProductByCollectionIds(id);
+    }
+
+    @Override
+    public Page<Product> findProductByCollection(String collection, Pageable pageable) {
+        return productRepository.findProductByCollection(collection, pageable);
     }
 
     @Override

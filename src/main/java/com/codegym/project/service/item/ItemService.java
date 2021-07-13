@@ -13,6 +13,11 @@ public class ItemService implements IItemService{
     private IItemRepository iItemRepository;
 
     @Override
+    public void deleteItemByCartId(Long cartId) {
+        iItemRepository.deleteItemByCartId(cartId);
+    }
+
+    @Override
     public Iterable<Item> findAll() {
         return iItemRepository.findAll();
     }

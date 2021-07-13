@@ -10,7 +10,19 @@ import java.util.Set;
 
 public interface IProductService extends IGeneralService<Product> {
     Iterable<Product> findProductByCollectionIds(Long id);
+
     Page<Product> findProductByBrandIdsAndPrice(Set<Long> ids, double min, double max, Pageable pageable);
+
     Page<Product> findAllPage(Pageable pageable);
+
     Iterable<Product> findProductByNameContaining(String keyword);
+
+    Page<Product> findProductByCategory(String category, Pageable pageable);
+
+    Page<Product> findProductByColor(String color, Pageable pageable);
+
+    Page<Product> findProductByName(String keyword, Pageable pageable);
+
+    Page<Product> findProductByCollection (String collection, Pageable pageable);
+
 }

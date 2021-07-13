@@ -20,6 +20,17 @@ public class Address {
         private String detail;
         private String zipcode;
 
+        public Address() {
+        }
+
+        public Address(String countryName, String city, String street, String detail, String zipcode) {
+                this.countryName = countryName;
+                this.city = city;
+                this.street = street;
+                this.detail = detail;
+                this.zipcode = zipcode;
+        }
+
         @Override
         public boolean equals(Object o) {
                 if (this == o) return true;

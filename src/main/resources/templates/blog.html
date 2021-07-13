@@ -42,24 +42,24 @@
             <div class="ht-left">
                 <div class="mail-service">
                     <i class=" fa fa-envelope"></i>
-                    hello.colorlib@gmail.com
+                    group1@codegym.vn
                 </div>
                 <div class="phone-service">
                     <i class=" fa fa-phone"></i>
-                    +65 11.188.888
+                    +84 93.456.8244
                 </div>
             </div>
             <div class="ht-right">
-                    <span id="name_or_login">
-                        <a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
-                    </span>
+                <span id="name_or_login">
+                    <a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                </span>
                 <div class="lan-selector">
                     <select class="language_drop" name="countries" id="countries" style="width:300px;">
                         <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                 data-title="English">English
                         </option>
-                        <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German
+                        <option value='yu' data-image="/../img/flag-3.png" data-imagecss="flag yu"
+                                data-title="Vietnam">Vietnamese
                         </option>
                     </select>
                 </div>
@@ -118,10 +118,8 @@
                     <ul class="depart-hover">
                         <li class="active"><a href="#">Women’s Clothing</a></li>
                         <li><a href="#">Men’s Clothing</a></li>
-                        <li><a href="#">Underwear</a></li>
                         <li><a href="#">Kid's Clothing</a></li>
                         <li><a href="#">Brand Fashion</a></li>
-                        <li><a href="#">Accessories/Shoes</a></li>
                         <li><a href="#">Luxury Brands</a></li>
                         <li><a href="#">Brand Outdoor Apparel</a></li>
                     </ul>
@@ -129,8 +127,8 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li><a href="/index">Home</a></li>
-                    <li><a href="product/shop.html">Shop</a></li>
+                    <li class="active"><a href="/home">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
                             <li><a href="#">Men's</a></li>
@@ -138,17 +136,17 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li class="active"><a href="/blogs">Blog</a></li>
-                    <li><a href="./contact.html">Contact</a></li>
-                    <li><a href="#">Pages</a>
-                        <ul class="dropdown">
-                            <li><a href="/blog-details">Blog Details</a></li>
-                            <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                            <li><a href="./check-out.html">Checkout</a></li>
-                            <li><a href="./faq.html">Faq</a></li>
-                            <li><a href="/register">Register</a></li>
-                            <li><a href="/login">Login</a></li>
-                        </ul>
+                    <li><a href="/blogs">Blog</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <!--                    <li><a href="#">Pages</a>-->
+                    <!--                        <ul class="dropdown">-->
+                    <!--                            <li><a href="/blog-details">Blog Details</a></li>-->
+                    <!--                            <li><a href="/shopping-cart">Shopping Cart</a></li>-->
+                    <!--                            <li><a href="/check-out">Checkout</a></li>-->
+                    <!--                            <li><a href="/faq">Faq</a></li>-->
+                    <!--                            <li><a href="/register">Register</a></li>-->
+                    <!--                            <li><a href="/login">Login</a></li>-->
+                    <!--                        </ul>-->
                     </li>
                 </ul>
             </nav>
@@ -464,10 +462,10 @@
                 success: function (user) {
                     let username = document.getElementById("name_or_login");
                     username.innerHTML =
-                        `<a href="/users/edit/${user.username}">${user.username}</a>
+                        `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
                             <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
                             Log out
-                        </i>`;
+                        </i></div>`;
                 }
             })
         }

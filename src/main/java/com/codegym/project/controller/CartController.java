@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,4 +67,19 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/cart/items")
+    public ResponseEntity<Item> findItemByUser(@RequestParam Long userId, @RequestParam Long productId, @RequestParam Long newQuantity) {
+        Cart cart = cartService.findCartByUserId(userId);
+        List<Item> items = (List<Item>) itemService.findAllByCartId(cart.getId());
+        Item itemChanged = null;
+        for(Item item: items){
+            if (item.getProduct().getId() == productId){
+                item.setQuantity(newQuantity);
+                itemService.save(item);
+                itemChanged = item;
+            }
+        }
+
+        return new ResponseEntity<>(itemChanged, HttpStatus.OK);
+    }
 }

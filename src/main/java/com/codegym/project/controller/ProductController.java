@@ -51,7 +51,9 @@ public class ProductController {
                                                                 @RequestParam(name = "brandIds", required = false) Optional<Set<Long>> brandIds,
                                                                 @RequestParam(name = "number") int number,
                                                                 @RequestParam(name = "sort") String sort,
+                                                                @RequestParam(name = "keyword", required = false) String keyword,
                                                                 Pageable pageable) {
+        Page<Product> products = null;
         if (!brandIds.isPresent()) {
             brandIds = Optional.ofNullable(brandService.getAllIds());
         }
@@ -69,25 +71,55 @@ public class ProductController {
                 pageable = PageRequest.of(0, number, Sort.by("price").descending());
                 break;
         }
+        if (keyword == null || keyword.equals("false")) {
+            products = productService.findProductByBrandIdsAndPrice(brandIds.get(), min, max, pageable);
+        } else {
+            products = productService.findProductByName(keyword, pageable);
+        }
+        if (products.hasContent()) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        Page<Product> products = productService.findProductByBrandIdsAndPrice(brandIds.get(), min, max, pageable);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> findProductByName(@RequestParam String keyword, Pageable pageable) {
+        if (!keyword.equals("")) {
+            Page<Product> products = productService.findProductByName(keyword, pageable);
+            if (products.hasContent()) {
+                return new ResponseEntity<>(products, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        pageable = PageRequest.of(0,6);
+        return new ResponseEntity<>(productService.findAllPage(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Page<Product>> findProductByCategory(@PathVariable String category, Pageable pageable) {
+        pageable = PageRequest.of(0, 6);
+        Page<Product> products = productService.findProductByCategory(category, pageable);
         if (products.hasContent()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<Iterable<Product>> findProductByName(@PathVariable Optional<String> keyword) {
-        if (keyword.isPresent()) {
-            Iterable<Product> products = productService.findProductByNameContaining(keyword.get());
-            if (products.iterator().hasNext()) {
-                return new ResponseEntity<>(products, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/color/{color}")
+    public ResponseEntity<Page<Product>> findProductByColor(@PathVariable String color, Pageable pageable) {
+        pageable = PageRequest.of(0, 6);
+        Page<Product> products = productService.findProductByColor(color, pageable);
+        if (products.hasContent()) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
         }
-        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
+    @GetMapping("/collections/{collection}")
+    public ResponseEntity<Page<Product>> findProductByCollection(@PathVariable String collection, Pageable pageable){
+        pageable = PageRequest.of(0,4);
+        Page<Product> products = productService.findProductByCollection(collection, pageable);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

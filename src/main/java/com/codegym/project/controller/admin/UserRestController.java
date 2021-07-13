@@ -1,12 +1,10 @@
 package com.codegym.project.controller.admin;
 
-import com.codegym.project.model.Address;
-import com.codegym.project.model.Cart;
-import com.codegym.project.model.Image;
-import com.codegym.project.model.User;
+import com.codegym.project.model.*;
 import com.codegym.project.service.address.IAddressService;
 import com.codegym.project.service.cart.ICartService;
 import com.codegym.project.service.image.IImageService;
+import com.codegym.project.service.role.IRoleService;
 import com.codegym.project.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +26,8 @@ public class UserRestController {
     private IUserService userService;
     @Autowired
     private IImageService imageService;
+    @Autowired
+    private IRoleService roleService;
     @GetMapping
     public ResponseEntity<Iterable<User>> showListUser(){
         List<User>users= (List<User>) userService.findAll();
@@ -56,6 +56,8 @@ public class UserRestController {
             Image image = imageService.findImageByName(avatarName);
             user.setAvatar(image);
         }
+        Optional<Role> role = roleService.findById(1L);
+        user.getRoles().add(role.get());
         userService.save(user);
         cartService.save(new Cart(user));
 

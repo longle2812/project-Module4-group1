@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+<!-- Alert style-->
+
 </head>
 
 <body>
@@ -37,22 +40,24 @@
             <div class="ht-left">
                 <div class="mail-service">
                     <i class=" fa fa-envelope"></i>
-                    hello.colorlib@gmail.com
+                    group1@codegym.vn
                 </div>
                 <div class="phone-service">
                     <i class=" fa fa-phone"></i>
-                    +65 11.188.888
+                    +84 93.456.8244
                 </div>
             </div>
             <div class="ht-right">
-                <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                <span id="name_or_login">
+                    <a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                </span>
                 <div class="lan-selector">
                     <select class="language_drop" name="countries" id="countries" style="width:300px;">
                         <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                 data-title="English">English
                         </option>
-                        <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German
+                        <option value='yu' data-image="/../img/flag-3.png" data-imagecss="flag yu"
+                                data-title="Vietnam">Vietnamese
                         </option>
                     </select>
                 </div>
@@ -70,7 +75,7 @@
             <div class="row">
                 <div class="col-lg-2 col-md-2">
                     <div class="logo">
-                        <a href="../index.html">
+                        <a href="/home">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
@@ -141,10 +146,8 @@
                     <ul class="depart-hover">
                         <li class="active"><a href="#">Women’s Clothing</a></li>
                         <li><a href="#">Men’s Clothing</a></li>
-                        <li><a href="#">Underwear</a></li>
                         <li><a href="#">Kid's Clothing</a></li>
                         <li><a href="#">Brand Fashion</a></li>
-                        <li><a href="#">Accessories/Shoes</a></li>
                         <li><a href="#">Luxury Brands</a></li>
                         <li><a href="#">Brand Outdoor Apparel</a></li>
                     </ul>
@@ -152,8 +155,8 @@
             </div>
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li><a href="/index">Home</a></li>
-                    <li class="active"><a href="/shop">Shop</a></li>
+                    <li class="active"><a href="/home">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
                     <li><a href="#">Collection</a>
                         <ul class="dropdown">
                             <li><a href="#">Men's</a></li>
@@ -161,17 +164,17 @@
                             <li><a href="#">Kid's</a></li>
                         </ul>
                     </li>
-                    <li><a href="../blog.html">Blog</a></li>
-                    <li><a href="../contact.html">Contact</a></li>
-                    <li><a href="#">Pages</a>
-                        <ul class="dropdown">
-                            <li><a href="/blog-details">Blog Details</a></li>
-                            <li><a href="/shopping-cart">Shopping Cart</a></li>
-                            <li><a href="/check-out">Checkout</a></li>
-                            <li><a href="/faq">Faq</a></li>
-                            <li><a href="/register">Register</a></li>
-                            <li><a href="/login">Login</a></li>
-                        </ul>
+                    <li><a href="/blogs">Blog</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <!--                    <li><a href="#">Pages</a>-->
+                    <!--                        <ul class="dropdown">-->
+                    <!--                            <li><a href="/blog-details">Blog Details</a></li>-->
+                    <!--                            <li><a href="/shopping-cart">Shopping Cart</a></li>-->
+                    <!--                            <li><a href="/check-out">Checkout</a></li>-->
+                    <!--                            <li><a href="/faq">Faq</a></li>-->
+                    <!--                            <li><a href="/register">Register</a></li>-->
+                    <!--                            <li><a href="/login">Login</a></li>-->
+                    <!--                        </ul>-->
                     </li>
                 </ul>
             </nav>
@@ -250,28 +253,28 @@
                     <h4 class="fw-title">Color</h4>
                     <div class="fw-color-choose">
                         <div class="cs-item">
-                            <input type="radio" id="cs-black">
-                            <label class="cs-black" for="cs-black">Black</label>
+                            <input type="radio" id="cs-black" value="black">
+                            <label class="cs-black" for="cs-black" data-id="black">Black</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-violet">
-                            <label class="cs-violet" for="cs-violet">Violet</label>
+                            <input type="radio" id="cs-violet" value="violet">
+                            <label class="cs-violet" for="cs-violet" data-id="violet">Violet</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-blue">
-                            <label class="cs-blue" for="cs-blue">Blue</label>
+                            <input type="radio" id="cs-blue" value="blue">
+                            <label class="cs-blue" for="cs-blue" data-id="blue">Blue</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-yellow">
-                            <label class="cs-yellow" for="cs-yellow">Yellow</label>
+                            <input type="radio" id="cs-yellow" value="yellow">
+                            <label class="cs-yellow" for="cs-yellow" data-id="yellow">Yellow</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-red">
-                            <label class="cs-red" for="cs-red">Red</label>
+                            <input type="radio" id="cs-red" value="red">
+                            <label class="cs-red" for="cs-red" data-id="red">Red</label>
                         </div>
                         <div class="cs-item">
-                            <input type="radio" id="cs-green">
-                            <label class="cs-green" for="cs-green">Green</label>
+                            <input type="radio" id="cs-green" value="green">
+                            <label class="cs-green" for="cs-green" data-id="green">Green</label>
                         </div>
                     </div>
                 </div>
@@ -303,9 +306,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 text-right">
-                            <p>Show 01- 09 Of 36 Product</p>
-                        </div>
+<!--                        <div class="col-lg-5 col-md-5 text-right">-->
+<!--                            <p>Show 01- 09 Of 36 Product</p>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div id="product_list" class="product-list">
@@ -319,7 +322,7 @@
                                         <i class="icon_heart_alt"></i>
                                     </div>
                                     <ul>
-                                        <li class="w-icon active"><a href="#" th:id="${product.id}" onclick="addToCart(this.id)"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="w-icon active"><a href="#" th:attr="data-id=${product.id}" onclick="addToCart(this.getAttribute('data-id'))"><i class="icon_bag_alt"></i></a></li>
                                         <li class="quick-view" th:attr="data-view-id=${product.id}"
                                         ><a th:href="@{/product/__${product.id}__}">+ Quick View</a></li>
                                         <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
@@ -385,7 +388,7 @@
 <!-- Partner Logo Section End -->
 
 <!-- Footer Section Begin -->
-<footer class="footer-section">
+<footer th:fragment="footer" class="footer-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -394,9 +397,9 @@
                         <a href="#"><img src="img/footer-logo.png" alt=""></a>
                     </div>
                     <ul>
-                        <li>Address: 60-49 Road 11378 New York</li>
-                        <li>Phone: +65 11.188.888</li>
-                        <li>Email: hello.colorlib@gmail.com</li>
+                        <li>Address: Mon City, Nam Tu Liem, Hanoi</li>
+                        <li>Phone: +84 93.456.8244</li>
+                        <li>Email: group1@codegym.vn</li>
                     </ul>
                     <div class="footer-social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -413,7 +416,6 @@
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Checkout</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li><a href="#">Serivius</a></li>
                     </ul>
                 </div>
             </div>
@@ -449,7 +451,7 @@
                         Copyright &copy;<script>document.write(new Date().getFullYear());</script>
                         All rights reserved | This template is made with <i class="fa fa-heart-o"
                                                                             aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                            href="https://colorlib.com" target="_blank">Group 1</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                     <div class="payment-pic">
@@ -473,12 +475,29 @@
 <script src="js/jquery.slicknav.js" id="js8"></script>
 <script src="js/owl.carousel.min.js" id="js9"></script>
 <script src="js/main.js" id="js10"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Modal -->
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                See you next time
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-    window.onload = () => {
-        renderCartIcon();
-    }
-
     $(document).ready(function () {
         //Set select
         let size = 6;
@@ -507,6 +526,7 @@
                     </div>`
                     document.getElementById("product_list").innerHTML = content;
                     $("html, body").animate({scrollTop: 180}, 1000);
+                    $(window).off("scroll", loadMore);
                 }
             })
             return false;
@@ -554,48 +574,48 @@
         //Infinite Scroll
         $(window).scroll(loadMore);
         function loadMore(e) {
+            let keyword = getUrlParameter("q");
             let hT = $('.loading-more').offset().top,
                 hH = $('.loading-more').outerHeight(),
                 wH = $(window).height(),
                 wS = $(this).scrollTop();
-            if (wS > (hT + hH - wH) + 200) {
-                $(window).off("scroll", loadMore);
-
-                let brandIds = [];
-                $(':checkbox:checked').each(function (i) {
-                    brandIds[i] = $(this).val();
-                });
-                let minPrice = $('#minamount').val();
-                let maxPrice = $('#maxamount').val();
-                minPrice = minPrice.substr(1, minPrice.length);
-                maxPrice = maxPrice.substr(1, maxPrice.length);
-                let sort = $('#sorting_product').val();
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type: "GET",
-                    url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}`,
-                    success: function (data) {
-                        if (size -2 <= data.content.length) {
-                            redrawProduct(data.content)
-                            size = parseInt(size) + 3;
-                        }
-                        setTimeout(function(){
-                            $(window).on("scroll", loadMore)
-                        }, 500) ;
-                    },
-                    error: function () {
-                        let content = `<div className="callout callout-warning">
+                if (wS > (hT + hH - wH) + 200) {
+                    $(window).off("scroll", loadMore);
+                    let brandIds = [];
+                    $(':checkbox:checked').each(function (i) {
+                        brandIds[i] = $(this).val();
+                    });
+                    let minPrice = $('#minamount').val();
+                    let maxPrice = $('#maxamount').val();
+                    minPrice = minPrice.substr(1, minPrice.length);
+                    maxPrice = maxPrice.substr(1, maxPrice.length);
+                    let sort = $('#sorting_product').val();
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: "GET",
+                        url: `/api/products/brand?min=${minPrice}&max=${maxPrice}&brandIds=${brandIds}&number=${size}&sort=${sort}&keyword=${keyword}`,
+                        success: function (data) {
+                            if (size -2 <= data.content.length) {
+                                redrawProduct(data.content)
+                                size = parseInt(size) + 3;
+                            }
+                            setTimeout(function(){
+                                $(window).on("scroll", loadMore)
+                            }, 500) ;
+                        },
+                        error: function () {
+                            let content = `<div className="callout callout-warning">
                         <h5>Ops!!</h5>
                         <p>Nothing matched your search terms. Please try again with some different filter</p>
                     </div>`
-                        document.getElementById("product_list").innerHTML = content;
-                        $("html, body").animate({scrollTop: 180}, 1000);
-                    }
-                })
-            }
+                            document.getElementById("product_list").innerHTML = content;
+                            $("html, body").animate({scrollTop: 180}, 1000);
+                        }
+                    })
+                }
             e.preventDefault();
         }
 
@@ -608,16 +628,45 @@
             size = $('#p_select').val();
             $(window).on("scroll", loadMore);
             let keyword = $("#search_box").val();
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    url: `/api/products/search?keyword=${keyword}`,
+                    success: function (data) {
+                        if (keyword != ""){
+                            $(window).off("scroll", loadMore);
+                        }
+                        redrawProduct(data.content);
+                    },
+                    error: function () {
+                        let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
+
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                        document.getElementById("product_list").innerHTML = content;
+                        $(window).off("scroll", loadMore);
+                    }
+                })
+        })
+
+        //category filter
+        $('.filter-widget div a').on('click', function(){
+            let category = this.text;
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 type: "GET",
-                url: `/api/products/search/${keyword}`,
+                url: `/api/products/category/${category}`,
                 success: function (data) {
-                    redrawProduct(data);
+                    redrawProduct(data.content)
                     $(window).off("scroll", loadMore);
+                    $("html, body").animate({scrollTop: 180}, 1000);
                 },
                 error: function () {
                     let content = `<div className="callout callout-warning">
@@ -626,13 +675,42 @@
                         <p>Nothing matched your search terms. Please try again with some different filter</p>
                     </div>`
                     document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 300}, 1000);
                     $(window).off("scroll", loadMore);
                 }
             })
+            event.preventDefault();
         })
 
-    });
+        //color filter
+        $(".cs-item").on("click", "label", function(event)
+        {
+            let color = $(this).prev(":radio").val();
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: `/api/products/color/${color}`,
+                success: function (data) {
+                    redrawProduct(data.content)
+                    $(window).off("scroll", loadMore);
+                    $("html, body").animate({scrollTop: 180}, 1000);
+                },
+                error: function () {
+                    let content = `<div className="callout callout-warning">
+                        <h5>Ops!!</h5>
 
+                        <p>Nothing matched your search terms. Please try again with some different filter</p>
+                    </div>`
+                    document.getElementById("product_list").innerHTML = content;
+                    $("html, body").animate({scrollTop: 300}, 1000);
+                    $(window).off("scroll", loadMore);
+                }
+            });
+        });
+    });
     function redrawCartItems(items){
         let totalValue = 0;
         let content = `<div class="select-items" style="overflow-y: scroll; height: 300px">
@@ -642,6 +720,7 @@
             content += getItems(items[i]);
             totalValue += items[i].product.price * items[i].quantity;
         }
+        $('.cart-price').text('$'+totalValue+'.00');
             content +=   `</tbody>
                                     </table>
                                 </div>
@@ -779,6 +858,13 @@
                     type: "POST",
                     url: `/cart/add?userId=${user.id}&productId=${productId}`,
                     success: function (item) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your item has been added',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         renderCartIcon();
                     }
                 })
@@ -817,6 +903,55 @@
             })
         event.preventDefault();
     }
+
+
+
+    window.onload = () =>{
+        renderCartIcon();
+        let token = localStorage.getItem("token");
+        if(token!= null){
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    "Authorization": 'Bearer ' + token
+                },
+                type:"GET",
+                url:`/current_user/${token}`,
+                success : function(user){
+                    let username = document.getElementById("name_or_login");
+                    username.innerHTML =
+                        `<div class="login-panel">  <a  href="/users/edit/${user.username}">${user.username}</a>
+                            <i class="fa fa-sign-out" aria-hidden="true"  style="cursor: pointer" data-toggle="modal" data-target="#exitModal">
+                            Log out
+                        </i></div>`;
+                }
+            })
+        }
+    }
+    function logout(){
+        localStorage.clear();
+        let username = document.getElementById("name_or_login");
+        username.innerHTML = `<a href="/login" class="login-panel"><i class="fa fa-user"></i>Login</a>`;
+        window.location.href="/login";
+    }
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+
 </script>
 
 </body>
